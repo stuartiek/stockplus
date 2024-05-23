@@ -27,6 +27,7 @@ body{
 .loginLogo img{
     width: 400px;
     height: 200px;
+    mix-blend-mode: multiply;
 }
 
 .loginForm{
