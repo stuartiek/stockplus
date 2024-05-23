@@ -1,7 +1,11 @@
+@font-face {
+    font-family: StockPlusFont;
+    src: url(ABeeZee.ttf);
+  }
 body{
     margin: 0;
     width: 100%;
-    font-family: 'Commissioner', sans-serif;
+    font-family: StockPlusFont;
     height: 100vh;
 }
 
