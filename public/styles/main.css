@@ -1,0 +1,72 @@
+body{
+    margin: 0;
+    width: 100%;
+    font-family: 'Commissioner', sans-serif;
+    height: 100vh;
+}
+
+.loginHero {
+    width: 40%;
+    height: 100%;
+    background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.login {
+    margin-left: 40%;
+    height: 100%;
+    background: #ffffff;
+}
+
+.loginLogo img{
+    width: 400px;
+    height: 200px;
+}
+
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.loginForm form input[type=text]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 16px;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+
+.loginForm form input[type=password]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 16px;
+    padding: 15px;
+    border-radius: 40px;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+
+.loginForm form input[type=submit]{
+    margin-top: 20px;
+    width: 150px;
+    font-size: 16px;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 40px;
+    border-style: none;
+    background-color: #000000;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
