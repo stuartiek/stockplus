@@ -47,10 +47,15 @@ app.get('/profile', function(req, res){
     res.render('pages/profile')
 });
 
+//REGISTER PAGE
+app.get('/register', function(req, res){
+    res.render('pages/register')
+});
+
 
 
 // SIGN-UP
-app.post('/register', function(req, res){
+app.post('/registerUser', function(req, res){
 
     let datatostore = {
         "email": req.body.email,
