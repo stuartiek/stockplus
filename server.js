@@ -87,7 +87,7 @@ app.post('/login', function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
-    db.collection('users').findOne({'login.username':username}, function(err, result){
+    db.collection('users').findOne({"login.username":username}, function(err, result){
         if (err) throw err;
         
         //IF NO USER REDIRECT TO INDEX
