@@ -24,7 +24,7 @@ body{
     align-items: center;
   }
 .loginHero::after{
-    background-color: rgba(0, 0, 0, 0.764); /* Change the color and opacity as needed */
+    background-color: rgba(0, 0, 0, 0.957); /* Change the color and opacity as needed */
 }
   
 .login {
