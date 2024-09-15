@@ -23,7 +23,7 @@ body{
     justify-content: center;
     align-items: center;
   }
-.loginHero::before{
+.loginHero::after{
     background-color: rgba(0, 0, 0, 0.764); /* Change the color and opacity as needed */
 }
   
