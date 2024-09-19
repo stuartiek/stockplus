@@ -79,3 +79,11 @@ body{
     background-color: #F98D67;
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
 }
+
+
+/* DASHBOARD */
+
+.sideBar img{
+    width: 150px;
+    height: 100px;
+}
