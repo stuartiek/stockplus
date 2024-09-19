@@ -40,6 +40,13 @@ app.get('/', function(req, res){
 // DASHBOARD PAGE
 app.get('/dashboard', function(req, res){
     res.render('pages/dashboard');
+
+    //Gets current user
+    var currentuser = req.session.currentuser;
+
+    res.render('pages/profile', {
+        user: currentuser,
+    })
 });
 
 //PROFILE PAGE
