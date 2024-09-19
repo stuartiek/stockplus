@@ -95,7 +95,7 @@ body{
 }
 .sideBtm{
     position: absolute;
-    bottom: 0;
+    bottom: 30px;
 }
 
 #dashboard{
