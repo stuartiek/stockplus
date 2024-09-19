@@ -39,7 +39,7 @@ app.get('/', function(req, res){
 
 // DASHBOARD PAGE
 app.get('/dashboard', function(req, res){
-
+    if(!req.session.loggedin){res.redirect('/');return;}
     //Gets current user
     var currentuser = req.session.currentuser;
 
