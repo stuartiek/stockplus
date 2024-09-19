@@ -44,8 +44,8 @@ app.get('/dashboard', function(req, res){
     //Gets current user
     var currentuser = req.session.currentuser;
 
-    res.render('pages/profile', {
-        user: currentuser,
+    res.render('pages/dashboard', {
+        user: currentuser
     })
 });
 
