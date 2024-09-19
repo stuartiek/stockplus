@@ -83,6 +83,7 @@ body{
 
 /* DASHBOARD */
 .sideBar{
+    font-size: 20px;
     width: 15%;
     height: 100vh;
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
