@@ -93,6 +93,7 @@ body{
 }
 
 #dashboard{
+    position: relative;
     margin-left: 15%;
     width: 85%;
 }
