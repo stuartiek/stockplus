@@ -90,6 +90,8 @@ body{
 .sideBar img{
     width: 250px;
     height: 100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #dashboard{
