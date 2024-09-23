@@ -54,6 +54,11 @@ app.get('/profile', function(req, res){
 });
 
 //REGISTER PAGE
+app.get('/stock', function(req, res){
+    res.render('pages/stock')
+});
+
+//REGISTER PAGE
 app.get('/register', function(req, res){
     res.render('pages/register')
 });
