@@ -101,6 +101,6 @@ body{
 
 main{
     position: absolute;
-    top: 0;
+    top: 20px;
     margin-left: 20%;
 }
