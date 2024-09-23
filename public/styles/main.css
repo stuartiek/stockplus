@@ -99,9 +99,8 @@ body{
     bottom: 30px;
 }
 
-#dashboard{
+main{
     position: absolute;
     top: 0;
     margin-left: 20%;
-    
 }
