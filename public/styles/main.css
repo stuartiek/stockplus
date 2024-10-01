@@ -115,6 +115,9 @@ body{
     position: absolute;
     bottom: 30px;
 }
+.sideBtm p{
+    text-align: center;
+}
 
 main{
     position: absolute;
