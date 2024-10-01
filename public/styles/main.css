@@ -89,6 +89,16 @@ body{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
 }
 
+.sideBar ul{
+    list-style-type: none;
+}
+
+.sideBar li a{
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+
 .sideBar img{
     width: 60%;
     height: 5%;
