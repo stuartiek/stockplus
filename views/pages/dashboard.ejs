@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css"/>
     <title>Dashboard</title>
+    <script src="http://unpkg.com/tone"></script>
+    <script>
+        function playNote(){
+            const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+        const now = Tone.now();
+        synth.triggerAttack("D4", now);
+        synth.triggerAttack("F4", now + 0.5);
+        synth.triggerAttack("A4", now + 1);
+        synth.triggerAttack("C5", now + 1.5);
+        synth.triggerAttack("E5", now + 2);
+        }
+        
+    </script>
 </head>
 <body>
     <header>
@@ -16,6 +29,7 @@
                 <li><a href="">User</a></li>
                 
                 <div class="sideBtm">
+                    <button onclick="playNote()">Click me to play note!</button>
                     <li><a href="/account">My Account</a></li>
                     <li><a href="/logout">Logout</a></li>
                     <p>Stock+ &copy; 2024</p>
