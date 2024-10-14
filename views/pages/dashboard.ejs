@@ -7,6 +7,7 @@
     <title>Dashboard</title>
     <!-- <script src="http://unpkg.com/tone"></script> -->
     <script>
+        import * as Tone from "tone";
         function playNote(){
             const synth = new Tone.PolySynth(Tone.Synth).toDestination();
             const now = Tone.now();
