@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+	<head>	
+		<meta charset="utf-8" />
+		<title>Simple HTML</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- LOAD Tone.js from unpkg -->
+		<script src="https://unpkg.com/tone"></script>
+		<script>
+			function playNote(){
+              // create two monophonic synths
+const synthA = new Tone.FMSynth().toDestination();
+const synthB = new Tone.AMSynth().toDestination();
+//play a note every quarter-note
+const loopA = new Tone.Loop((time) => {
+	synthA.triggerAttackRelease("C2", "8n", time);
+}, "4n").start(0);
+//play another note every off quarter-note, by starting it "8n"
+const loopB = new Tone.Loop((time) => {
+	synthB.triggerAttackRelease("C4", "8n", time);
+}, "4n").start("8n");
+// all loops start when the Transport is started
+Tone.getTransport().start();
+// ramp up to 800 bpm over 10 seconds
+// Tone.getTransport().bpm.rampTo(800, 50);
+        }
+
+		</script>
+
+	</head>
+	<body>
+		<h1>Simple HTML5 Tone.js Demo</h1>
+		<button onclick="playNote()">Click me to play note!</button>
+	</body>
+</html>
