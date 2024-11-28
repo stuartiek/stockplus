@@ -117,16 +117,17 @@ app.post('/login', async function(req, res){
         
         //IF NO USER REDIRECT TO INDEX
         if(!result){res.redirect('/');
-            console.log('No User Found')
+            console.log('No User Found');
         return
         }
+        console.log(result.login.password);
 
 
         bcrypt.compare(result.login.password, password, function(err, result) {
         // result == true
         //CHECKS PASSWORD AGAINST USER
             if(result == true){
-                console.log(result)
+                console.log(result);
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
                 res.redirect('/dashboard');
