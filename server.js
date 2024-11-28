@@ -117,7 +117,7 @@ app.post('/login', async function(req, res){
         
         //IF NO USER REDIRECT TO INDEX
         if(!result){res.redirect('/');
-            console.log('No User Found');
+            console.log('No User Found')
         return
         }
         console.log(result.login.password);
@@ -125,19 +125,17 @@ app.post('/login', async function(req, res){
 
         bcrypt.compare(result.login.password, password, function(err, result) {
         // result == true
-            console.log(result);
+        //CHECKS PASSWORD AGAINST USER
+            if(result == true){
+                console.log("true")
+                console.log(result);
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
                 res.redirect('/dashboard');
-        //CHECKS PASSWORD AGAINST USER
-            // if(result == true){
-            //     console.log(result);
-            //     req.session.loggedin = true; 
-            //     req.session.currentuser = username;
-            //     res.redirect('/dashboard');
-            // } else {
-            //     res.redirect('/')
-            // }
+            } else {
+                console.log("false")
+                res.redirect('/')
+            }
 
 
         });
