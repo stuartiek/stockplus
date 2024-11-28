@@ -79,8 +79,8 @@ app.post('/signUp', async function(req, res){
                 "login": {"username": req.body.uname, "password": hash},
             }
 
-            let username = req.body.username;
-            db.collection('users').findOne({"login.username": username}, function(err, result){
+            let uname = req.body.uname;
+            db.collection('users').findOne({"login.username":uname}, function(err, result){
                 if(err) throw err;
 
                 if(!result){
@@ -88,11 +88,11 @@ app.post('/signUp', async function(req, res){
                         if(err) throw err;
                         console.log("User Created");
                         console.log(hash);
-                        res.redirect('/users');
+                        res.redirect('/');
                     });
                 } else {
                     console.log("User Already Exists");
-                    res.redirect('/');
+                    res.redirect('/users');
                 }
             });
         });
