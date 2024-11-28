@@ -70,9 +70,8 @@ app.get('/users', function(req, res){
 // SIGN-UP
 app.post('/users', async function(req, res){
 
-    let password = req.body.password;
-    const salt = await bcrypt.genSalt(10)
-    const paswordHash = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt()
+    const paswordHash = await bcrypt.hash(req.body.password, salt);
     
     let datatostore = {
         "email": req.body.email,
