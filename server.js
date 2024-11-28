@@ -71,7 +71,7 @@ app.get('/users', function(req, res){
 app.post('/users', async function(req, res){
 
     let password = req.body.password;
-    const salt = bcrypt.genSaltSync(10)
+    const salt = await bcrypt.genSalt(10)
     const paswordHash = await bcrypt.hash(password, salt);
     
     let datatostore = {
