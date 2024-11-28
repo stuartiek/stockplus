@@ -65,16 +65,18 @@ app.get('/users', function(req, res){
     res.render('pages/users')
 });
 
-
+// error = new Error('data and salt arguments required');
 
 // SIGN-UP
 app.post('/users', async function(req, res){
 
-    const hash = await bcrypt.hash(req.body.password, 10);
+    let password = req.body.password;
+    const salt = bcrypt.genSaltSync(10)
+    const paswordHash = await bcrypt.hash(password, salt);
     
     let datatostore = {
         "email": req.body.email,
-        "login": {"username": req.body.username, "password": hash},
+        "login": {"username": req.body.username, "password": passwordHash},
     }
 
     let username = req.body.username;
