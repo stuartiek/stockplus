@@ -130,7 +130,7 @@ app.post('/login', async function(req, res){
                 req.session.currentuser = username;
                 res.redirect('/dashboard');
             } else {
-                redirect('/')
+                res.redirect('/')
             }
 
 
