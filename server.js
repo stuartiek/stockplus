@@ -126,6 +126,7 @@ app.post('/login', async function(req, res){
         // result == true
         //CHECKS PASSWORD AGAINST USER
             if(result == true){
+                console.log("logged in")
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
                 res.redirect('/dashboard');
