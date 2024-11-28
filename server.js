@@ -123,7 +123,7 @@ app.post('/login', async function(req, res){
         console.log(result.login.password);
 
 
-        bcrypt.compare(result.login.password, password, function(err, result) {
+        bcrypt.compare(password, result.login.password, function(err, result) {
         // result == true
         console.log(result);
         //CHECKS PASSWORD AGAINST USER
