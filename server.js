@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
