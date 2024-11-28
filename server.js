@@ -110,6 +110,8 @@ app.post('/login', function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
+    
+
     db.collection('users').findOne({"login.username":username}, function(err, result){
         if (err) throw err;
         
@@ -118,14 +120,24 @@ app.post('/login', function(req, res){
             console.log('No User Found')
         return}
 
+
+        bcrypt.compare(result.login.password, hash, function(err, result) {
+        // result == true
         //CHECKS PASSWORD AGAINST USER
-        if(result.login.password == password){
-            req.session.loggedin = true; 
-            req.session.currentuser = username;
-            res.redirect('/dashboard');
-        } else {
-            redirect('/')
-        }
+            if(result == true){
+                req.session.loggedin = true; 
+                req.session.currentuser = username;
+                res.redirect('/dashboard');
+            } else {
+                redirect('/')
+            }
+
+
+        });
+
+
+
+        
     });
 });
 
