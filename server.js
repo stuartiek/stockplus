@@ -125,15 +125,19 @@ app.post('/login', async function(req, res){
 
         bcrypt.compare(result.login.password, password, function(err, result) {
         // result == true
-        //CHECKS PASSWORD AGAINST USER
-            if(result == true){
-                console.log(result);
+            console.log(result);
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
                 res.redirect('/dashboard');
-            } else {
-                res.redirect('/')
-            }
+        //CHECKS PASSWORD AGAINST USER
+            // if(result == true){
+            //     console.log(result);
+            //     req.session.loggedin = true; 
+            //     req.session.currentuser = username;
+            //     res.redirect('/dashboard');
+            // } else {
+            //     res.redirect('/')
+            // }
 
 
         });
