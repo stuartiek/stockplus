@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';
@@ -66,10 +64,10 @@ app.get('/users', function(req, res){
 });
 
 
-
+    import bcrypt from 'bcrypt';
 // SIGN-UP
 app.post('/users', async function(req, res){
-
+    
     const hash = await bcrypt.hash(req.body.password, 10);
     
     let datatostore = {
