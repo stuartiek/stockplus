@@ -68,7 +68,7 @@ app.get('/users', function(req, res){
 
 
 // SIGN-UP
-app.post('/registerUser', async function(req, res){
+app.post('/users', async function(req, res){
 
     const hash = await bcrypt.hash(req.body.password, 10);
     
