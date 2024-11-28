@@ -106,7 +106,7 @@ app.post('/signUp', async function(req, res){
 
 
 // LOGIN
-app.post('/login', function(req, res){
+app.post('/login', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
@@ -118,10 +118,11 @@ app.post('/login', function(req, res){
         //IF NO USER REDIRECT TO INDEX
         if(!result){res.redirect('/');
             console.log('No User Found')
-        return}
+        return
+        }
 
 
-        bcrypt.compare(result.login.password, hash, function(err, result) {
+        bcrypt.compare(result.login.password, password, function(err, result) {
         // result == true
         //CHECKS PASSWORD AGAINST USER
             if(result == true){
