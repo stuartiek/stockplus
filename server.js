@@ -73,8 +73,6 @@ app.post('/registerUser', async function(req, res){
     let datatostore = {
         "email": req.body.email,
         "login": {"username": req.body.username, "password": hash},
-        "profile_pic": req.body.profilePic,
-        "background":"https://www.solidbackgrounds.com/images/1920x1080/1920x1080-battleship-grey-solid-color-background.jpg"
     }
 
     let username = req.body.username;
