@@ -66,11 +66,13 @@ app.get('/register', function(req, res){
 
 
 // SIGN-UP
-app.post('/registerUser', function(req, res){
+app.post('/registerUser', async function(req, res){
 
+    const hash = await bcrypt.hash(req.body.password, 10);
+    
     let datatostore = {
         "email": req.body.email,
-        "login": {"username": req.body.username, "password": req.body.password},
+        "login": {"username": req.body.username, "password": hash},
         "profile_pic": req.body.profilePic,
         "background":"https://www.solidbackgrounds.com/images/1920x1080/1920x1080-battleship-grey-solid-color-background.jpg"
     }
@@ -83,6 +85,7 @@ app.post('/registerUser', function(req, res){
             db.collection('users').insertOne(datatostore, function(err, result){
                 if(err) throw err;
                 console.log("User Create");
+                console.log(hash);
                 res.redirect('/');
             });
         } else {
