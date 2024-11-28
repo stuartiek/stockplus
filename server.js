@@ -1,5 +1,6 @@
 
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';
@@ -70,31 +71,37 @@ app.get('/users', function(req, res){
 // SIGN-UP
 app.post('/signUp', async function(req, res){
 
-    let salt = await bcrypt.genSalt()
-    let passwordHash = await bcrypt.hash(req.body.password, salt)
-    console.log(passwordHash);
-    
-    let datatostore = {
-        "email": req.body.email,
-        "login": {"username": req.body.username, "password": passwordHash},
-    }
+    let passwordHash = req.body.password;
+    bcrypt.genSalt(saltRounds, function(err, salt){
+        bcrypt.hash(passwordHash, salt, function(err, hash){
+            let datatostore = {
+                "email": req.body.email,
+                "login": {"username": req.body.username, "password": passwordHash},
+            }
 
-    let username = req.body.username;
-    db.collection('users').findOne({"login.username": username}, function(err, result){
-        if(err) throw err;
-
-        if(!result){
-            db.collection('users').insertOne(datatostore, function(err, result){
+            let username = req.body.username;
+            db.collection('users').findOne({"login.username": username}, function(err, result){
                 if(err) throw err;
-                console.log("User Create");
-                console.log(hash);
-                res.redirect('/users');
+
+                if(!result){
+                    db.collection('users').insertOne(datatostore, function(err, result){
+                        if(err) throw err;
+                        console.log("User Create");
+                        console.log(hash);
+                        res.redirect('/users');
+                    });
+                } else {
+                    console.log("User Already Exists");
+                    res.redirect('/');
+                }
             });
-        } else {
-            console.log("User Already Exists");
-            res.redirect('/');
-        }
+        });
     });
+    // const salt = await bcrypt.genSalt()
+    // const passwordHash = await bcrypt.hash(req.body.password, salt)
+    // console.log(passwordHash);
+    
+    
 });
 
 
