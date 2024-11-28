@@ -71,12 +71,12 @@ app.get('/users', function(req, res){
 // SIGN-UP
 app.post('/signUp', async function(req, res){
 
-    let passwordHash = req.body.password;
+    // let passwordHash = req.body.password;
     bcrypt.genSalt(saltRounds, function(err, salt){
-        bcrypt.hash(passwordHash, salt, function(err, hash){
+        bcrypt.hash(req.body.psw, salt, function(err, hash){
             let datatostore = {
                 "email": req.body.email,
-                "login": {"username": req.body.username, "password": passwordHash},
+                "login": {"username": req.body.uname, "password": hash},
             }
 
             let username = req.body.username;
@@ -86,7 +86,7 @@ app.post('/signUp', async function(req, res){
                 if(!result){
                     db.collection('users').insertOne(datatostore, function(err, result){
                         if(err) throw err;
-                        console.log("User Create");
+                        console.log("User Created");
                         console.log(hash);
                         res.redirect('/users');
                     });
