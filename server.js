@@ -68,14 +68,13 @@ app.get('/users', function(req, res){
 // error = new Error('data and salt arguments required');
 
 // SIGN-UP
-app.post('/users', async function(req, res){
+app.post('/signUp', async function(req, res){
 
-    const salt = await bcrypt.genSalt()
-    const paswordHash = await bcrypt.hash(req.body.password, salt)
-    console.log(paswordHash);
+    let salt = await bcrypt.genSalt()
+    let passwordHash = await bcrypt.hash(req.body.password, salt)
+    console.log(passwordHash);
     
     let datatostore = {
-        
         "email": req.body.email,
         "login": {"username": req.body.username, "password": passwordHash},
     }
@@ -89,7 +88,7 @@ app.post('/users', async function(req, res){
                 if(err) throw err;
                 console.log("User Create");
                 console.log(hash);
-                res.redirect('/');
+                res.redirect('/users');
             });
         } else {
             console.log("User Already Exists");
