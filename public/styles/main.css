@@ -126,3 +126,36 @@ main{
     top: 20px;
     margin-left: 20%;
 }
+
+
+
+
+
+
+
+
+
+
+
+.container {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.input-field {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px auto;
+}
+
+.add-button {
+    padding: 8px 20px;
+    background-color: green;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

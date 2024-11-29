@@ -16,7 +16,7 @@
 
         <section>
             <div class="container">
-                <button class="add-button" onclick="addFn()">Add Input Fields</button>
+                <button class="add-button" onclick="addFn()">Add Product</button>
                 <div id="inputFields">
                 </div>
             </div>
@@ -25,8 +25,11 @@
                     const divEle = document.getElementById("inputFields");
                     divEle.innerHTML += `
                 <div>
-                  <input type="text" placeholder="Enter value" class="input-field">
-                  <input type="text" placeholder="Enter value" class="input-field">
+                  <input type="text" placeholder="Product Name" class="input-field">
+                  <input type="text" placeholder="Company" class="input-field">
+                  <input type="text" placeholder="Product Code" class="input-field">
+                  <input type="text" placeholder="RRP" class="input-field">
+                  <input type="text" placeholder="Price" class="input-field">
                 </div>
               `;
                 }
