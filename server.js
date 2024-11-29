@@ -58,15 +58,20 @@ app.get('/profile', function(req, res){
 
 //REGISTER PAGE
 app.get('/stock', function(req, res){
+    if(!req.session.loggedin){res.redirect('/');return;}
+
+
     res.render('pages/stock')
 });
 
 //REGISTER PAGE
 app.get('/users', function(req, res){
+    if(!req.session.loggedin){res.redirect('/');return;}
+
+
     res.render('pages/users')
 });
 
-// error = new Error('data and salt arguments required');
 
 // SIGN-UP
 app.post('/signUp', async function(req, res){
@@ -87,7 +92,6 @@ app.post('/signUp', async function(req, res){
                     db.collection('users').insertOne(datatostore, function(err, result){
                         if(err) throw err;
                         console.log("User Created");
-                        console.log(hash);
                         res.redirect('/');
                     });
                 } else {
@@ -97,11 +101,6 @@ app.post('/signUp', async function(req, res){
             });
         });
     });
-    // const salt = await bcrypt.genSalt()
-    // const passwordHash = await bcrypt.hash(req.body.password, salt)
-    // console.log(passwordHash);
-    
-    
 });
 
 
@@ -109,8 +108,6 @@ app.post('/signUp', async function(req, res){
 app.post('/login', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
-
-    
 
     db.collection('users').findOne({"login.username":username}, function(err, result){
         if (err) throw err;
@@ -120,8 +117,6 @@ app.post('/login', async function(req, res){
             console.log('No User Found')
         return
         }
-        console.log(result.login.password);
-
 
         bcrypt.compare(password, result.login.password, function(err, result) {
         // result == true
@@ -134,16 +129,9 @@ app.post('/login', async function(req, res){
                 req.session.currentuser = username;
                 res.redirect('/dashboard');
             } else {
-                console.log("false")
                 res.redirect('/')
             }
-
-
         });
-
-
-
-        
     });
 });
 

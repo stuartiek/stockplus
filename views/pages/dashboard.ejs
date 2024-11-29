@@ -22,22 +22,7 @@
 </head>
 <body>
     <header>
-        <div class="sideBar">
-            <img class="sideLogo" src="images/logo/stock-high-resolution-logo-transparent.png" alt="Logo"/>
-            <ul>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/stock">Stock</a></li>
-                <li><a href="/users">User</a></li>
-                
-                <div class="sideBtm">
-                    <button onclick="playNote()">Click me to play note!</button>
-                    <li><a href="/account">My Account</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                    <p>Stock+ &copy; 2024</p>
-                </div>
-                
-            </ul>
-        </div>
+        <%- include('../partials/header') %>
     </header>
     <main id="dashboard">
         <h1>Good Evening - <%= user %></h1>
