@@ -52,9 +52,12 @@ app.get('/dashboard', function(req, res){
     })
 });
 
-//PROFILE PAGE
-app.get('/profile', function(req, res){
-    res.render('pages/profile')
+//LABELS PAGE
+app.get('/labels', function(req, res){
+    if(!req.session.loggedin){res.redirect('/');return;}
+
+
+    res.render('pages/labels')
 });
 
 //REGISTER PAGE
