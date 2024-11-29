@@ -1,6 +1,7 @@
-
+// BCRYPT SETUP
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';
@@ -78,7 +79,9 @@ app.post('/signUp', async function(req, res){
 
     // let passwordHash = req.body.password;
     bcrypt.genSalt(saltRounds, function(err, salt){
+        if(err) throw err;
         bcrypt.hash(req.body.psw, salt, function(err, hash){
+            if(err) throw err;
             let datatostore = {
                 "email": req.body.email,
                 "login": {"username": req.body.uname, "password": hash},
