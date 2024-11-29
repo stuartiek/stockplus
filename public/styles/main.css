@@ -84,6 +84,7 @@ body{
 
 /* DASHBOARD */
 .sideBar{
+    position: fixed;
     font-size: 20px;
     width: 15%;
     height: 100vh;
