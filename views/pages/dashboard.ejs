@@ -22,12 +22,11 @@
             <h3>Using DOM Manipulation</h3>
             <div class="container">
                 <button class="add-button" onclick="addFn()">Add Input Field</button>
-                <div class="inputFields"></div>
+                <div id="inputFields"></div>
             </div>
             <script>
                 function addFn() {
-                    //const divEle = document.getElementById("inputFields");
-                    const divEle = document.getElementsByClassName("inputFields");
+                    const divEle = document.getElementById("inputFields");
                     const wrapper = document.createElement("div");
                     const iFeild = document.createElement("input");
                     iFeild.setAttribute("type", "text");

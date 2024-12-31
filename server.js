@@ -80,7 +80,6 @@ app.get('/users', function(req, res){
 // SIGN-UP
 app.post('/signUp', async function(req, res){
 
-    // let passwordHash = req.body.password;
     bcrypt.genSalt(saltRounds, function(err, salt){
         if(err) throw err;
         bcrypt.hash(req.body.psw, salt, function(err, hash){
