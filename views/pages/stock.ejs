@@ -15,14 +15,17 @@
         <h1>Stock</h1>
         <button popovertarget="createStock">Create </button>
             <div id="createStock" popover>
-                <input type="text" name="Product Name" placeholder="Product Name">
-                <input type="text" name="product Code" placeholder="Product Code">
-                <input type="text" name="Brand" placeholder="Brand">
-                <input type="text" name="Qty" placeholder="Qty">
-                <input type="text" name="RRP" placeholder="RRP">
-                <input type="text" name="Price" placeholder="Price">
+                <form action="/addStock" method="POST">
+                    <input type="text" name="productName" placeholder="Product Name">
+                    <input type="text" name="productCode" placeholder="Product Code">
+                    <input type="text" name="Brand" placeholder="Brand">
+                    <input type="text" name="Qty" placeholder="Qty">
+                    <input type="text" name="RRP" placeholder="RRP">
+                    <input type="text" name="Price" placeholder="Price">
 
-                <button>Add</button>
+                    <button>Add</button>
+                </form>
+                
             </div>
         <!-- <div>
             <input type="search" name="" id="">

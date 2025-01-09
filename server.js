@@ -60,15 +60,46 @@ app.get('/labels', function(req, res){
     res.render('pages/labels')
 });
 
-//REGISTER PAGE
+//STOCK PAGE
 app.get('/stock', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
-
-
     res.render('pages/stock')
 });
 
-//REGISTER PAGE
+//ADDS STOCK TO DATABASE
+app.post('/addStock', function(req, res){
+    //data needs stored
+    const isoDate = new Date();
+    const ISO = isoDate.toISOString();
+    var datatostore = {
+        "productName":req.body.productName,
+        "productCode":req.body.productCode,
+        "brand":req.body.Brand,
+        "qty":req.body.Qty,
+        "rrp":req.body.RRP,
+        "price":req.body.Price,
+        "published":ISO.slice(0 , 19) // Cuts out unwanted date information
+    }
+    db.collection('stock').insertOne(datatostore, function(err, result){
+        if (err) throw err;
+            console.log("saved to database");
+            //when complete redirect back to index
+        res.redirect('/stock');
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+//USERS PAGE
 app.get('/users', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
 
