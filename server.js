@@ -63,7 +63,17 @@ app.get('/labels', function(req, res){
 //STOCK PAGE
 app.get('/stock', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
-    res.render('pages/stock')
+
+    var stockSort = { 
+        "published": -1 
+    };
+    db.collection('stock').find().sort(stockSort).toArray(function(err, result){
+        if (err) throw err;
+
+        res.render('pages/stock', {
+            stock: result
+        });
+    });
 });
 
 //ADDS STOCK TO DATABASE
