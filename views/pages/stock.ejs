@@ -28,17 +28,16 @@
                 
             </div>
         
-
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Code</th>
+                    <th>Brand</th>
+                    <th>Qty</th>
+                    <th>RRP</th>
+                    <th>Price</th>
+                </tr>
             <% stock.forEach(function(stock) { %>
-                <table>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Product Code</th>
-                        <th>Brand</th>
-                        <th>Qty</th>
-                        <th>RRP</th>
-                        <th>Price</th>
-                    </tr>
                     <tr>
                         <td><%= stock.productName %></td>
                         <td><%= stock.productCode %></td>
