@@ -164,6 +164,20 @@ main{
 
 
 /* STOCK PAGE */
+#createStock{
+    margin-top: 20px;
+    width: 150px;
+    font-size: 16px;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 40px;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    cursor: pointer;
+}
+
+
 table {
     border-collapse: collapse;
     width: 100%;
