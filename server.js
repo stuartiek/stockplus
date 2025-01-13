@@ -67,15 +67,17 @@ app.get('/stock', function(req, res){
     var stockSort = { 
         "published": -1 
     };
-
-
-
-
     db.collection('stock').find().sort(stockSort).toArray(function(err, result){
         if (err) throw err;
 
-        res.render('pages/stock', {
-            stock: result
+
+        db.collection('stock').countDocuments(function(err, count){
+
+    
+            res.render('pages/stock', {
+                stock: result,
+                stockCount: count
+            });
         });
     });
 });
@@ -89,9 +91,6 @@ app.get('/stock', function(req, res){
 //     }
     
 // });
-
-
-
 
 //ADDS STOCK TO DATABASE
 app.post('/addStock', function(req, res){
