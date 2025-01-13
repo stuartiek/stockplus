@@ -2,7 +2,7 @@
     font-family: StockPlusFont;
     src: url(ABeeZee.ttf);
   }
-@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap');
+
 .barcodeFont{
     font-family: "Libre Barcode 39 Text", serif;
   font-weight: 400;
