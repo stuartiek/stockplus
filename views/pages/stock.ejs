@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css"/>
+    
     <link rel="icon" type="image/x-icon" href="images/logo/favicon.png">
     <title>Stock</title>
 </head>
@@ -22,6 +23,7 @@
                     <input type="text" name="Qty" placeholder="Qty">
                     <input type="text" name="RRP" placeholder="RRP">
                     <input type="text" name="Price" placeholder="Price">
+                    <input type="text" name="Barcode" placeholder="Barcode">
 
                     <button>Add</button>
                 </form>
@@ -45,6 +47,7 @@
                         <td><%= stock.qty %></td>
                         <td>£<%= stock.rrp %></td>
                         <td>£<%= stock.price %></td>
+                        <td><span class="barcodeFont"><%= stock.barcode %></span></td>
                     </tr>
             <% }); %>
             </table>

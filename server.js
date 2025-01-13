@@ -88,6 +88,7 @@ app.post('/addStock', function(req, res){
         "qty":req.body.Qty,
         "rrp":req.body.RRP,
         "price":req.body.Price,
+        "barcode":req.body.Barcode,
         "published":ISO.slice(0 , 19) // Cuts out unwanted date information
     }
     db.collection('stock').insertOne(datatostore, function(err, result){
