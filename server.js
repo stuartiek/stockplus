@@ -69,15 +69,6 @@ app.get('/stock', function(req, res){
     };
 
 
-    function deleteStock(){
-        var queryDelete = document.getElementById("id_delete");
-        db.collection("stock").deleteOne(queryDelete, function(err, obj){
-            if (err) throw err;
-            res.render('pages/stock')
-        });
-    }
-
-
 
 
     db.collection('stock').find().sort(stockSort).toArray(function(err, result){
