@@ -85,6 +85,7 @@ app.post('/addStock', function(req, res){
         "productName":req.body.productName,
         "productCode":req.body.productCode,
         "brand":req.body.Brand,
+        "category":req.body.Category,
         "qty":req.body.Qty,
         "rrp":req.body.RRP,
         "price":req.body.Price,
