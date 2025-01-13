@@ -18,6 +18,11 @@
     </header>
     <main id="stock">
         <h1>Stock</h1>
+        <div>
+            <% stock.forEach(function(stock) { %>
+                <h1><%- stockCount %></h1>
+            <% }); %>
+        </div>
         <button popovertarget="createStock">Create </button>
             <div id="createStock" popover>
                 <form action="/addStock" method="POST">
