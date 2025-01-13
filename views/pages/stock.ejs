@@ -23,11 +23,11 @@
                     <input type="text" name="productCode" placeholder="Product Code">
                     <input type="text" name="Brand" placeholder="Brand">
                     <select name="Category">
-                        <option value="tools" name="News">Tools</option>
-                        <option value="sundries">Sundries</option>
-                        <option value="chemicals">Chemicals</option>
-                        <option value="hardware">Hardware</option>
-                        <option value="misc">Misc</option>
+                        <option value="Tools" name="News">Tools</option>
+                        <option value="Sundries">Sundries</option>
+                        <option value="Chemicals">Chemicals</option>
+                        <option value="Hardware">Hardware</option>
+                        <option value="Misc">Misc</option>
                     </select>
                     <input type="text" name="Qty" placeholder="Qty">
                     <input type="text" name="RRP" placeholder="RRP">
@@ -60,6 +60,7 @@
                         <td>£<%= stock.rrp %></td>
                         <td>£<%= stock.price %></td>
                         <td><span class="barcodeFont"><%= stock.barcode %></span></td>
+                        <td><button><i class="fa-solid fa-trash-can"></i></button></td>
                     </tr>
             <% }); %>
             </table>
