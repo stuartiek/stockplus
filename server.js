@@ -67,6 +67,19 @@ app.get('/stock', function(req, res){
     var stockSort = { 
         "published": -1 
     };
+
+
+    function deleteStock(){
+        var queryDelete = document.getElementById("id_delete");
+        db.collection("stock").deleteOne(queryDelete, function(err, obj){
+            if (err) throw err;
+            res.render('pages/stock')
+        });
+    }
+
+
+
+
     db.collection('stock').find().sort(stockSort).toArray(function(err, result){
         if (err) throw err;
 
@@ -75,6 +88,19 @@ app.get('/stock', function(req, res){
         });
     });
 });
+
+// app.post('deleteStock', function(req, res){
+//     var queryDelete = document.getElementById("id_delete");
+//     function deleteStock(){
+//         db.collection("stock").deleteOne(queryDelete, function(err, obj){
+        
+//         });
+//     }
+    
+// });
+
+
+
 
 //ADDS STOCK TO DATABASE
 app.post('/addStock', function(req, res){

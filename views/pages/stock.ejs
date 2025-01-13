@@ -54,7 +54,7 @@
                 </tr>
             <% stock.forEach(function(stock) { %>
                     <tr>
-                        <td><%= stock._id %></td>
+                        <td id="id_delete"><%= stock._id %></td>
                         <td><%= stock.productName %></td>
                         <td><%= stock.productCode %></td>
                         <td><%= stock.brand %></td>
@@ -63,7 +63,7 @@
                         <td>£<%= stock.rrp %></td>
                         <td>£<%= stock.price %></td>
                         <td><span class="barcodeFont"><%= stock.barcode %></span></td>
-                        <td><button>Edit</button></td>
+                        <td><button onclick="deleteStock">Delete</button></td>
                     </tr>
             <% }); %>
             </table>
