@@ -210,9 +210,9 @@ app.post('/login', async function(req, res){
 
 
 app.post('/delete/:id', (req, res) => {
-    Post.deleteOne((err) => {
+    stock.deleteOne((err) => {
       if (!err) {
-        res.redirect('/')
+        res.redirect('/stock')
       }
     })
 });
