@@ -209,7 +209,6 @@ app.post('/login', async function(req, res){
 
 
 
-
 app.post('/delete/:id', (req, res) => {
     Post.deleteOne((err) => {
       if (!err) {
