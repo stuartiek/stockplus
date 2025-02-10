@@ -47,9 +47,14 @@ app.get('/dashboard', function(req, res){
     //Gets current user
     var currentuser = req.session.currentuser;
 
-    res.render('pages/dashboard', {
-        user: currentuser
-    })
+    db.collection('stock').countDocuments(function(err, count){
+
+        res.render('pages/dashboard', {
+            user: currentuser,
+            stockCount: count
+        })
+    });
+   
 });
 
 //LABELS PAGE
