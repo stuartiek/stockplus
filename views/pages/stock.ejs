@@ -69,7 +69,7 @@
                         <td><span class="barcodeFont"><%= stock.barcode %></span></td>
                         <td>
                             <form action="/delete/<%= stock._id %>" method="post">
-                                <button onclick="deleteStock()">Delete</button>
+                                <button type="submit">Delete</button>
                             </form>
                         </td>
                     </tr>
