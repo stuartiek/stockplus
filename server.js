@@ -204,6 +204,25 @@ app.post('/login', async function(req, res){
     });
 });
 
+
+
+
+
+
+
+app.post('/delete/:id', (req, res) => {
+    Post.deleteOne((err) => {
+      if (!err) {
+        res.redirect('/')
+      }
+    })
+  });
+
+
+
+
+
+
 //LOGOUT
 app.get('/logout', function(req, res){
     req.session.loggedin = false;
