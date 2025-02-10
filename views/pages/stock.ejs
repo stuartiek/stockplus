@@ -68,7 +68,7 @@
                         <td>£<%= stock.price %></td>
                         <td><span class="barcodeFont"><%= stock.barcode %></span></td>
                         <td>
-                            <form action="/delete/:id" method="post">
+                            <form action="/delete/<%= stock._id %>" method="post">
                                 <button onclick="deleteStock()">Delete</button>
                             </form>
                         </td>
