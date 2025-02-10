@@ -209,10 +209,10 @@ app.post('/login', async function(req, res){
 
 
 
-app.post('/delete/:id', async (req, res) => {
+app.post('/delete/:id', (req, res) => {
 
     //await db.collection('stock').deleteOne({ _id: 'D'});
-    await stock.deleteOne({_id: req.params.id})
+     stock.deleteOne({_id: req.params.id})
         res.redirect('/stock')
 });
 
