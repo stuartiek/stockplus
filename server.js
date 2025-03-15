@@ -127,7 +127,7 @@ app.post('/addStock', function(req, res){
 app.get('/product/:Barcode', function(req, res){
     var barcode = req.params.Barcode;
     
-    //Gets current users profile pic
+    //GETS SELECTED PRODUCT
     db.collection('stock').findOne({"barcode":barcode}, function (err, result){
         if(err) throw err;
         // var product = result.productName;
@@ -136,7 +136,7 @@ app.get('/product/:Barcode', function(req, res){
         // var category = result.category;
         // var 
 
-                res.render('pages/user', {
+                res.render('pages/product', {
                     product: result
                 })
  
