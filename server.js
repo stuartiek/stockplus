@@ -111,6 +111,7 @@ app.post('/addStock', function(req, res){
         "rrp":req.body.RRP,
         "price":req.body.Price,
         "barcode":req.body.Barcode,
+        "productURL": "/product/" + req.body.Barcode,
         "published":ISO.slice(0 , 19) // Cuts out unwanted date information
     }
     db.collection('stock').insertOne(datatostore, function(err, result){
@@ -120,6 +121,21 @@ app.post('/addStock', function(req, res){
         res.redirect('/stock');
     });
 });
+
+//DELETE PRODUCT
+
+app.get('/product/:Barcode', function(req, res){
+    var barcode = req.params.Barcode;
+    
+
+    db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
+        if(err) throw err;
+
+        res.render('pages/stock')
+    });
+
+
+ });
 
 
 
