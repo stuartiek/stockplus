@@ -87,16 +87,6 @@ app.get('/stock', function(req, res){
     });
 });
 
-// app.post('deleteStock', function(req, res){
-//     var queryDelete = document.getElementById("id_delete");
-//     function deleteStock(){
-//         db.collection("stock").deleteOne(queryDelete, function(err, obj){
-        
-//         });
-//     }
-    
-// });
-
 //ADDS STOCK TO DATABASE
 app.post('/addStock', function(req, res){
     //data needs stored
@@ -112,6 +102,7 @@ app.post('/addStock', function(req, res){
         "price":req.body.Price,
         "barcode":req.body.Barcode,
         "productURL": "/product/" + req.body.Barcode,
+        "deleteURL": "/delete/" + req.body.Barcode,
         "published":ISO.slice(0 , 19) // Cuts out unwanted date information
     }
     db.collection('stock').insertOne(datatostore, function(err, result){
@@ -122,7 +113,7 @@ app.post('/addStock', function(req, res){
     });
 });
 
-//DELETE PRODUCT
+//GET PRODUCT
 
 app.get('/product/:Barcode', function(req, res){
     var barcode = req.params.Barcode;
@@ -130,27 +121,28 @@ app.get('/product/:Barcode', function(req, res){
     //GETS SELECTED PRODUCT
     db.collection('stock').findOne({"barcode":barcode}, function (err, result){
         if(err) throw err;
-        // var product = result.productName;
-        // var productCode = result.productCode;
-        // var brand = result.Brand;
-        // var category = result.category;
-        // var 
 
-                res.render('pages/product', {
-                    product: result
-                })
+
+        res.render('pages/product', {
+             product: result
+        })
  
     });
-
-    // db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
-    //     if(err) throw err;
-
-    //     res.render('pages/stock')
-    // });
-
-
  });
 
+//DELETE PRODUCT
+
+app.get('/delete/:Barcode', function(req, res){
+    var barcode = req.params.Barcode;
+
+    db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
+        if(err) throw err;
+
+        res.render('pages/stock', {
+       })
+    });
+
+ });
 
 
 
