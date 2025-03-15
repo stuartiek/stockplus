@@ -66,7 +66,7 @@ app.get('/labels', function(req, res){
 });
 
 //STOCK PAGE
-app.get('/stock', function(req, res){
+app.get('/stock', async function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
 
     var stockSort = { 
@@ -132,14 +132,15 @@ app.get('/product/:Barcode', function(req, res){
 
 //DELETE PRODUCT
 
-app.get('/delete/:Barcode', function(req, res){
+app.get('/delete/:Barcode', async function(req, res){
     var barcode = req.params.Barcode;
 
     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
 
+        res.render('pages/stock', {
+       })
     });
-    window.location.href = "stock.ejs";
  });
 
 
