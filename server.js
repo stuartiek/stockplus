@@ -230,19 +230,6 @@ app.post('/login', async function(req, res){
 
 
 
-
-app.post('/delete/:id', async (req, res) => {
-
-    //await db.collection('stock').deleteOne({ _id: 'D'});
-    await stock.deleteOne({_id: req.params.id})
-        res.redirect('/')
-});
-
-
-
-
-
-
 //LOGOUT
 app.get('/logout', function(req, res){
     req.session.loggedin = false;
