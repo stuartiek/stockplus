@@ -24,58 +24,12 @@
 
 
 
-        <section>
-            <h3>Using DOM Manipulation</h3>
-            <div class="container">
-                <button class="add-button" onclick="addFn()">Add Input Field</button>
-                <div id="inputFields"></div>
-            </div>
-            <script>
-                function addFn() {
-                    const divEle = document.getElementById("inputFields");
-                    const wrapper = document.createElement("div");
-                    const iFeild = document.createElement("input");
-                    iFeild.setAttribute("type", "text");
-                    iFeild.setAttribute("placeholder", "Enter value");
-                    iFeild.classList.add("input-field");
-                    wrapper.appendChild(iFeild);
-                    divEle.appendChild(wrapper);
-                }
-            </script>
-        </section>
+       
 
 
 
 
 
-
-
-
-
-
-
-
-        <section>
-            <!-- <div class="container">
-                <button class="add-button" onclick="addFn()">Add Product</button>
-                <div id="inputFields">
-                </div>
-            </div>
-            <script>
-                function addFn() {
-                    const divEle = document.getElementById("inputFields");
-                    divEle.innerHTML += `
-                <div>
-                  <input type="text" placeholder="Product Name" class="input-field">
-                  <input type="text" placeholder="Company" class="input-field">
-                  <input type="text" placeholder="Product Code" class="input-field">
-                  <input type="text" placeholder="RRP" class="input-field">
-                  <input type="text" placeholder="Price" class="input-field">
-                </div>
-              `;
-                }
-            </script> -->
-        </section>
 
 
     </main>

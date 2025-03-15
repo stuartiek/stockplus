@@ -138,10 +138,8 @@ app.get('/delete/:Barcode', function(req, res){
     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
 
-        res.render('pages/stock', {
-       })
     });
-
+    window.location.href = "stock.ejs";
  });
 
 
