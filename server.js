@@ -80,7 +80,7 @@ app.get('/stock', function(req, res){
 
         // });
             res.render('pages/stock', {
-                stock: result,
+                stock: result
 
             });
         
@@ -127,12 +127,26 @@ app.post('/addStock', function(req, res){
 app.get('/product/:Barcode', function(req, res){
     var barcode = req.params.Barcode;
     
-
-    db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
+    //Gets current users profile pic
+    db.collection('stock').findOne({"barcode":barcode}, function (err, result){
         if(err) throw err;
+        // var product = result.productName;
+        // var productCode = result.productCode;
+        // var brand = result.Brand;
+        // var category = result.category;
+        // var 
 
-        res.render('pages/stock')
+                res.render('pages/user', {
+                    product: result
+                })
+ 
     });
+
+    // db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
+    //     if(err) throw err;
+
+    //     res.render('pages/stock')
+    // });
 
 
  });
