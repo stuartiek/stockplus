@@ -27,9 +27,12 @@
             <h3>£<%= product.rrp %></h3>
             <h3>£<%= product.price %></h3>
             <h3><span class="barcodeFont"><%= product.barcode %></span></h3>
-            <a href="<%= product.deleteURL %>">
+            <!-- <a href="<%= product.deleteURL %>">
                 <p>Delete</p>
-            </a>
+            </a> -->
+            <form action="<%= product.deleteURL %>" method="post">
+                <button type="submit">Delete</button>
+            </form>
         </section>
     </main>
 </body>
