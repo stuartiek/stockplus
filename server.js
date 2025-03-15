@@ -76,14 +76,14 @@ app.get('/stock', function(req, res){
         if (err) throw err;
 
 
-        db.collection('stock').countDocuments(function(err, count){
+        // db.collection('stock').countDocuments(function(err, count){
 
-    
+        // });
             res.render('pages/stock', {
                 stock: result,
-                stockCount: count
+
             });
-        });
+        
     });
 });
 
