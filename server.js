@@ -29,8 +29,8 @@ async function connectDB(){
     await client.connect();
     console.log('Connected Successfully to Server');
     db = client.db(dbname);
-    app.listen(8080);
-    console.log('Connected to Port: 8080');
+    app.listen(14400);
+    console.log('Connected to Port: 14400');
 };
 
 // RENDER PAGES
