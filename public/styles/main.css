@@ -208,3 +208,10 @@ table {
   }
   
   tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+  .center{
+    text-align: center;
+    margin: auto;
+    width: 60%;
+  }
