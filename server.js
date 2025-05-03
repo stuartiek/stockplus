@@ -138,7 +138,7 @@ app.get('/delete/:Barcode', async function(req, res){
     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
 
-        res.redirect('/stock');
+        res.redirect('pages/stock');
     });
  });
 
