@@ -132,7 +132,7 @@ app.get('/product/:Barcode', function(req, res){
 
 //DELETE PRODUCT
 
-app.post('/delete/:Barcode', async function(req, res){
+app.get('/delete/:Barcode', function(req, res){
     var barcode = req.params.Barcode;
 
     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
