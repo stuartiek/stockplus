@@ -137,7 +137,7 @@ app.get('/delete/:Barcode', async function(req, res){
 
     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
-
+        console.log("Stock deleted")
         res.redirect('pages/stock');
     });
  });
@@ -178,7 +178,7 @@ app.post('/signUp', async function(req, res){
                 if(err) throw err;
 
                 if(!result){
-                    db.collection('users').insertOne(datatostore, function(err, result){
+                    db.collection('users').insertOne(datatostore, function(err, result){https://open.spotify.com/album/3pv30z3VATTE260rWIhWdE
                         if(err) throw err;
                         console.log("User Created");
                         res.redirect('/');
