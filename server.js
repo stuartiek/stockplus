@@ -132,14 +132,16 @@ app.get('/product/:Barcode', function(req, res){
 
 //DELETE PRODUCT
 
-app.get('/delete/:Barcode', function(req, res){
+app.post('delete/:Barcode', function(req, res){
     var barcode = req.params.Barcode;
 
     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
+        
+    });
         console.log("Stock deleted")
         res.redirect('pages/deleteCompleted');
-    });
+
  });
  app.get('/deleteCompleted', function(req, res){
     // if(!req.session.loggedin){res.redirect('/');return;}
