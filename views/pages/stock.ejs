@@ -59,7 +59,7 @@
             <% stock.forEach(function(stock) { %>
                     <tr>
                         <td>
-                            <% if (stock.imageUrl) { %>
+                            <% if (stock && stock.imageUrl) { %>
                                 <img src="<%= stock.imageUrl %>" alt="Product Image" width="70" height="70">
                             <% } else { %>
                                 No image
