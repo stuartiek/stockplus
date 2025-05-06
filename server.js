@@ -20,6 +20,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 // CONNECT TO DB
@@ -169,7 +170,7 @@ app.post('/delete', async (req, res) => {
     const barcode = req.body.barcode;
 
     try {
-        const result = await db.collection('stock').deleteOne({ barcode: barcode });
+        const result = await db.collection('stock').deleteOne({ barcode });
 
         if (result.deletedCount === 0) {
             return res.status(404).send('Stock item not found');
