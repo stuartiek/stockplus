@@ -140,7 +140,9 @@ app.post('/delete/:Barcode', async function(req, res){
         console.log("Stock deleted");
 
         db.close();
-        res.redirect('pages/deleteCompleted');
+        res.redirect('pages/deleteCompleted',{
+            stock: result
+        });
     });
  });
 
