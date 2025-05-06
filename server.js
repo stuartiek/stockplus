@@ -125,7 +125,7 @@ app.get('/product/:Barcode', function(req, res){
 
         res.render('pages/product', {
              product: result
-        })
+        });
  
     });
  });
