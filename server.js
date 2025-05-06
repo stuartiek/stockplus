@@ -132,17 +132,38 @@ app.get('/product/:Barcode', function(req, res){
 
 //DELETE PRODUCT
 
-app.post('/delete/:Barcode', async function(req, res){
-    var barcode = req.params.Barcode;
+// app.post('/delete/:Barcode', async function(req, res){
+//     var barcode = req.params.Barcode;
 
-    db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
-        if(err) throw err;
+//     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
+//         if(err) throw err;
+//         console.log("Stock deleted");
+
+//         db.close();
+//         res.render('pages/deleteCompleted', { stock: result });
+//     });
+//  });
+
+
+
+app.post('/delete/:Barcode', async function(req, res) {
+    const barcode = req.params.Barcode;
+
+    try {
+        const result = await db.collection('stock').deleteOne({ barcode: barcode });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send('Stock not found');
+        }
+
         console.log("Stock deleted");
-
-        db.close();
-        res.render('pages/deleteCompleted', { stock: result });
-    });
- });
+        // Redirect to a confirmation page or back to the stock list
+        res.redirect('/stock');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error deleting stock');
+    }
+});
 
 
 
