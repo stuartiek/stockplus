@@ -135,7 +135,7 @@ app.get('/product/:Barcode', function(req, res){
 app.post('/delete/:Barcode', async function(req, res){
     var barcode = req.params.Barcode;
 
-    await db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
+    db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
         console.log("Stock deleted");
 
