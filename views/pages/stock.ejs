@@ -74,9 +74,15 @@
                         <td>£<%= stock.price %></td>
                         <td><span class="barcodeFont"><%= stock.barcode %></span></td>
                         <td>
-                            <a href="<%= stock.productURL %>">
+                            <!-- <a href="<%= stock.productURL %>">
                                 <p>Veiw</p>
-                            </a>
+                            </a> -->
+
+
+                            <form action="/product" method="POST">
+                                <input type="hidden" name="barcode" value="<%= stock.barcode %>">
+                                <button type="submit">View</button>
+                            </form>
                         </td>
                         <td>
                             <form action="/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">

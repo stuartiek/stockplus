@@ -155,7 +155,7 @@ app.post('/addStock', upload.single('image'), function(req, res){
 
 //GET PRODUCT
 
-app.get('/product/:Barcode', function(req, res){
+app.get('/product', function(req, res){
     var barcode = req.params.Barcode;
     
     //GETS SELECTED PRODUCT
