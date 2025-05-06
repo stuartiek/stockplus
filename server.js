@@ -156,10 +156,10 @@ app.post('/addStock', upload.single('image'), function(req, res){
 //GET PRODUCT
 
 app.get('/product', function(req, res){
-    var barcode = req.params.Barcode;
+    const barcode = req.params.Barcode;
     
     //GETS SELECTED PRODUCT
-    db.collection('stock').findOne({"barcode":barcode}, function (err, result){
+    db.collection('stock').findOne({barcode}, function (err, result){
         if(err) throw err;
 
 
