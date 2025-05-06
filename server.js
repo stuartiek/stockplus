@@ -2,6 +2,41 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+
+
+const multer = require('multer');
+const path = require('path');
+
+// Configure Multer storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/images'); // Store images in the 'public/images' folder
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname)); // Use timestamp as the filename
+    }
+});
+
+// Image filter for allowing only specific image types (optional)
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Only image files are allowed!'), false);
+    }
+};
+
+// Initialize Multer with storage options
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: { fileSize: 5 * 1024 * 1024 } // Limit file size to 5MB
+});
+
+
+
+
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';
@@ -89,11 +124,14 @@ app.get('/stock', async function(req, res){
 });
 
 //ADDS STOCK TO DATABASE
-app.post('/addStock', function(req, res){
+app.post('/addStock', upload.single('image'), function(req, res){
+
+    const imageUrl = req.file ? '/images/' + req.file.filename : null; // Save the image path if file uploaded
     //data needs stored
     const isoDate = new Date();
     const ISO = isoDate.toISOString();
     var datatostore = {
+        "imageUrl": imageUrl, // Save the image URL to the database
         "productName":req.body.productName,
         "productCode":req.body.productCode,
         "brand":req.body.Brand,
@@ -105,6 +143,7 @@ app.post('/addStock', function(req, res){
         "productURL": "/product/" + req.body.Barcode,
         "deleteURL": "/delete/" + req.body.Barcode,
         "published":ISO.slice(0 , 19) // Cuts out unwanted date information
+
     }
     db.collection('stock').insertOne(datatostore, function(err, result){
         if (err) throw err;
@@ -133,39 +172,6 @@ app.get('/product/:Barcode', function(req, res){
 
 //DELETE PRODUCT
 
-// app.post('/delete/:Barcode', async function(req, res){
-//     var barcode = req.params.Barcode;
-
-//     db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
-//         if(err) throw err;
-//         console.log("Stock deleted");
-
-//         db.close();
-//         res.render('pages/deleteCompleted', { stock: result });
-//     });
-//  });
-
-
-
-// app.post('/delete/:Barcode', async function(req, res) {
-//     const barcode = req.params.Barcode;
-
-//     try {
-//         const result = await db.collection('stock').deleteOne({ barcode: barcode });
-
-//         if (result.deletedCount === 0) {
-//             return res.status(404).send('Stock not found');
-//         }
-
-//         console.log("Stock deleted");
-//         // Redirect to a confirmation page or back to the stock list
-//         res.redirect('/stock');
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Error deleting stock');
-//     }
-// });
-
 app.post('/delete', async (req, res) => {
     const barcode = req.body.barcode;
 
@@ -183,17 +189,6 @@ app.post('/delete', async (req, res) => {
         res.status(500).send('Delete error');
     }
 });
-
-
-
-
-//  app.get('/deleteCompleted', function(req, res){
-//     if(!req.session.loggedin){res.redirect('/');return;}
-
-
-//     res.render('pages/deleteCompleted')
-// });
-
 
 
 
