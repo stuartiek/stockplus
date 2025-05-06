@@ -141,8 +141,12 @@ app.post('/delete/:Barcode', async function(req, res){
         res.redirect('pages/deleteCompleted');
     });
  });
+
+
+
+
  app.get('/deleteCompleted', function(req, res){
-    // if(!req.session.loggedin){res.redirect('/');return;}
+    if(!req.session.loggedin){res.redirect('/');return;}
 
 
     res.render('pages/deleteCompleted')
