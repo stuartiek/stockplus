@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="scripts/stock.js"></script>
-    <link rel="stylesheet" href="/styles/main.css"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="images/logo/favicon.png">
-    <script src="https://kit.fontawesome.com/e71e3c46fe.js" crossorigin="anonymous"></script>
-    <title>Stock</title>
-</head>
-<body>
-    <header>
-        <%- include('../partials/header') %>
-    </header>
-    <main>
         <section>
             <% if (stock.imageUrl) { %>
                 <img src="<%= stock.imageUrl %>" alt="Product Image" width="100">
@@ -39,6 +20,3 @@
                 <button type="submit">Delete</button>
             </form>
         </section>
-    </main>
-</body>
-</html>
