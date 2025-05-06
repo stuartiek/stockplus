@@ -137,7 +137,9 @@ app.post('/delete/:Barcode', async function(req, res){
 
     await db.collection('stock').deleteOne({"barcode":barcode}, function(err, result){
         if(err) throw err;
-        console.log("Stock deleted")
+        console.log("Stock deleted");
+
+        db.close();
         res.redirect('pages/deleteCompleted');
     });
  });
