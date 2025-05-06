@@ -146,34 +146,52 @@ app.get('/product/:Barcode', function(req, res){
 
 
 
-app.post('/delete/:Barcode', async function(req, res) {
-    const barcode = req.params.Barcode;
+// app.post('/delete/:Barcode', async function(req, res) {
+//     const barcode = req.params.Barcode;
+
+//     try {
+//         const result = await db.collection('stock').deleteOne({ barcode: barcode });
+
+//         if (result.deletedCount === 0) {
+//             return res.status(404).send('Stock not found');
+//         }
+
+//         console.log("Stock deleted");
+//         // Redirect to a confirmation page or back to the stock list
+//         res.redirect('/stock');
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error deleting stock');
+//     }
+// });
+
+app.post('/delete', async (req, res) => {
+    const barcode = req.body.barcode;
 
     try {
         const result = await db.collection('stock').deleteOne({ barcode: barcode });
 
         if (result.deletedCount === 0) {
-            return res.status(404).send('Stock not found');
+            return res.status(404).send('Stock item not found');
         }
 
-        console.log("Stock deleted");
-        // Redirect to a confirmation page or back to the stock list
+        console.log('Stock deleted:', barcode);
         res.redirect('/stock');
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error deleting stock');
+        res.status(500).send('Delete error');
     }
 });
 
 
 
 
- app.get('/deleteCompleted', function(req, res){
-    if(!req.session.loggedin){res.redirect('/');return;}
+//  app.get('/deleteCompleted', function(req, res){
+//     if(!req.session.loggedin){res.redirect('/');return;}
 
 
-    res.render('pages/deleteCompleted')
-});
+//     res.render('pages/deleteCompleted')
+// });
 
 
 
