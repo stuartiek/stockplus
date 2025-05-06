@@ -18,24 +18,24 @@
     </header>
     <main>
         <section>
-            <% if (product.imageUrl) { %>
-                <img src="<%= product.imageUrl %>" alt="Product Image" width="100">
+            <% if (stock.imageUrl) { %>
+                <img src="<%= stock.imageUrl %>" alt="Product Image" width="100">
             <% } else { %>
                 No image
             <% } %>
-            <h1><%= product.productName %></h1>
+            <h1><%= stock.productName %></h1>
             <hr>
-            <h3><%= product.productCode %></h3>
-            <h3><%= product.category %></h3>
-            <h3><%= product.brand %></h3>
-            <h3><%= product.qty %></h3>
-            <h3>£<%= product.rrp %></h3>
-            <h3>£<%= product.price %></h3>
-            <h3><span class="barcodeFont"><%= product.barcode %></span></h3>
-            <!-- <a href="<%= product.deleteURL %>">
-                <p>Delete</p>
-            </a> -->
-            <form action="<%= product.deleteURL %>" method="get">
+            <h3><%= stock.productCode %></h3>
+            <h3><%= stock.category %></h3>
+            <h3><%= stock.brand %></h3>
+            <h3><%= stock.qty %></h3>
+            <h3>£<%= stock.rrp %></h3>
+            <h3>£<%= stock.price %></h3>
+            <h3><span class="barcodeFont"><%= stock.barcode %></span></h3>
+            <br>
+            <hr>
+            <form action="/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <input type="hidden" name="barcode" value="<%= stock.barcode %>">
                 <button type="submit">Delete</button>
             </form>
         </section>

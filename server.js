@@ -164,7 +164,7 @@ app.get('/product', function(req, res){
 
 
         res.render('pages/product', {
-             product: result
+            stock: result
         });
  
     });
