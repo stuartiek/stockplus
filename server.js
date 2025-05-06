@@ -201,7 +201,7 @@ app.post('/delete', async (req, res) => {
 
 //USERS PAGE
 app.get('/users', function(req, res){
-    // if(!req.session.loggedin){res.redirect('/');return;}
+    if(!req.session.loggedin){res.redirect('/');return;}
 
 
     res.render('pages/users')
