@@ -43,6 +43,22 @@
                 <% } %>
             </div>
 
+
+            <canvas id="stockChart" width="400" height="200"></canvas>
+        <script>
+            var ctx = document.getElementById('stockChart').getContext('2d');
+            var stockChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Published', 'Unpublished'],
+                    datasets: [{
+                        data: [<%= publishedStock %>, <%= unpublishedStock %>],
+                        backgroundColor: ['#36A2EB', '#FF6384'],
+                        hoverOffset: 4
+                    }]
+                }
+            });
+        </script>
         </section>
 
 
