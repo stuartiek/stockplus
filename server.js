@@ -158,10 +158,13 @@ app.post('/addStock', upload.single('image'), function(req, res){
 app.get('/product', async (req, res) => {
     const barcode = req.query.barcode;
 
+    console.log('🔍 Received barcode:', barcode);  // <-- Add this line
+
     db.collection('stock').findOne({ barcode }, (err, result) => {
         if (err) throw err;
 
         if (!result) {
+            console.log('❌ No product found for barcode:', barcode);
             return res.status(404).send('Product not found');
         }
 
