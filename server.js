@@ -101,25 +101,29 @@ app.get('/labels', function(req, res){
     res.render('pages/labels')
 });
 
-//STOCK PAGE
 app.get('/stock', async function(req, res){
-    if(!req.session.loggedin){res.redirect('/');return;}
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
 
     var stockSort = { 
         "published": -1 
     };
-    db.collection('stock').find().sort(stockSort).toArray(function(err, result){
-        if (err) throw err;
 
+    console.log("🔍 Fetching stock with sort:", stockSort);
 
-        // db.collection('stock').countDocuments(function(err, count){
+    db.collection('stock').find().sort(stockSort).toArray(function(err, result) {
+        if (err) {
+            console.error("❌ Error fetching stock:", err);
+            throw err;
+        }
 
-        // });
-            res.render('pages/stock', {
-                stock: result
+        console.log("🔍 Stock items fetched:", result);  // Logs the fetched stock
 
-            });
-        
+        res.render('pages/stock', {
+            stock: result
+        });
     });
 });
 
@@ -158,7 +162,7 @@ app.post('/addStock', upload.single('image'), function(req, res){
 app.get('/product', async (req, res) => {
     const barcode = req.query.barcode;
 
-    console.log('🔍 Received barcode:', barcode);  // <-- Add this line
+    console.log('🔍 Received barcode:', barcode);
 
     db.collection('stock').findOne({ barcode }, (err, result) => {
         if (err) throw err;
@@ -192,15 +196,6 @@ app.post('/delete', async (req, res) => {
         res.status(500).send('Delete error');
     }
 });
-
-
-
-
-
-
-
-
-
 
 //USERS PAGE
 app.get('/users', function(req, res){
