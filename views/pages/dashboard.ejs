@@ -15,8 +15,32 @@
     <main id="dashboard">
         <h1>Good Evening - <%= user %></h1>
         <section class="stats">
+            <h1>Dashboard</h1>
+
             <div>
-                <h1><%- stockCount %></h1>
+                <h3>Total Stock: <%= totalStock %></h3>
+                <h3>Published Stock: <%= publishedStock %></h3>
+                <h3>Unpublished Stock: <%= unpublishedStock %></h3>
+            </div>
+
+            <div>
+                <h3>Latest Published Product</h3>
+                <% if (latestProduct) { %>
+                    <p><strong>Name:</strong> <%= latestProduct.name %></p>
+                    <p><strong>Published Date:</strong> <%= latestProduct.published %></p>
+                <% } else { %>
+                    <p>No published products yet</p>
+                <% } %>
+            </div>
+
+            <div>
+                <h3>Oldest Published Product</h3>
+                <% if (oldestProduct) { %>
+                    <p><strong>Name:</strong> <%= oldestProduct.name %></p>
+                    <p><strong>Published Date:</strong> <%= oldestProduct.published %></p>
+                <% } else { %>
+                    <p>No published products yet</p>
+                <% } %>
             </div>
 
         </section>
