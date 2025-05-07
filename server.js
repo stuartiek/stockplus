@@ -98,6 +98,8 @@ app.get('/dashboard', async function(req, res) {
         res.redirect('/');
         return;
     }
+    // Gets current user
+    var currentuser = req.session.currentuser;
 
     // Aggregate the stats from the database
     try {
@@ -111,6 +113,7 @@ app.get('/dashboard', async function(req, res) {
 
         // Render the dashboard with stock stats
         res.render('pages/dashboard', {
+            user: currentuser,
             totalStock,
             publishedStock,
             unpublishedStock,
