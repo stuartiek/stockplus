@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/main.css"/>
     <link rel="icon" type="image/x-icon" href="images/logo/favicon.png">
     <title>Dashboard</title>
@@ -15,34 +16,87 @@
     <main id="dashboard">
         <h1>Good Evening - <%= user %></h1>
         <section class="stats">
-            <h1>Dashboard</h1>
+            <h1 class="text-center my-4">Dashboard</h1>
 
-            <div>
-                <h3>Total Stock: <%= totalStock %></h3>
-                <h3>Published Stock: <%= publishedStock %></h3>
-                <h3>Unpublished Stock: <%= unpublishedStock %></h3>
+            <div class="container">
+                <div class="row">
+                    <!-- Total Stock Stats -->
+                    <div class="col-md-3 mb-3">
+                        <div class="card text-white bg-info">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Stock</h5>
+                                <p class="card-text"><%= totalStock %></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Published Stock Stats -->
+                    <div class="col-md-3 mb-3">
+                        <div class="card text-white bg-success">
+                            <div class="card-body">
+                                <h5 class="card-title">Published Stock</h5>
+                                <p class="card-text"><%= publishedStock %></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unpublished Stock Stats -->
+                    <div class="col-md-3 mb-3">
+                        <div class="card text-white bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title">Unpublished Stock</h5>
+                                <p class="card-text"><%= unpublishedStock %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Latest Published Product -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Latest Published Product</h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (latestProduct) { %>
+                                    <p><strong>Name:</strong> <%= latestProduct.name %></p>
+                                    <p><strong>Published Date:</strong> <%= latestProduct.published %></p>
+                                <% } else { %>
+                                    <p>No published products yet</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Oldest Published Product -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Oldest Published Product</h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (oldestProduct) { %>
+                                    <p><strong>Name:</strong> <%= oldestProduct.name %></p>
+                                    <p><strong>Published Date:</strong> <%= oldestProduct.published %></p>
+                                <% } else { %>
+                                    <p>No published products yet</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add a Pie Chart to visualize Published vs Unpublished stock -->
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <h5 class="mb-4">Published vs Unpublished Stock</h5>
+                        <canvas id="stockChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <h3>Latest Published Product</h3>
-                <% if (latestProduct) { %>
-                    <p><strong>Name:</strong> <%= latestProduct.name %></p>
-                    <p><strong>Published Date:</strong> <%= latestProduct.published %></p>
-                <% } else { %>
-                    <p>No published products yet</p>
-                <% } %>
-            </div>
-
-            <div>
-                <h3>Oldest Published Product</h3>
-                <% if (oldestProduct) { %>
-                    <p><strong>Name:</strong> <%= oldestProduct.name %></p>
-                    <p><strong>Published Date:</strong> <%= oldestProduct.published %></p>
-                <% } else { %>
-                    <p>No published products yet</p>
-                <% } %>
-            </div>
-
+       
 
             
         </section>
