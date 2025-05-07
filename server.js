@@ -155,20 +155,21 @@ app.post('/addStock', upload.single('image'), function(req, res){
 
 //GET PRODUCT
 
-app.get('/product', async (req, res) =>{
-    const barcode = req.params.Barcode;
-    
-    //GETS SELECTED PRODUCT
-    db.collection('stock').findOne({barcode}, function (err, result){
-        if(err) throw err;
+app.get('/product/:barcode', async (req, res) => {
+    const barcode = req.params.barcode;
 
+    db.collection('stock').findOne({ barcode }, (err, result) => {
+        if (err) throw err;
+
+        if (!result) {
+            return res.status(404).render('pages/not-found'); // Optional fallback page
+        }
 
         res.render('pages/product', {
             stock: result
         });
- 
     });
- });
+});
 
 //DELETE PRODUCT
 
