@@ -141,6 +141,67 @@ main{
 
 
 
+.stats{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.projectCard{
+    width: 20em;
+    height: 30em;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 0 10% 10% 10%;
+}
+.projectImg img{
+    width: 100%;
+    height: 15em;
+    border-radius: 0 10% 0 10%;
+    border-bottom:  3px solid #1b1b1b;
+}
+.projectText{
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    height: 8em;
+}
+.btn{
+    padding: 20px 16px;
+}
+button{
+    background-color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    color: #555;
+    cursor:pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+button a{
+    text-decoration: none;
+    color: #555;
+}
+button:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -167,6 +228,28 @@ main{
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
