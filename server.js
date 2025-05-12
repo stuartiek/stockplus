@@ -77,22 +77,6 @@ app.get('/', function(req, res){
     res.render('pages/index');
 });
 
-// DASHBOARD PAGE
-// app.get('/dashboard', function(req, res){
-//     if(!req.session.loggedin){res.redirect('/');return;}
-//     //Gets current user
-//     var currentuser = req.session.currentuser;
-
-//     db.collection('stock').countDocuments(function(err, count){
-
-//         res.render('pages/dashboard', {
-//             user: currentuser,
-//             stockCount: count
-//         })
-//     });
-   
-// });
-
 app.get('/dashboard', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');
@@ -104,21 +88,11 @@ app.get('/dashboard', async function(req, res) {
     // Aggregate the stats from the database
     try {
         const totalStock = await db.collection('stock').countDocuments();
-        const publishedStock = await db.collection('stock').countDocuments({ published: { $eq: true } });
-        const unpublishedStock = totalStock - publishedStock;
-
-        // Latest and oldest published stock items
-        const latestProduct = await db.collection('stock').find({ published: true }).sort({ published: -1 }).limit(1).toArray();
-        const oldestProduct = await db.collection('stock').find({ published: true }).sort({ published: 1 }).limit(1).toArray();
-
+        
         // Render the dashboard with stock stats
         res.render('pages/dashboard', {
             user: currentuser,
             totalStock,
-            publishedStock,
-            unpublishedStock,
-            latestProduct: latestProduct[0],
-            oldestProduct: oldestProduct[0]
         });
     } catch (err) {
         console.error("Error fetching stock stats:", err);
