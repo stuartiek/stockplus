@@ -7,7 +7,7 @@
     font-family: "Libre Barcode 39 Text", serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 40px;
+    font-size: 2.5rem;
 }
 body{
     margin: 0;
@@ -56,7 +56,7 @@ body{
 .loginForm form input[type=text]{
     margin-top: 20px;
     width: 200px;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 15px;
     border-radius: 40px;  
     border: 1px solid #e0e0e0;
@@ -67,7 +67,7 @@ body{
 .loginForm form input[type=password]{
     margin-top: 20px;
     width: 200px;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 15px;
     border-radius: 40px;
     border: 1px solid #e0e0e0;
@@ -78,7 +78,7 @@ body{
 .loginForm form input[type=submit]{
     margin-top: 20px;
     width: 150px;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 15px;
     color: #ffffff;
     border-radius: 40px;
@@ -258,7 +258,7 @@ button:hover{
 #stock button{
     margin-top: 20px;
     width: 150px;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 15px;
     color: #ffffff;
     border-radius: 40px;
@@ -270,7 +270,7 @@ button:hover{
 #createStock button{
     margin-top: 20px;
     width: 150px;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 15px;
     color: #ffffff;
     border-radius: 40px;
