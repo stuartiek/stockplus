@@ -37,40 +37,23 @@ const upload = multer({
 
 // const mongoose = require('mongoose');
 
-// mongoose.connect('mongodb://127.0.0.1:27017/stockplus', {
+// // Replace with your actual MongoDB URI
+// mongoose.connect('mongodb://127.0.0.1:27017/stock', {
 //   useNewUrlParser: true,
-//   useUnifiedTopology: true,
+//   useUnifiedTopology: true
 // })
-// .then(() => console.log('✅ Mongoose connected to MongoDB'))
-// .catch(err => console.error('❌ Mongoose connection error:', err));
+// .then(() => console.log('✅ Connected to MongoDB'))
+// .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // mongoose.connection.on('connected', () => {
 //   console.log('MongoDB connected');
 // });
 
-
-const mongoose = require('mongoose');
-
-// Connect Mongoose once and use it everywhere
-mongoose.connect('mongodb://127.0.0.1:27017/stockplus', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log('✅ Connected to MongoDB with Mongoose');
-  app.listen(80, () => {
-    console.log('Server listening on port 80');
-  });
-})
-.catch(err => {
-  console.error('❌ MongoDB connection error:', err);
-});
-
 // CONNECT TO MONGO
-// const MongoClient = require('mongodb-legacy').MongoClient;
-// const url = 'mongodb://127.0.0.1:27017';
-// const client = new MongoClient(url);
-// const dbname = 'stockplus';
+const MongoClient = require('mongodb-legacy').MongoClient;
+const url = 'mongodb://127.0.0.1:27017';
+const client = new MongoClient(url);
+const dbname = 'stockplus';
 
 // LOAD NPM PACKAGES
 let express = require('express');
@@ -90,15 +73,15 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // CONNECT TO DB
-// let db;
-// connectDB();
-// async function connectDB(){
-//     await client.connect();
-//     console.log('Connected Successfully to Server');
-//     db = client.db(dbname);
-//     app.listen(80);
-//     console.log('Connected to Port: 80');
-// };
+let db;
+connectDB();
+async function connectDB(){
+    await client.connect();
+    console.log('Connected Successfully to Server');
+    db = client.db(dbname);
+    app.listen(80);
+    console.log('Connected to Port: 80');
+};
 
 // RENDER PAGES
 
@@ -108,10 +91,7 @@ app.get('/', function(req, res){
     res.render('pages/index');
 });
 
-
-// DASHBOARD PAGE
 app.get('/dashboard', async function(req, res) {
-    const db = mongoose.connection.db;
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
@@ -142,49 +122,31 @@ app.get('/labels', function(req, res){
     res.render('pages/labels')
 });
 
+app.get('/stock', async function(req, res){
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
 
+    var stockSort = { 
+        "published": -1 
+    };
 
-app.get('/stock', async (req, res) => {
-  if (!req.session.loggedin) {
-    res.redirect('/');
-    return;
-  }
-  try {
-    const stockItems = await Stock.find().sort({ published: -1 }).exec();
-    res.render('pages/stock', { stock: stockItems });
-  } catch (err) {
-    console.error('Error fetching stock:', err);
-    res.status(500).send('Error fetching stock');
-  }
+    console.log("🔍 Fetching stock with sort:", stockSort);
+
+    db.collection('stock').find().sort(stockSort).toArray(function(err, result) {
+        if (err) {
+            console.error("❌ Error fetching stock:", err);
+            throw err;
+        }
+
+        console.log("🔍 Stock items fetched:", result);  // Logs the fetched stock
+
+        res.render('pages/stock', {
+            stock: result
+        });
+    });
 });
-
-
-
-// app.get('/stock', async function(req, res){
-//     if (!req.session.loggedin) {
-//         res.redirect('/');
-//         return;
-//     }
-
-//     var stockSort = { 
-//         "published": -1 
-//     };
-
-//     console.log("🔍 Fetching stock with sort:", stockSort);
-
-//     db.collection('stock').find().sort(stockSort).toArray(function(err, result) {
-//         if (err) {
-//             console.error("❌ Error fetching stock:", err);
-//             throw err;
-//         }
-
-//         console.log("🔍 Stock items fetched:", result);  // Logs the fetched stock
-
-//         res.render('pages/stock', {
-//             stock: result
-//         });
-//     });
-// });
 
 //ADDS STOCK TO DATABASE
 app.post('/addStock', upload.single('image'), function(req, res){
@@ -243,8 +205,6 @@ app.get('/product', async (req, res) => {
 //   res.send('Check console');
 // });
 
-const Stock = require('./models/Stock');
-
 app.post('/selected', async (req, res) => {
   const selectedBarcodes = req.body.selectedBarcodes;
 
@@ -252,18 +212,20 @@ app.post('/selected', async (req, res) => {
     return res.redirect('/stock');
   }
 
-   // Ensure it's always an array and trim whitespace
+  // Ensure it's always an array and trim whitespace
   const barcodeArray = Array.isArray(selectedBarcodes)
     ? selectedBarcodes.map(b => b.trim())
     : [selectedBarcodes.trim()];
 
   try {
-    // Fetch items with matching barcodes
-    const selectedItems = await Stock.find({
-      barcode: { $in: barcodeArray }
-    });
-    console.log('Running query:', { barcode: { $in: barcodeArray } });
+    console.log('Running native query:', { barcode: { $in: barcodeArray } });
     console.log('Barcodes received:', barcodeArray);
+
+    // Query using native MongoDB driver
+    const selectedItems = await db.collection('stock')
+      .find({ barcode: { $in: barcodeArray } })
+      .toArray();
+
     console.log('Found items:', selectedItems);
 
     res.render('pages/selectedStock', { selectedItems });
@@ -272,7 +234,6 @@ app.post('/selected', async (req, res) => {
     res.status(500).send('Server error fetching selected stock items.');
   }
 });
-
 
 //DELETE PRODUCT
 
@@ -335,37 +296,32 @@ app.post('/signUp', async function(req, res){
 });
 
 
+// LOGIN
 app.post('/login', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
-    console.log('Login attempt for user:', username);
-
-    const db = mongoose.connection.db;
-    db.collection('users').findOne({"login.username": username}, function(err, user) {
-        if (err) {
-            console.error('DB error:', err);
-            return res.status(500).send('Internal Server Error');
-        }
+    db.collection('users').findOne({"login.username":username}, function(err, result){
+        if (err) throw err;
         
-        if (!user) {
-            console.log('No user found with username:', username);
-            return res.redirect('/');
+        //IF NO USER REDIRECT TO INDEX
+        if(!result){res.redirect('/');
+            console.log('No User Found')
+        return
         }
 
-        bcrypt.compare(password, user.login.password, function(err, isMatch) {
-            if (err) {
-                console.error('Bcrypt compare error:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-
-            console.log('Password match result:', isMatch);
-            if (isMatch) {
+        bcrypt.compare(password, result.login.password, function(err, result) {
+        // result == true
+        console.log(result);
+        //CHECKS PASSWORD AGAINST USER
+            if(result == true){
+                console.log("true")
+                console.log(result);
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
-                return res.redirect('/dashboard');
+                res.redirect('/dashboard');
             } else {
-                return res.redirect('/');
+                res.redirect('/')
             }
         });
     });
@@ -390,38 +346,3 @@ app.get('/logout', function(req, res){
 
 
 /////////// TEST //////////
-
-app.get('/test-stock', async (req, res) => {
-  try {
-    const items = await Stock.find({ barcode: '5012035589624' });
-    console.log('Test query results:', items);
-    res.json(items);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error');
-  }
-});
-
-
-
-app.get('/test-native', async (req, res) => {
-  const db = mongoose.connection.db; // get native db object
-  const collection = db.collection('stock');
-
-  const results = await collection.find({ barcode: { $in: ['5012035589624', '5012035927592'] } }).toArray();
-  console.log('Native driver results:', results);
-
-  res.json(results);
-});
-
-app.get('/test-mongoose', async (req, res) => {
-  try {
-    const testBarcodes = ['5012035589624', '5012035927592'];
-    const results = await Stock.find({ barcode: { $in: testBarcodes } });
-    console.log('Mongoose test query results:', results);
-    res.json(results);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error');
-  }
-});
