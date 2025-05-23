@@ -108,6 +108,8 @@ app.get('/', function(req, res){
     res.render('pages/index');
 });
 
+
+// DASHBOARD PAGE
 app.get('/dashboard', async function(req, res) {
     const db = mongoose.connection.db;
     if (!req.session.loggedin) {
@@ -333,33 +335,37 @@ app.post('/signUp', async function(req, res){
 });
 
 
-// LOGIN
 app.post('/login', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
+    console.log('Login attempt for user:', username);
+
     const db = mongoose.connection.db;
-    db.collection('users').findOne({"login.username":username}, function(err, result){
-        if (err) throw err;
+    db.collection('users').findOne({"login.username": username}, function(err, user) {
+        if (err) {
+            console.error('DB error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
         
-        //IF NO USER REDIRECT TO INDEX
-        if(!result){res.redirect('/');
-            console.log('No User Found')
-        return
+        if (!user) {
+            console.log('No user found with username:', username);
+            return res.redirect('/');
         }
 
-        bcrypt.compare(password, result.login.password, function(err, result) {
-        // result == true
-        console.log(result);
-        //CHECKS PASSWORD AGAINST USER
-            if(result == true){
-                console.log("true")
-                console.log(result);
+        bcrypt.compare(password, user.login.password, function(err, isMatch) {
+            if (err) {
+                console.error('Bcrypt compare error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+
+            console.log('Password match result:', isMatch);
+            if (isMatch) {
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
-                res.redirect('/dashboard');
+                return res.redirect('/dashboard');
             } else {
-                res.redirect('/')
+                return res.redirect('/');
             }
         });
     });
