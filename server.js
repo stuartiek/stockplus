@@ -186,21 +186,26 @@ app.get('/product', async (req, res) => {
 
 //VIEW SELECTED PRODUCTS
 
-app.post('/selected', (req, res) => {
-    const selectedBarcodes = req.body.selectedBarcodes;
+const Stock = require('./models/Stock'); // Your Mongoose model
 
-    // If nothing selected
-    if (!selectedBarcodes) {
-        return res.redirect('/stock');
-    }
+app.post('/selected', async (req, res) => {
+  const selectedBarcodes = req.body.selectedBarcodes;
 
-    // If only one item is selected, wrap it in an array
-    const barcodeArray = Array.isArray(selectedBarcodes) ? selectedBarcodes : [selectedBarcodes];
+  if (!selectedBarcodes) {
+    return res.redirect('/stock');
+  }
 
-    // Assuming you have access to your stock data
-    const selectedItems = allStock.filter(item => barcodeArray.includes(item.barcode));
+  const barcodeArray = Array.isArray(selectedBarcodes)
+    ? selectedBarcodes
+    : [selectedBarcodes];
 
+  try {
+    const selectedItems = await Stock.find({ barcode: { $in: barcodeArray } });
     res.render('selectedStock', { selectedItems });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching selected items');
+  }
 });
 
 
