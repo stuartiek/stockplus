@@ -196,7 +196,7 @@ app.get('/product', async (req, res) => {
 
 //VIEW SELECTED PRODUCTS
 
-const Stock = require('./models/stock'); // Your Mongoose model
+const Stock = require('./models/Stock'); // Your Mongoose model
 
 app.post('/selected', async (req, res) => {
   const selectedBarcodes = req.body.selectedBarcodes;
