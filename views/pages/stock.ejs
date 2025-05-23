@@ -16,7 +16,7 @@
     <header>
         <%- include('../partials/header') %>
     </header>
-    <main id="stock">
+    < id="stock">
         <h1>Stock</h1>
         <br>
         <button popovertarget="createStock">Create </button>
@@ -42,7 +42,7 @@
                 </form>
                 
             </div>
-        
+        <form action="/selected" method="POST"></form>
             <table>
                 <tr>
                     
@@ -58,6 +58,9 @@
                 </tr>
             <% stock.forEach(function(stock) { %>
                     <tr>
+                        <td>
+                            <input type="checkbox" name="selectedBarcodes" value="<%= stock.barcode %>">
+                        </td>
                         <td>
                             <% if (stock && stock.imageUrl) { %>
                                 <img src="<%= stock.imageUrl %>" alt="Product Image" width="70" height="70">
@@ -88,6 +91,8 @@
                     </tr>
             <% }); %>
             </table>
+            <button type="submit">View Selected</button>
+        </form>
     </main>
 </body>
 </html>

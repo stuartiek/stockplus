@@ -184,6 +184,26 @@ app.get('/product', async (req, res) => {
 });
 
 
+//VIEW SELECTED PRODUCTS
+
+app.post('/selected', (req, res) => {
+    const selectedBarcodes = req.body.selectedBarcodes;
+
+    // If nothing selected
+    if (!selectedBarcodes) {
+        return res.redirect('/stock');
+    }
+
+    // If only one item is selected, wrap it in an array
+    const barcodeArray = Array.isArray(selectedBarcodes) ? selectedBarcodes : [selectedBarcodes];
+
+    // Assuming you have access to your stock data
+    const selectedItems = allStock.filter(item => barcodeArray.includes(item.barcode));
+
+    res.render('selectedStock', { selectedItems });
+});
+
+
 //DELETE PRODUCT
 
 app.post('/delete', async (req, res) => {
