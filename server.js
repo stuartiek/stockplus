@@ -45,6 +45,10 @@ mongoose.connect('mongodb://localhost:27017/stockplus', {
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
+mongoose.connection.on('connected', () => {
+  console.log('MongoDB connected');
+});
+
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';
