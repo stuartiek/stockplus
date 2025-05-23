@@ -281,7 +281,8 @@ button:hover{
 }
 .stockForm{
     border-collapse: collapse;
-    width: 100%;
+    width: 75%;
+    margin-left: 15%;
 }
 
 
