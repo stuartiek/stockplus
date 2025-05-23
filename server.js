@@ -109,6 +109,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/dashboard', async function(req, res) {
+    const db = mongoose.connection.db;
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
