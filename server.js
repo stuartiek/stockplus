@@ -66,7 +66,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-const path = require('path');
+
 
 // CONNECT TO DB
 let db;
