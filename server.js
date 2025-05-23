@@ -210,9 +210,10 @@ app.post('/selected', async (req, res) => {
     return res.redirect('/stock');
   }
 
+   // Ensure it's always an array and trim whitespace
   const barcodeArray = Array.isArray(selectedBarcodes)
-    ? selectedBarcodes
-    : [selectedBarcodes];
+    ? selectedBarcodes.map(b => b.trim())
+    : [selectedBarcodes.trim()];
 
   try {
     // Fetch items with matching barcodes
