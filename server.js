@@ -122,28 +122,30 @@ app.get('/labels', function(req, res){
     res.render('pages/labels')
 });
 
-app.get('/stock', async function(req, res){
+app.get('/stock', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
 
-    var stockSort = { 
-        "published": -1 
-    };
+    const selectedCategory = req.query.category || ''; // Get selected category from query
+    const stockSort = { "published": -1 };
 
-    console.log("🔍 Fetching stock with sort:", stockSort);
+    const filter = selectedCategory ? { category: selectedCategory } : {};
 
-    db.collection('stock').find().sort(stockSort).toArray(function(err, result) {
+    console.log("🔍 Fetching stock with sort:", stockSort, "and filter:", filter);
+
+    db.collection('stock').find(filter).sort(stockSort).toArray(function(err, result) {
         if (err) {
             console.error("❌ Error fetching stock:", err);
             throw err;
         }
 
-        console.log("🔍 Stock items fetched:", result);  // Logs the fetched stock
+        console.log("✅ Stock items fetched:", result.length);
 
         res.render('pages/stock', {
-            stock: result
+            stock: result,
+            selectedCategory // ✅ Pass this to EJS so dropdown can stay selected
         });
     });
 });

@@ -42,6 +42,21 @@
                 </form>
                 
             </div>
+            <!-- STOCK FILTER BY BRAND -->
+            <form action="/stock" method="GET">
+                <label for="categoryFilter">Filter by Category:</label>
+                <select name="category" id="categoryFilter">
+                    <option value="" <%= selectedCategory === '' ? 'selected' : '' %>>All</option>
+                    <option value="Tools" <%= selectedCategory === 'Tools' ? 'selected' : '' %>>Tools</option>
+                    <option value="Sundries" <%= selectedCategory === 'Sundries' ? 'selected' : '' %>>Sundries</option>
+                    <option value="Chemicals" <%= selectedCategory === 'Chemicals' ? 'selected' : '' %>>Chemicals</option>
+                    <option value="Hardware" <%= selectedCategory === 'Hardware' ? 'selected' : '' %>>Hardware</option>
+                    <option value="Misc" <%= selectedCategory === 'Misc' ? 'selected' : '' %>>Misc</option>
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+
+            <!-- STOCK IS DISPLAYED IN TABLE -->
         <form action="/selected" method="POST">
             <table>
                 <tr>
