@@ -224,7 +224,7 @@ app.post('/selected', async (req, res) => {
     const selectedItems = await Stock.find({
       barcode: { $in: barcodeArray }
     });
-
+    console.log('Running query:', { barcode: { $in: barcodeArray } });
     console.log('Barcodes received:', barcodeArray);
     console.log('Found items:', selectedItems);
 
