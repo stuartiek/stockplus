@@ -35,7 +35,15 @@ const upload = multer({
 });
 
 
+const mongoose = require('mongoose');
 
+// Replace with your actual MongoDB URI
+mongoose.connect('mongodb://localhost:27017/stockplus', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('✅ Connected to MongoDB'))
+.catch(err => console.error('❌ MongoDB connection error:', err));
 
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
@@ -186,7 +194,7 @@ app.get('/product', async (req, res) => {
 
 //VIEW SELECTED PRODUCTS
 
-const Stock = require('./models/Stock'); // Your Mongoose model
+const Stock = require('./models/stock'); // Your Mongoose model
 
 app.post('/selected', async (req, res) => {
   const selectedBarcodes = req.body.selectedBarcodes;
