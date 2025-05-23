@@ -279,6 +279,10 @@ button:hover{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 }
+.stockForm{
+    border-collapse: collapse;
+    width: 100%;
+}
 
 
 table {
