@@ -122,6 +122,8 @@ app.get('/labels', function(req, res){
     res.render('pages/labels')
 });
 
+
+// STOCK PAGE 
 app.get('/stock', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');

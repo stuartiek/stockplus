@@ -18,12 +18,15 @@
     </header>
     <main>
         <section>
-            <% if (stock.imageUrl) { %>
+            <div>
+                <% if (stock.imageUrl) { %>
                 <img src="<%= stock.imageUrl %>" alt="Product Image" width="100">
-            <% } else { %>
-                No image
-            <% } %>
-            <h1><%= stock.productName %></h1>
+                <% } else { %>
+                    No image
+                <% } %>
+                <h1><%= stock.productName %></h1>
+            </div>
+            
             <hr>
             <h3><%= stock.productCode %></h3>
             <h3><%= stock.category %></h3>
