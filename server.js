@@ -139,31 +139,49 @@ app.get('/labels', function(req, res){
     res.render('pages/labels')
 });
 
-app.get('/stock', async function(req, res){
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
 
-    var stockSort = { 
-        "published": -1 
-    };
 
-    console.log("🔍 Fetching stock with sort:", stockSort);
-
-    db.collection('stock').find().sort(stockSort).toArray(function(err, result) {
-        if (err) {
-            console.error("❌ Error fetching stock:", err);
-            throw err;
-        }
-
-        console.log("🔍 Stock items fetched:", result);  // Logs the fetched stock
-
-        res.render('pages/stock', {
-            stock: result
-        });
-    });
+app.get('/stock', async (req, res) => {
+  if (!req.session.loggedin) {
+    res.redirect('/');
+    return;
+  }
+  try {
+    const stockItems = await Stock.find().sort({ published: -1 }).exec();
+    res.render('pages/stock', { stock: stockItems });
+  } catch (err) {
+    console.error('Error fetching stock:', err);
+    res.status(500).send('Error fetching stock');
+  }
 });
+
+
+
+// app.get('/stock', async function(req, res){
+//     if (!req.session.loggedin) {
+//         res.redirect('/');
+//         return;
+//     }
+
+//     var stockSort = { 
+//         "published": -1 
+//     };
+
+//     console.log("🔍 Fetching stock with sort:", stockSort);
+
+//     db.collection('stock').find().sort(stockSort).toArray(function(err, result) {
+//         if (err) {
+//             console.error("❌ Error fetching stock:", err);
+//             throw err;
+//         }
+
+//         console.log("🔍 Stock items fetched:", result);  // Logs the fetched stock
+
+//         res.render('pages/stock', {
+//             stock: result
+//         });
+//     });
+// });
 
 //ADDS STOCK TO DATABASE
 app.post('/addStock', upload.single('image'), function(req, res){
