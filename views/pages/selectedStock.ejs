@@ -1,30 +1,43 @@
-<pre><%= JSON.stringify(selectedItems, null, 2) %></pre>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Selected Stock</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/stock.js"></script>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/logo/favicon.png">
+    <script src="https://kit.fontawesome.com/e71e3c46fe.js" crossorigin="anonymous"></script>
+    <title>Stock</title>
 </head>
 <body>
-  <h1>Selected Stock Items</h1>
-  <table >
-    <tr>
-      <th>Product Name</th>
-      <th>Product Code</th>
-      <th>Brand</th>
-      <th>Qty</th>
-      <th>Price</th>
-      <th>Barcode</th>
-    </tr>
-    <% selectedItems.forEach(item => { %>
-    <tr>
-      <td><%= item.productName %></td>
-      <td><%= item.productCode %></td>
-      <td><%= item.brand %></td>
-      <td><%= item.qty %></td>
-      <td>£<%= item.price %></td>
-      <td><%= item.barcode %></td>
-    </tr>
-    <% }) %>
-  </table>
+    <header>
+        <%- include('../partials/header') %>
+    </header>
+    <main id="stock">
+          <h1>Selected Stock Items</h1>
+            <table >
+                <tr>
+                <th>Product Name</th>
+                <th>Product Code</th>
+                <th>Brand</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Barcode</th>
+                </tr>
+                <% selectedItems.forEach(item => { %>
+                <tr>
+                <td><%= item.productName %></td>
+                <td><%= item.productCode %></td>
+                <td><%= item.brand %></td>
+                <td><%= item.qty %></td>
+                <td>£<%= item.price %></td>
+                <td><%= item.barcode %></td>
+                </tr>
+                <% }) %>
+            </table>
+    </main>
 </body>
 </html>
