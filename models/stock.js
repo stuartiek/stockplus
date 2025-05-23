@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
 
 const stockSchema = new mongoose.Schema({
-  // your fields  
+  imageUrl: String,
   productName: String,
   productCode: String,
   brand: String,
   category: String,
-  qty: Number,
-  rrp: Number,
-  price: Number,
+  qty: String,
+  rrp: String,
+  price: String,
   barcode: String,
-  imageUrl: String
+  productURL: String,
+  deleteURL: String,
+  published: String
+}, {
+  collection: 'stock' // 👈 Explicitly tell Mongoose to use this collection
+});
 
-}, { collection: 'stock' });
+module.exports = mongoose.model('Stock', stockSchema);
