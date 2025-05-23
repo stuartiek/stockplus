@@ -201,7 +201,7 @@ app.get('/product', async (req, res) => {
 //   res.send('Check console');
 // });
 
-const Stock = require('../models/Stock');
+const Stock = require('./models/Stock');
 
 app.post('/selected', async (req, res) => {
   const selectedBarcodes = req.body.selectedBarcodes;
