@@ -337,6 +337,7 @@ app.post('/login', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
+    const db = mongoose.connection.db;
     db.collection('users').findOne({"login.username":username}, function(err, result){
         if (err) throw err;
         
