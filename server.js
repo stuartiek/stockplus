@@ -37,13 +37,12 @@ const upload = multer({
 
 const mongoose = require('mongoose');
 
-// Replace with your actual MongoDB URI
-mongoose.connect('mongodb://127.0.0.1:27017/stock', {
+mongoose.connect('mongodb://127.0.0.1:27017/stockplus', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
-.then(() => console.log('✅ Connected to MongoDB'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+.then(() => console.log('✅ Mongoose connected to MongoDB'))
+.catch(err => console.error('❌ Mongoose connection error:', err));
 
 mongoose.connection.on('connected', () => {
   console.log('MongoDB connected');
