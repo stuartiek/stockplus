@@ -35,24 +35,42 @@ const upload = multer({
 });
 
 
+// const mongoose = require('mongoose');
+
+// mongoose.connect('mongodb://127.0.0.1:27017/stockplus', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// })
+// .then(() => console.log('✅ Mongoose connected to MongoDB'))
+// .catch(err => console.error('❌ Mongoose connection error:', err));
+
+// mongoose.connection.on('connected', () => {
+//   console.log('MongoDB connected');
+// });
+
+
 const mongoose = require('mongoose');
 
+// Connect Mongoose once and use it everywhere
 mongoose.connect('mongodb://127.0.0.1:27017/stockplus', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 })
-.then(() => console.log('✅ Mongoose connected to MongoDB'))
-.catch(err => console.error('❌ Mongoose connection error:', err));
-
-mongoose.connection.on('connected', () => {
-  console.log('MongoDB connected');
+.then(() => {
+  console.log('✅ Connected to MongoDB with Mongoose');
+  app.listen(80, () => {
+    console.log('Server listening on port 80');
+  });
+})
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err);
 });
 
 // CONNECT TO MONGO
-const MongoClient = require('mongodb-legacy').MongoClient;
-const url = 'mongodb://127.0.0.1:27017';
-const client = new MongoClient(url);
-const dbname = 'stockplus';
+// const MongoClient = require('mongodb-legacy').MongoClient;
+// const url = 'mongodb://127.0.0.1:27017';
+// const client = new MongoClient(url);
+// const dbname = 'stockplus';
 
 // LOAD NPM PACKAGES
 let express = require('express');
@@ -72,15 +90,15 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // CONNECT TO DB
-let db;
-connectDB();
-async function connectDB(){
-    await client.connect();
-    console.log('Connected Successfully to Server');
-    db = client.db(dbname);
-    app.listen(80);
-    console.log('Connected to Port: 80');
-};
+// let db;
+// connectDB();
+// async function connectDB(){
+//     await client.connect();
+//     console.log('Connected Successfully to Server');
+//     db = client.db(dbname);
+//     app.listen(80);
+//     console.log('Connected to Port: 80');
+// };
 
 // RENDER PAGES
 
