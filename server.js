@@ -338,3 +338,23 @@ app.get('/logout', function(req, res){
     req.session.destroy();
     res.redirect('/');
 });
+
+
+
+
+
+
+
+
+/////////// TEST //////////
+
+app.get('/test-stock', async (req, res) => {
+  try {
+    const items = await Stock.find({ barcode: '5012035589624' });
+    console.log('Test query results:', items);
+    res.json(items);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error');
+  }
+});
