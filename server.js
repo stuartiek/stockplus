@@ -358,3 +358,15 @@ app.get('/test-stock', async (req, res) => {
     res.status(500).send('Error');
   }
 });
+
+
+
+app.get('/test-native', async (req, res) => {
+  const db = mongoose.connection.db; // get native db object
+  const collection = db.collection('stock');
+
+  const results = await collection.find({ barcode: { $in: ['5012035589624', '5012035927592'] } }).toArray();
+  console.log('Native driver results:', results);
+
+  res.json(results);
+});
