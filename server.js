@@ -370,3 +370,15 @@ app.get('/test-native', async (req, res) => {
 
   res.json(results);
 });
+
+app.get('/test-mongoose', async (req, res) => {
+  try {
+    const testBarcodes = ['5012035589624', '5012035927592'];
+    const results = await Stock.find({ barcode: { $in: testBarcodes } });
+    console.log('Mongoose test query results:', results);
+    res.json(results);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error');
+  }
+});
