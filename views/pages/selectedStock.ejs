@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Selected Stock</title>
+  <title>Selected Stock</title>
 </head>
 <body>
-    <h1>Selected Stock Items</h1>
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Code</th>
-            <th>Brand</th>
-            <th>Category</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Barcode</th>
-        </tr>
-        <% selectedItems.forEach(function(item) { %>
-            <tr>
-                <td><%= item.productName %></td>
-                <td><%= item.productCode %></td>
-                <td><%= item.brand %></td>
-                <td><%= item.category %></td>
-                <td><%= item.qty %></td>
-                <td>£<%= item.price %></td>
-                <td><%= item.barcode %></td>
-            </tr>
-        <% }) %>
-    </table>
+  <h1>Selected Stock Items</h1>
+  <table >
+    <tr>
+      <th>Product Name</th>
+      <th>Product Code</th>
+      <th>Brand</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th>Barcode</th>
+    </tr>
+    <% selectedItems.forEach(item => { %>
+    <tr>
+      <td><%= item.productName %></td>
+      <td><%= item.productCode %></td>
+      <td><%= item.brand %></td>
+      <td><%= item.qty %></td>
+      <td>£<%= item.price %></td>
+      <td><%= item.barcode %></td>
+    </tr>
+    <% }) %>
+  </table>
 </body>
 </html>
