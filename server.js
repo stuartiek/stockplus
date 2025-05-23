@@ -196,33 +196,39 @@ app.get('/product', async (req, res) => {
 
 //VIEW SELECTED PRODUCTS
 
-app.post('/selected', (req, res) => {
-  console.log('req.body:', req.body);
-  res.send('Check console');
-});
-
-// const Stock = require('./models/Stock');
-
-// app.post('/selected', async (req, res) => {
-//   const selectedBarcodes = req.body.selectedBarcodes;
-
-//   if (!selectedBarcodes) {
-//     return res.redirect('/stock');
-//   }
-
-//   const barcodeArray = Array.isArray(selectedBarcodes)
-//     ? selectedBarcodes
-//     : [selectedBarcodes];
-
-//   try {
-//     const selectedItems = await Stock.find({ barcode: { $in: barcodeArray } });
-//     res.render('pages/selectedStock', { selectedItems });
-//     console.log(selectedItems);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Error fetching selected items');
-//   }
+// app.post('/selected', (req, res) => {
+//   console.log('req.body:', req.body);
+//   res.send('Check console');
 // });
+
+const Stock = require('./models/Stock');
+
+app.post('/selected', async (req, res) => {
+  const selectedBarcodes = req.body.selectedBarcodes;
+
+  if (!selectedBarcodes) {
+    return res.redirect('/stock');
+  }
+
+  const barcodeArray = Array.isArray(selectedBarcodes)
+    ? selectedBarcodes
+    : [selectedBarcodes];
+
+  try {
+    // Fetch items with matching barcodes
+    const selectedItems = await Stock.find({
+      barcode: { $in: barcodeArray }
+    });
+
+    console.log('Barcodes received:', barcodeArray);
+    console.log('Found items:', selectedItems);
+
+    res.render('pages/selectedStock', { selectedItems });
+  } catch (error) {
+    console.error('Error fetching selected items:', error);
+    res.status(500).send('Server error fetching selected stock items.');
+  }
+});
 
 
 //DELETE PRODUCT
