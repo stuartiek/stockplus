@@ -212,6 +212,7 @@ app.post('/selected', async (req, res) => {
   try {
     const selectedItems = await Stock.find({ barcode: { $in: barcodeArray } });
     res.render('pages/selectedStock', { selectedItems });
+    console.log(selectedItems);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error fetching selected items');
