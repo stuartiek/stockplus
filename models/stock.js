@@ -13,6 +13,6 @@ const stockSchema = new mongoose.Schema({
   productURL: String,
   deleteURL: String,
   published: String
-}, {collection: 'stock'}); // 👈 Explicitly tell Mongoose to use this collection
+}, { collection: 'stock' }); // 👈 This ensures it queries the correct collection
 
 module.exports = mongoose.model('Stock', stockSchema);
