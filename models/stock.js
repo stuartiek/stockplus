@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const stockSchema = new mongoose.Schema({
+  // your fields  
   productName: String,
   productCode: String,
   brand: String,
@@ -10,6 +11,5 @@ const stockSchema = new mongoose.Schema({
   price: Number,
   barcode: String,
   imageUrl: String
-});
 
-module.exports = mongoose.model('Stock', stockSchema);
+}, { collection: 'stock' });
