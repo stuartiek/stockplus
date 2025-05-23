@@ -279,11 +279,11 @@ button:hover{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 }
-.stockForm{
+/* .stockForm{
     border-collapse: collapse;
     width: 75%;
     margin-left: 15%;
-}
+} */
 
 
 table {
