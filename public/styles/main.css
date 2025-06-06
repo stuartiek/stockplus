@@ -319,7 +319,7 @@ table {
     height: 40px;
 }
 .labelMid{
-    height: 73px;
+    height: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
