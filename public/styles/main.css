@@ -319,12 +319,12 @@ table {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: flex-end;
 }
 .labelFooter{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    align-items: flex-end;
     padding-top: 2px;
     font-size: 10px;
 }
