@@ -330,7 +330,6 @@ table {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    padding-top: 2px;
     font-size: 10px;
 }
 .labelName{
