@@ -23,12 +23,16 @@
             <% selectedItems.forEach(item => { %>
                 <div class="label">
                     <h1 class="labelName"><%= item.productName %></h1>
-                    <h1 class="labelPrice">£<%= item.price %></h1>
-            
-                    <h4 class="labelBrand"><%= item.brand %></h4>
-                    <h4 class="labelCode"><%= item.productCode %></h4>
-                    <h4>2025</h4>
-                    <h4 class="labelBarcode"><%= item.barcode %></h4>
+                    <div class="labelMid">
+                        <h4 class="labelBrand"><%= item.brand %></h4>
+                        <h1 class="labelPrice">£<%= item.price %></h1>
+                    </div>
+                    <div class="labelFooter">
+                        <h4 class="labelCode"><%= item.productCode %></h4>
+                        <h4>2025</h4>
+                        <h4 class="labelBarcode"><%= item.barcode %></h4>
+                    </div>
+                    
                 </div>
             <% }) %>
     </main>

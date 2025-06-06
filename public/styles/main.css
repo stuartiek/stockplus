@@ -315,6 +315,11 @@ table {
     border-style: dashed;
     border-width: 1px;
 }
+.labelFooter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 .labelName{
     font-size: 16px;
 }
