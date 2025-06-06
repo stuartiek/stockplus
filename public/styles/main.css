@@ -330,12 +330,14 @@ table {
     
 }
 .labelName{
-    font-size: 16px;
+    margin-left: 5px;
+    font-size: 18px;
 }
 .labelBrand{
     font-size: 12px;
 }
 .labelPrice{
+    font-size: 20px;
     margin: 0;
     float: right;
 }
