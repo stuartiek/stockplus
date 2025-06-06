@@ -315,6 +315,9 @@ table {
     border-style: dashed;
     border-width: 1px;
 }
+.labelMid{
+    padding-bottom: 10px;
+}
 .labelFooter{
     padding-top: 10px;
     font-size: 8px;
