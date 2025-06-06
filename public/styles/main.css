@@ -304,3 +304,12 @@ table {
     margin: auto;
     width: 60%;
   }
+
+
+
+
+  @media print{
+    .sideBar{
+        display: none;
+    }
+  }
