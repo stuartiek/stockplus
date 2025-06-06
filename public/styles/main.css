@@ -319,13 +319,12 @@ table {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    padding-bottom: 10px;
 }
 .labelFooter{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    padding-top: 10px;
+    padding-top: 5px;
     font-size: 10px;
     
 }
