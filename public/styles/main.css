@@ -322,6 +322,15 @@ table {
     margin: 0;
     float: right;
 }
+.labelBrand{
+    font-size: 12px;
+}
+.labelCode{
+    font-size: 12px;
+}
+.labelBarcode{
+    font-size: 12px;
+}
 
   @media print{
     .sideBar{
