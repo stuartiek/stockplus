@@ -23,7 +23,7 @@
             <div id="createStock" popover>
                 <form action="/addStock" method="POST" enctype="multipart/form-data">
                     <input type="file" name="image" accept="image/*" /> <!-- Image upload field -->
-                    <input type="text" name="productName" placeholder="Product Name">
+                    <input type="text" name="productName" maxlength="35" placeholder="Product Name">
                     <input type="text" name="productCode" placeholder="Product Code">
                     <input type="text" name="Brand" placeholder="Brand">
                     <select name="Category">
