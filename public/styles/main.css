@@ -321,14 +321,14 @@ table {
     justify-content: space-evenly;
 }
 .labelFooter{
-    
+    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: baseline;
     padding-top: 2px;
     font-size: 10px;
-    position: absolute;
+    
     bottom: 0;
     
 }
