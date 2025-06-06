@@ -324,12 +324,16 @@ table {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: baseline;
     padding-top: 5px;
     font-size: 10px;
     
 }
 .labelName{
     font-size: 16px;
+}
+.labelBrand{
+    font-size: 12px;
 }
 .labelPrice{
     margin: 0;
