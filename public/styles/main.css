@@ -323,7 +323,10 @@ table {
     .sideBar{
         display: none;
     }
-    #stock button, h1{
+    #stock button{
+        display: none;
+    }
+    .stockHead{
         display: none;
     }
   }
