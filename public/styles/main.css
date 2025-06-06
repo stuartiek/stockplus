@@ -331,13 +331,13 @@ table {
 }
 .labelName{
     margin-left: 5px;
-    font-size: 18px;
+    font-size: 20px;
 }
 .labelBrand{
     font-size: 12px;
 }
 .labelPrice{
-    font-size: 20px;
+    font-size: 40px;
     margin: 0;
     float: right;
 }
