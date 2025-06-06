@@ -312,4 +312,7 @@ table {
     .sideBar{
         display: none;
     }
+    #stock button, h1{
+        display: none;
+    }
   }
