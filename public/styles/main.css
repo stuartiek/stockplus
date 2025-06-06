@@ -306,7 +306,14 @@ table {
   }
 
 
+/* PRINT LABEL */
 
+.label{
+    height: 132px;
+    width: 207px;
+    border: #0C0A0F;
+    border-style: dashed;
+}
 
   @media print{
     .sideBar{

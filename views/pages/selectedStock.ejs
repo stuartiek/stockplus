@@ -20,6 +20,21 @@
           <h1>Selected Stock Items</h1>
           <button onclick="window.print()">Print</button>
           <br>
+            <% selectedItems.forEach(item => { %>
+                <div class="label">
+                    <h1><%= item.productName %></h1>
+                    <h1>£<%= item.price %></h1>
+            
+                    <h4><%= item.brand %></h4>
+                    <h4><%= item.productCode %></h4>
+                    <h4><span class="barcodeFont"><%= item.barcode %></span></h4>
+             
+                
+                
+                
+                
+                </div>
+            <% }) %>
             <table >
                 <tr>
                 <th>Product Name</th>
