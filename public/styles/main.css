@@ -315,23 +315,23 @@ table {
     border-style: dashed;
     border-width: 1px;
 }
+.labelHead{
+    height: 30px;
+}
 .labelMid{
+    height: 78px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: flex-end;
 }
-.labelBottom{
-    position: absolute;
-    bottom: 1px;
-}
 .labelFooter{
+    height: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     padding-top: 2px;
     font-size: 10px;
-    bottom: 0;
 }
 .labelName{
     margin-top: 0px;
