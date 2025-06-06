@@ -313,6 +313,10 @@ table {
     width: 207px;
     border: #0C0A0F;
     border-style: dashed;
+    border-width: 1px;
+}
+.labelName{
+    font-size: 16px;
 }
 
   @media print{

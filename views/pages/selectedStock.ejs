@@ -22,39 +22,14 @@
           <br>
             <% selectedItems.forEach(item => { %>
                 <div class="label">
-                    <h1><%= item.productName %></h1>
-                    <h1>£<%= item.price %></h1>
+                    <h1 class="labelName"><%= item.productName %></h1>
+                    <h1 class="labelPrice">£<%= item.price %></h1>
             
-                    <h4><%= item.brand %></h4>
-                    <h4><%= item.productCode %></h4>
-                    <h4><span class="barcodeFont"><%= item.barcode %></span></h4>
-             
-                
-                
-                
-                
+                    <h4 class="labelBrand"><%= item.brand %></h4>
+                    <h4 class="labelCode"><%= item.productCode %></h4>
+                    <h4 class="labelBarcode"><span class="barcodeFont"><%= item.barcode %></span></h4>
                 </div>
             <% }) %>
-            <table >
-                <tr>
-                <th>Product Name</th>
-                <th>Product Code</th>
-                <th>Brand</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Barcode</th>
-                </tr>
-                <% selectedItems.forEach(item => { %>
-                <tr>
-                <td><%= item.productName %></td>
-                <td><%= item.productCode %></td>
-                <td><%= item.brand %></td>
-                <td><%= item.qty %></td>
-                <td>£<%= item.price %></td>
-                <td><span class="barcodeFont"><%= item.barcode %></span></td>
-                </tr>
-                <% }) %>
-            </table>
     </main>
 </body>
 </html>
