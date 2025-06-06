@@ -330,7 +330,7 @@ table {
     bottom: 0;
 }
 .labelName{
-    padding-top: 1px;
+    margin-top: 0px;
     margin-bottom: 0;
     margin-left: 5px;
     font-size: 18px;
