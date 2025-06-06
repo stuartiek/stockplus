@@ -321,6 +321,10 @@ table {
     justify-content: space-evenly;
     align-items: flex-end;
 }
+.labelBottom{
+    position: absolute;
+    bottom: 1px;
+}
 .labelFooter{
     display: flex;
     flex-direction: row;
