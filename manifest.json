@@ -11,7 +11,8 @@
     "icons": [
         {
             "src": "/public/images/logo/512.png",
-            "sizes": "538x509"
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ]
 }
