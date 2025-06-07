@@ -349,6 +349,10 @@ table {
 
 
   @media print{
+
+    main{
+        margin: 0;
+    }
     .stock{
         margin: 0;
     }
