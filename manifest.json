@@ -6,12 +6,12 @@
     "start_url": "/",
     "background_color": "#2f3d58",
     "theme_color": "#2f3d58",
-    "orientation": "any",
+    "orientation": "landscape",
     "display": "standalone",
     "icons": [
         {
-            "src": "public/images/logo/favicon.png",
-            "sizes": "512x512"
+            "src": "/public/images/logo/favicon.png",
+            "sizes": "538x509"
         }
     ]
 }
