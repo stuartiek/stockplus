@@ -271,6 +271,8 @@ button:hover{
 
 #createStock{
     background-color: #1b1b1bad;
+    width: 100%;
+    height: 100%;
 }
 #createStock form{
  background-color: #ffffff;
