@@ -275,7 +275,7 @@ button:hover{
     height: 100%;
 }
 #createStock form{
-    margin: 20%;
+    margin: 10%;
     background-color: #ffffff;
 }
 #createStock form input[type=file]{
