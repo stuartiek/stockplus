@@ -304,8 +304,8 @@ table {
   tr:nth-child(even) {background-color: #f2f2f2;}
 
   .stockDisplay table img{
-    width: 1vw;
-    height: 1vh;
+    width: 5vw;
+    height: 5vh;
   }
 
   .center{
