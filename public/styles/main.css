@@ -290,6 +290,7 @@ button:hover{
     width: 65vw;
 }
 table {
+    table-layout: fixed;
     border-collapse: collapse;
     width: 100%;
   }
