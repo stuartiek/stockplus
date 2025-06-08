@@ -256,7 +256,7 @@ button:hover{
 
 
 /* STOCK PAGE */
-#stock button{
+/* #stock button{
     margin-top: 20px;
     width: 150px;
     font-size: 1rem;
@@ -267,7 +267,7 @@ button:hover{
     background-color: #F98D67;
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
-}
+} */
 #createStock button{
     margin-top: 20px;
     width: 150px;
