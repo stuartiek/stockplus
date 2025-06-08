@@ -131,6 +131,7 @@ body{
 
 main{
     position: absolute;
+    width: 75%;
     top: 20px;
     margin-left: 25vw;
 }
