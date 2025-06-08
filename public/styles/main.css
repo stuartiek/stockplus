@@ -285,7 +285,9 @@ button:hover{
     margin-left: 15%;
 } */
 
-
+.stockDisplay{
+    width: 65vw;
+}
 table {
     border-collapse: collapse;
     width: 65vw;
