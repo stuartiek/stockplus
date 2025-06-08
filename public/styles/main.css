@@ -40,8 +40,8 @@ body{
 }
 
 .loginLogo img{
-    width: 550px;
-    height: 150px;
+    width: 30vw;
+    height: 10vh;
     /* mix-blend-mode: multiply; */
 }
 
