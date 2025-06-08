@@ -34,21 +34,6 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } // Limit file size to 5MB
 });
 
-
-// const mongoose = require('mongoose');
-
-// // Replace with your actual MongoDB URI
-// mongoose.connect('mongodb://127.0.0.1:27017/stock', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-// .then(() => console.log('✅ Connected to MongoDB'))
-// .catch(err => console.error('❌ MongoDB connection error:', err));
-
-// mongoose.connection.on('connected', () => {
-//   console.log('MongoDB connected');
-// });
-
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';

@@ -57,8 +57,9 @@
                 <button type="submit">Filter</button>
             </form>
 
+
             <!-- STOCK IS DISPLAYED IN TABLE -->
-        <form class="stockDisplay" action="/selected" method="POST">
+        <form id="multiActionForm" class="stockDisplay" action="/selected" method="POST">
             <table>
                 <tr>
                     <th></th>
@@ -92,25 +93,57 @@
                         <td>£<%= stock.rrp %></td>
                         <td>£<%= stock.price %></td>
                         <td><span class="barcodeFont"><%= stock.barcode %></span></td>
-                        <td>
+                        <!-- <td>
                             <form action="/product" method="GET">
                                 <input type="hidden" name="barcode" value="<%= stock.barcode %>">
                                 <button type="submit">View</button>
                             </form>
-                        </td>
-                        <td>
+                        </td> -->
+                        <!-- <td>
                             <form action="/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                 <input type="hidden" name="barcode" value="<%= stock.barcode %>">
                                 <button type="submit">Delete</button>
                             </form>
-                        </td>
+                        </td> -->
                     </tr>
             <% }); %>
             </table>
             <br>
             <hr>
+            <button type="submit" onclick="submitToDelete(event)">Delete Selected</button>
             <button type="submit">View Selected</button>
         </form>
+        <script>
+            function getCheckedBarcodes() {
+                return document.querySelectorAll('input[name="selectedBarcodes"]:checked');
+            }
+
+            function submitToSelected(e) {
+                const selected = getCheckedBarcodes();
+                if (selected.length === 0) {
+                    alert('Please select at least one item to view.');
+                    e.preventDefault();
+                    return;
+                }
+                const form = document.getElementById('multiActionForm');
+                form.action = '/selected';
+            }
+
+            function submitToDelete(e) {
+                const selected = getCheckedBarcodes();
+                if (selected.length === 0) {
+                    alert('Please select at least one item to delete.');
+                    e.preventDefault();
+                    return;
+                }
+                if (!confirm('Are you sure you want to delete the selected item(s)?')) {
+                    e.preventDefault();
+                    return;
+                }
+                const form = document.getElementById('multiActionForm');
+                form.action = '/delete';
+            }
+        </script>
     </main>
 </body>
 </html>
