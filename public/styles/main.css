@@ -309,7 +309,7 @@ table {
     margin: auto;
     width: 60%;
   }
-  .delBtn{
+  .delBtn button{
     font-size: 1dvw;
     padding: 5px;
     color: #ffffff;
