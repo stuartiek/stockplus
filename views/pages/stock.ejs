@@ -76,7 +76,8 @@
             <% stock.forEach(function(stock) { %>
                     <tr>
                         <td>
-                            <input type="checkbox" name="selectedBarcodes[]" value="<%= stock.barcode %>">
+                            <input type="checkbox" name="selectedBarcodes" value="<%= stock.barcode %>">
+                            <!-- <input type="checkbox" name="selectedBarcodes[]" value="<%= stock.barcode %>"> -->
                         </td>
                         <td>
                             <% if (stock && stock.imageUrl) { %>
