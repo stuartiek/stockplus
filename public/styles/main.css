@@ -290,7 +290,7 @@ button:hover{
 }
 table {
     border-collapse: collapse;
-    width: 65vw;
+    width: 100%;
   }
   
   th, td {
