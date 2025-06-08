@@ -4,6 +4,7 @@
     "short_name": "Stock+",
     "description": "",
     "start_url": "/",
+    "scope": "/",
     "background_color": "#000000",
     "theme_color": "#000000",
     "orientation": "landscape",
