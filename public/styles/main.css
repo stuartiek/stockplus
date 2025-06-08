@@ -268,6 +268,24 @@ button:hover{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 } */
+
+#createStock{
+    background-color: #1b1b1bad;
+}
+#createStock form{
+ background-color: #ffffff;
+}
+#createStock form input[type=text]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+
 #createStock button{
     margin-top: 20px;
     width: 150px;
