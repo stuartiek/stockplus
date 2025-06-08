@@ -102,7 +102,7 @@
                         <td>
                             <form action="/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                 <input type="hidden" name="barcode" value="<%= stock.barcode %>">
-                                <button type="submit"><span class="material-symbols-outlined">delete</span></button>
+                                <button class="delBtn" type="submit"><span class="material-symbols-outlined">delete</span></button>
                             </form>
                         </td>
                     </tr>
