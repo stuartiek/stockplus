@@ -270,6 +270,7 @@ button:hover{
 } */
 
 #createStock{
+    margin: 20%;
     background-color: #1b1b1bad;
     width: 100%;
     height: 100%;
