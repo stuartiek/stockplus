@@ -336,11 +336,7 @@ table {
     border-collapse: collapse;
     width: 100%;
   }
-  .checkbox th{
-    width: 3vw;
-  }
   th, td {
-    width: 3vw;
     text-align: left;
     padding: 12px;
   }
