@@ -133,7 +133,7 @@ main{
     position: absolute;
     width: 75%;
     top: 20px;
-    margin-left: 25vw;
+    margin-left: 20vw;
 }
 
 
@@ -336,9 +336,6 @@ table {
     border-collapse: collapse;
     width: 100%;
   }
-input:checked~.checkbox-container {
-            background-color: #F98D67
-    }
   th, td {
     text-align: left;
     padding: 12px;
