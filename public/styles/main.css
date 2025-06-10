@@ -336,6 +336,9 @@ table {
     border-collapse: collapse;
     width: 100%;
   }
+input:checked~.checkbox-container {
+            background-color: #F98D67
+    }
   th, td {
     text-align: left;
     padding: 12px;
