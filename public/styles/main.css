@@ -389,6 +389,7 @@ table {
 }
 .labelHead{
     height: 40px;
+    font-weight: bold;
 }
 .labelMid{
     height: 45px;
