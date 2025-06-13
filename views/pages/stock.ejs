@@ -59,7 +59,7 @@
 
 
             <!-- STOCK IS DISPLAYED IN TABLE -->
-        <form class="stockDisplay" action="/selected" method="POST">
+        <!-- <form class="stockDisplay" action="/selected" method="POST">
             <table>
                 <tr>
                     <th style="width:1vw"></th>
@@ -102,7 +102,44 @@
                         </td>
                     </tr>
             <% }); %>
-            </table>
+            </table> -->
+            <table>
+                <tr>
+                    <th style="width:1vw"></th>
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <th>Product Code</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th style="width:1vw">Qty</th>
+                    <th>RRP</th>
+                    <th>Price</th>
+                    <th style="width:10vw">Barcode</th>
+                    <th></th>
+                </tr>
+  <form class="stockDisplay" action="/selected" method="POST">
+    <% stock.forEach(function(stock) { %>
+      <tr>
+        <td><input type="checkbox" name="selectedBarcodes" value="<%= stock.barcode %>"></td>
+        <td><%= stock.productName %></td>
+        <td><%= stock.productCode %></td>
+        <td><%= stock.brand %></td>
+        <td><%= stock.category %></td>
+        <td><%= stock.qty %></td>
+        <td>£<%= stock.rrp %></td>
+        <td>£<%= stock.price %></td>
+        <td><%= stock.barcode %></td>
+        <td>
+          <!-- ❗NOT inside stockDisplay form -->
+          <form action="/delete" method="POST">
+            <input type="hidden" name="barcode" value="<%= stock.barcode %>">
+            <button type="submit"><span class="material-symbols-outlined">delete</span></button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </form>
+</table>
             <br>
             <hr>
             <button type="submit">View Selected</button>
