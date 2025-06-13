@@ -354,8 +354,10 @@ table {
     width: 60%;
   }
   .createBtn{
-    font-size: 0.5dvw;
-    padding: 5px;
+    margin-top: 20px;
+    width: 150px;
+    font-size: 1rem;
+    padding: 15px;
     color: #ffffff;
     border-radius: 40px;
     border-style: none;
