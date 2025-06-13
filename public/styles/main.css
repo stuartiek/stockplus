@@ -269,7 +269,7 @@ button:hover{
     cursor: pointer;
 } */
 .stockHead{
-    width: fit-content;
+    width: 50%;
 }
 #createStock{
     background-color: #1b1b1bad;
