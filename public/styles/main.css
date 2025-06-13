@@ -353,7 +353,7 @@ table {
     margin: auto;
     width: 60%;
   }
-  .delBtn button{
+  .delBtn {
     font-size: 0.5dvw;
     padding: 5px;
     color: #ffffff;
