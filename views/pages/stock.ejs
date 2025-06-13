@@ -108,6 +108,7 @@
     <thead>
       <tr>
         <th></th>
+        <th>Product Image</th>
         <th>Product Name</th>
         <th>Product Code</th>
         <th>Brand</th>
@@ -123,6 +124,16 @@
       <% stock.forEach(function(item) { %>
         <tr>
           <td><input type="checkbox" name="selectedBarcodes" value="<%= item.barcode %>"></td>
+
+          <!-- ✅ PRODUCT IMAGE -->
+          <td>
+            <% if (item.imageUrl) { %>
+              <img src="<%= item.imageUrl %>" alt="Product Image" style="max-width: 60px;">
+            <% } else { %>
+              <span>No image</span>
+            <% } %>
+          </td>
+
           <td><%= item.productName %></td>
           <td><%= item.productCode %></td>
           <td><%= item.brand %></td>
@@ -131,8 +142,9 @@
           <td>£<%= item.rrp %></td>
           <td>£<%= item.price %></td>
           <td><%= item.barcode %></td>
+
+          <!-- ✅ DELETE FORM -->
           <td>
-            <!-- ✅ Delete button gets its own clean form -->
             <form action="/delete" method="POST" style="display:inline;">
               <input type="hidden" name="barcode" value="<%= item.barcode %>">
               <button type="submit"><span class="material-symbols-outlined">delete</span></button>
@@ -142,12 +154,13 @@
       <% }); %>
     </tbody>
   </table>
+
   <button type="submit">View Selected</button>
 </form>
-            <br>
+            <!-- <br>
             <hr>
             <button type="submit">View Selected</button>
         </form>
-    </main>
+    </main> -->
 </body>
 </html>
