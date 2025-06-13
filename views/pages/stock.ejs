@@ -18,8 +18,7 @@
         <%- include('../partials/header') %>
     </header>
     <main id="stock">
-        <h1>Stock</h1>
-        <br>
+        <h1>Stock - </h1>
         <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button>
             <div id="createStock" popover>
                 <form action="/addStock" method="POST" enctype="multipart/form-data">
@@ -56,8 +55,7 @@
                 </select>
                 <button type="submit">Filter</button>
             </form>
-
-
+            <br>
             <!-- STOCK IS DISPLAYED IN TABLE -->
         <form class="stockDisplay" action="/selected" method="POST">
             <table>
