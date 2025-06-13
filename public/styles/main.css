@@ -366,7 +366,11 @@ table {
 
 
 /* PRINT LABEL */
+.labelDisplay{
+    display: flex;
+    flex-flow: row wrap;
 
+}
 .label{
     height: 113px;
     width: 207px;
