@@ -388,6 +388,7 @@ table {
     border-width: 1px;
 }
 .labelHead{
+    padding: 5px;
     height: 40px;
     font-weight: bold;
 }
