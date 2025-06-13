@@ -400,7 +400,7 @@ table {
     align-items: flex-end;
 }
 .labelFooter{
-    height: 20px;
+    height: 25px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
