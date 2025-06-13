@@ -103,43 +103,47 @@
                     </tr>
             <% }); %>
             </table> -->
-            <table>
-                <tr>
-                    <th style="width:1vw"></th>
-                    <th>Product Image</th>
-                    <th>Product Name</th>
-                    <th>Product Code</th>
-                    <th>Brand</th>
-                    <th>Category</th>
-                    <th style="width:1vw">Qty</th>
-                    <th>RRP</th>
-                    <th>Price</th>
-                    <th style="width:10vw">Barcode</th>
-                    <th></th>
-                </tr>
-  <form class="stockDisplay" action="/selected" method="POST">
-    <% stock.forEach(function(stock) { %>
+<form class="stockDisplay" action="/selected" method="POST">
+  <table>
+    <thead>
       <tr>
-        <td><input type="checkbox" name="selectedBarcodes" value="<%= stock.barcode %>"></td>
-        <td><%= stock.productName %></td>
-        <td><%= stock.productCode %></td>
-        <td><%= stock.brand %></td>
-        <td><%= stock.category %></td>
-        <td><%= stock.qty %></td>
-        <td>£<%= stock.rrp %></td>
-        <td>£<%= stock.price %></td>
-        <td><%= stock.barcode %></td>
-        <td>
-          <!-- ❗NOT inside stockDisplay form -->
-          <form action="/delete" method="POST">
-            <input type="hidden" name="barcode" value="<%= stock.barcode %>">
-            <button type="submit"><span class="material-symbols-outlined">delete</span></button>
-          </form>
-        </td>
+        <th></th>
+        <th>Product Name</th>
+        <th>Product Code</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Qty</th>
+        <th>RRP</th>
+        <th>Price</th>
+        <th>Barcode</th>
+        <th>Actions</th>
       </tr>
-    <% }); %>
-  </form>
-</table>
+    </thead>
+    <tbody>
+      <% stock.forEach(function(item) { %>
+        <tr>
+          <td><input type="checkbox" name="selectedBarcodes" value="<%= item.barcode %>"></td>
+          <td><%= item.productName %></td>
+          <td><%= item.productCode %></td>
+          <td><%= item.brand %></td>
+          <td><%= item.category %></td>
+          <td><%= item.qty %></td>
+          <td>£<%= item.rrp %></td>
+          <td>£<%= item.price %></td>
+          <td><%= item.barcode %></td>
+          <td>
+            <!-- ✅ Delete button gets its own clean form -->
+            <form action="/delete" method="POST" style="display:inline;">
+              <input type="hidden" name="barcode" value="<%= item.barcode %>">
+              <button type="submit"><span class="material-symbols-outlined">delete</span></button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <button type="submit">View Selected</button>
+</form>
             <br>
             <hr>
             <button type="submit">View Selected</button>
