@@ -268,7 +268,9 @@ button:hover{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 } */
-
+#stock h1 {
+    width: 1dvw;
+}
 #createStock{
     background-color: #1b1b1bad;
     width: 100%;
