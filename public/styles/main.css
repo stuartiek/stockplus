@@ -321,11 +321,7 @@ button:hover{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 }
-/* .stockForm{
-    border-collapse: collapse;
-    width: 75%;
-    margin-left: 15%;
-} */
+
 
 .stockDisplay{
     width: 75vw;
@@ -381,7 +377,7 @@ table {
 .labelDisplay{
     display: flex;
     flex-flow: row wrap;
-    gap: 10px;
+    gap: 5px;
 
 }
 .label{
