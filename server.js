@@ -189,11 +189,6 @@ app.get('/product', async (req, res) => {
 
 //VIEW SELECTED PRODUCTS
 
-// app.post('/selected', (req, res) => {
-//   console.log('req.body:', req.body);
-//   res.send('Check console');
-// });
-
 app.post('/selected', async (req, res) => {
   const selectedBarcodes = req.body.selectedBarcodes;
 
