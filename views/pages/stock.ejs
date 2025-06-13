@@ -20,8 +20,9 @@
     <main id="stock">
         <div class="stockHead">
            <h1>Stock - </h1> 
+           <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button>
         </div>
-        <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button>
+        
             <div id="createStock" popover>
                 <form action="/addStock" method="POST" enctype="multipart/form-data">
                     <input type="file" name="image" accept="image/*" capture="camera" /> <!-- Image upload field -->
