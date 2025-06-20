@@ -334,6 +334,9 @@ table {
     border-collapse: collapse;
     width: 100%;
   }
+  .tableScroll{
+    overflow: auto"
+  }
   th, td {
     text-align: left;
     padding: 12px;
