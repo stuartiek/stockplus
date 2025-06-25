@@ -203,7 +203,7 @@ main{
 .btn{
     padding: 20px 16px;
 }
-.btn button{
+.btn{
     background-color: white;
     padding: 10px;
     border: none;
@@ -214,11 +214,11 @@ main{
     transition: 0.3s;
     text-align: center;
 }
-.btn button a{
+.btn a{
     text-decoration: none;
     color: #555;
 }
-.btn button:hover{
+.btn:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
 
