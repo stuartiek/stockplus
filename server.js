@@ -143,28 +143,39 @@ app.get('/document/:id/stock', async function(req, res) {
         return;
     }
 
-    const documentId = req.params.id; // Get the document ID from the URL
+    const documentId = req.params.id;
+    
+    // 1. Get the selected category from the URL query, default to empty string
+    const selectedCategory = req.query.category || ''; 
 
     try {
-        // 1. Fetch the document itself
-        // This is line 149 in your server.js
-            const document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
+        const document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
 
         if (!document) {
             console.log("❌ Document not found for ID:", documentId);
             return res.status(404).send("Document not found.");
         }
 
-        // 2. Fetch stock items associated with this document ID
-        // Make sure your stock items have a 'documentId' field to link them
-        const relatedStock = await db.collection('stock').find({ documentId: documentId }).sort({ "published": -1 }).toArray();
+        // 2. Create a filter object to query the stock collection
+        const filter = { 
+            documentId: documentId 
+        };
+
+        // 3. If a category is selected, add it to the filter
+        if (selectedCategory) {
+            filter.category = selectedCategory;
+        }
+
+        // 4. Use the filter object in the find query
+        const relatedStock = await db.collection('stock').find(filter).sort({ "published": -1 }).toArray();
 
         console.log(`✅ Fetched ${relatedStock.length} stock items for document: ${document.documentName}`);
 
         res.render('pages/documentStock', {
-            document: document, // Pass the document details
-            stock: relatedStock, // Pass the related stock items
-            // You might want to pass selectedCategory here if you add filtering to this page too
+            document: document,
+            stock: relatedStock,
+            // 5. Pass selectedCategory to the EJS template so it is no longer undefined
+            selectedCategory: selectedCategory 
         });
 
     } catch (err) {
