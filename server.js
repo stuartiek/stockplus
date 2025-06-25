@@ -148,7 +148,7 @@ app.post('/createDoc', function(req, res){
     }
     db.collection('documents').insertOne(datatostore, function(err, result){
         if (err) throw err;
-            console.log("✅ - New Document Created: " + "" + datatostore);
+            console.log("✅ - New Document Created:");
             //when complete redirect back to index
         res.redirect('/stock');
     });
