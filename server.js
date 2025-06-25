@@ -165,7 +165,7 @@ app.get('/documents', async function(req, res) {
 
     console.log("🔍 Fetching documents with sort:", docSort);
 
-    db.collection('documents').sort(docSort).toArray(function(err, result) {
+    db.collection('documents').find().sort(docSort).toArray(function(err, result) {
         if (err) {
             console.error("❌ Error fetching documents:", err);
             throw err;
