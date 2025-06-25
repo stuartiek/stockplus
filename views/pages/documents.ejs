@@ -29,11 +29,16 @@
         </div>
         <div>
             <% documents.forEach(function(documents) { %>
-                <div class="docOut">
-                    <h1><%= documents.documentName %></h1>
-                    <p><%= documents.published %></p>
+                <div class="projectImg">
+                    <img src="/images/background/docBackground.jpg" alt=""/>
+                </div>
+                <div class="projectText">
+                    <h2><%= documents.documentName %></h2>
+                    <p>
+                        <%= documents.published %>
+                    </p>
                     <button>Open</button>
-                </div>  
+                </div> 
             <% }); %>
         </div>
     </main>
