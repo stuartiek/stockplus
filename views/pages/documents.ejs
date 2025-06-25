@@ -21,6 +21,10 @@
         <div>
             <form action="/createDoc" method="POST" >
                 <input type="text" name="documentName" placeholder="Document Name">
+                <select name="Category">
+                        <option value="Tools" name="News">Shelf</option>
+                        <option value="Sundries">Arm</option>
+                </select>
                 <button>Create</button>
             </form>
         </div>
@@ -34,10 +38,9 @@
                         <img src="/images/background/docBackground.jpg" alt=""/>
                     </div>
                     <div class="projectText">
-                        <h2><%= documents.documentName %></h2>
-                        <p>
-                            <%= documents.published %>
-                        </p>
+                        <h2></h2>
+                        <h3>Lable Type - <%= documents.labelType %></h3>
+                        <p><%= documents.published %></p>
                         
                     </div>
                     <div class="btn">

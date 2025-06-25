@@ -144,6 +144,7 @@ app.post('/createDoc', function(req, res){
     const ISO = isoDate.toISOString();
     var datatostore ={
         "documentName": req.body.documentName,
+        "labelType": req.body.labelType,
         "published":ISO.slice(0 , 19) // Cuts out unwanted date information
     }
     db.collection('documents').insertOne(datatostore, function(err, result){
