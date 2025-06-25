@@ -200,12 +200,11 @@ main{
     margin-right: 0.5em;
     height: 8em;
 }
+
 .btn{
-    padding: 20px 16px;
-}
-.btn{
+    width: 3vw;
     background-color: white;
-    padding: 10px;
+    padding: 20px 16px;
     border: none;
     border-radius: 20px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
