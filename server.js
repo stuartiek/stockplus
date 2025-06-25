@@ -36,6 +36,7 @@ const upload = multer({
 
 // CONNECT TO MONGO
 const MongoClient = require('mongodb-legacy').MongoClient;
+const { ObjectId } = require('mongodb-legacy');
 const url = 'mongodb://127.0.0.1:27017';
 const client = new MongoClient(url);
 const dbname = 'stockplus';
@@ -146,7 +147,8 @@ app.get('/document/:id/stock', async function(req, res) {
 
     try {
         // 1. Fetch the document itself
-        const document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
+        // This is line 149 in your server.js
+            const document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
 
         if (!document) {
             console.log("❌ Document not found for ID:", documentId);
@@ -214,34 +216,46 @@ app.get('/documents', async function(req, res) {
     });
 });
 
-//ADDS STOCK TO DATABASE
+///ADDS STOCK TO DATABASE
 app.post('/addStock', upload.single('image'), function(req, res){
 
-    const imageUrl = req.file ? '/images/' + req.file.filename : null; // Save the image path if file uploaded
-    //data needs stored
+    const imageUrl = req.file ? '/images/' + req.file.filename : null;
     const isoDate = new Date();
     const ISO = isoDate.toISOString();
+
+    // Get the documentId from the hidden form field
+    const documentId = req.body.documentId;
+
+    if (!documentId) {
+        // Handle cases where the ID might be missing
+        return res.status(400).send("Error: Document ID is missing.");
+    }
+
     var datatostore = {
-        "imageUrl": imageUrl, // Save the image URL to the database
-        "productName":req.body.productName,
-        "productCode":req.body.productCode,
-        "brand":req.body.Brand,
-        "category":req.body.Category,
-        "qty":req.body.Qty,
-        "rrp":req.body.RRP,
-        "price":req.body.Price,
-        "barcode":req.body.Barcode,
+        "imageUrl": imageUrl,
+        "productName": req.body.productName,
+        "productCode": req.body.productCode,
+        "brand": req.body.Brand,
+        "category": req.body.Category,
+        "qty": req.body.Qty,
+        "rrp": req.body.RRP,
+        "price": req.body.Price,
+        "barcode": req.body.Barcode,
         "productURL": "/product/" + req.body.Barcode,
         "deleteURL": "/delete/" + req.body.Barcode,
-        "documentId": documentId,
-        "published":ISO.slice(0 , 19) // Cuts out unwanted date information
+        "documentId": documentId, // Now correctly using the ID from the form
+        "published": ISO.slice(0, 19)
+    };
 
-    }
     db.collection('stock').insertOne(datatostore, function(err, result){
-        if (err) throw err;
-            console.log("saved to database");
-            //when complete redirect back to index
-        res.redirect('/stock');
+        if (err) {
+            console.error("Error saving stock to database:", err);
+            return res.status(500).send("Database error.");
+        }
+        console.log("✅ - Stock item saved to database");
+        
+        // Redirect back to the specific document's stock page
+        res.redirect('/document/' + documentId + '/stock');
     });
 });
 

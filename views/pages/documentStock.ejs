@@ -27,6 +27,7 @@
             <div id="createStock" popover>
                 <form action="/addStock" method="POST" enctype="multipart/form-data">
                     <input type="file" name="image" accept="image/*" capture="camera" /> <!-- Image upload field -->
+                    <input type="hidden" name="documentId" value="<%= document._id %>">
                     <input type="text" name="productName" maxlength="35" placeholder="Product Name">
                     <input type="text" name="productCode" placeholder="Product Code">
                     <input type="text" name="Brand" placeholder="Brand">
