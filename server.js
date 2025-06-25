@@ -109,32 +109,66 @@ app.get('/labels', function(req, res){
 
 
 // STOCK PAGE 
-app.get('/stock', async function(req, res) {
+// app.get('/stock:_id', async function(req, res) {
+//     if (!req.session.loggedin) {
+//         res.redirect('/');
+//         return;
+//     }
+
+//     const selectedCategory = req.query.category || ''; // Get selected category from query
+//     const stockSort = { "published": -1 };
+
+//     const filter = selectedCategory ? { category: selectedCategory } : {};
+
+//     console.log("🔍 Fetching stock with sort:", stockSort, "and filter:", filter);
+
+//     db.collection('stock').find(filter).sort(stockSort).toArray(function(err, result) {
+//         if (err) {
+//             console.error("❌ Error fetching stock:", err);
+//             throw err;
+//         }
+
+//         console.log("✅ Stock items fetched:", result.length);
+
+//         res.render('pages/stock', {
+//             stock: result,
+//             selectedCategory // ✅ Pass this to EJS so dropdown can stay selected
+//         });
+//     });
+// });
+app.get('/document/:id/stock', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
 
-    const selectedCategory = req.query.category || ''; // Get selected category from query
-    const stockSort = { "published": -1 };
+    const documentId = req.params.id; // Get the document ID from the URL
 
-    const filter = selectedCategory ? { category: selectedCategory } : {};
+    try {
+        // 1. Fetch the document itself
+        const document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
 
-    console.log("🔍 Fetching stock with sort:", stockSort, "and filter:", filter);
-
-    db.collection('stock').find(filter).sort(stockSort).toArray(function(err, result) {
-        if (err) {
-            console.error("❌ Error fetching stock:", err);
-            throw err;
+        if (!document) {
+            console.log("❌ Document not found for ID:", documentId);
+            return res.status(404).send("Document not found.");
         }
 
-        console.log("✅ Stock items fetched:", result.length);
+        // 2. Fetch stock items associated with this document ID
+        // Make sure your stock items have a 'documentId' field to link them
+        const relatedStock = await db.collection('stock').find({ documentId: documentId }).sort({ "published": -1 }).toArray();
 
-        res.render('pages/stock', {
-            stock: result,
-            selectedCategory // ✅ Pass this to EJS so dropdown can stay selected
+        console.log(`✅ Fetched ${relatedStock.length} stock items for document: ${document.documentName}`);
+
+        res.render('pages/documentStock', {
+            document: document, // Pass the document details
+            stock: relatedStock, // Pass the related stock items
+            // You might want to pass selectedCategory here if you add filtering to this page too
         });
-    });
+
+    } catch (err) {
+        console.error("❌ Error fetching document or related stock:", err);
+        res.status(500).send("Error fetching document details or stock data.");
+    }
 });
 
 
@@ -199,6 +233,7 @@ app.post('/addStock', upload.single('image'), function(req, res){
         "barcode":req.body.Barcode,
         "productURL": "/product/" + req.body.Barcode,
         "deleteURL": "/delete/" + req.body.Barcode,
+        "documentId": documentId,
         "published":ISO.slice(0 , 19) // Cuts out unwanted date information
 
     }
