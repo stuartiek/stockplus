@@ -140,8 +140,11 @@ app.get('/stock', async function(req, res) {
 
 //CREATE DOCUMENT
 app.post('/createDoc', function(req, res){
+    const isoDate = new Date();
+    const ISO = isoDate.toISOString();
     var datatostore ={
-        "documentName": req.body.documentName
+        "documentName": req.body.documentName,
+        "published":ISO.slice(0 , 19) // Cuts out unwanted date information
     }
     db.collection('documents').insertOne(datatostore, function(err, result){
         if (err) throw err;
