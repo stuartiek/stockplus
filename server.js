@@ -335,7 +335,7 @@ app.post('/delete', async (req, res) => {
         }
 
         console.log('Stock deleted:', barcode);
-        res.redirect('/stock');
+        res.redirect('/document/' + documentId + '/stock');
     } catch (err) {
         console.error(err);
         res.status(500).send('Delete error');
