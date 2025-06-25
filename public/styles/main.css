@@ -178,7 +178,7 @@ main{
 .docDiv{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 .projectCard{
     width: 15vw;
