@@ -32,24 +32,25 @@
            <h1>Documents - </h1> 
         </div>
         <div>
-            <% documents.forEach(function(documents) { %>
-                <div class="projectCard">
-                    <div class="projectImg">
-                        <img src="/images/background/docBackground.jpg" alt=""/>
+            <div>
+                <% documents.forEach(function(documents) { %>
+                    <div class="projectCard">
+                        <div class="projectImg">
+                            <img src="/images/background/docBackground.jpg" alt=""/>
+                        </div>
+                        <div class="projectText">
+                            <h2><%= documents.documentName %></h2>
+                            <h3>Lable Type - <%= documents.labelType %></h3>
+                            <p><%= documents.published %></p>
+                            
+                        </div>
+                        <div class="btn">
+                            <button>Open</button>
+                        </div>
                     </div>
-                    <div class="projectText">
-                        <h2></h2>
-                        <h3>Lable Type - <%= documents.labelType %></h3>
-                        <p><%= documents.published %></p>
-                        
-                    </div>
-                    <div class="btn">
-                        <button>Open</button>
-                    </div>
-                </div>
-                
-                
-            <% }); %>
+                <% }); %>
+            </div>
+            
         </div>
     </main>
 </body>
