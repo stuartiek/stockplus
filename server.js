@@ -154,6 +154,31 @@ app.post('/createDoc', function(req, res){
     });
 });
 
+//DISPLAY DOCUMENTS
+app.get('/documents', async function(req, res) {
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+    
+    const docSort = { "published": -1 };
+
+    console.log("🔍 Fetching documents with sort:", docSort, "and filter:", filter);
+
+    db.collection('documents').find(filter).sort(docSort).toArray(function(err, result) {
+        if (err) {
+            console.error("❌ Error fetching documents:", err);
+            throw err;
+        }
+
+        console.log("✅ documents fetched:", result.length);
+
+        res.render('pages/documents', {
+            documents: result,
+        });
+    });
+});
+
 //ADDS STOCK TO DATABASE
 app.post('/addStock', upload.single('image'), function(req, res){
 

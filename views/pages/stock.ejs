@@ -24,6 +24,14 @@
                 <button>Create</button>
             </form>
         </div>
+        <div>
+            <% stock.forEach(function(document) { %>
+                <div>
+                    <h1><%= documents.documentName %></h1>
+                    <h1><%= documents.published %></h1>
+                </div>  
+            <% }); %>
+        </div>
         <div class="stockHead">
            <h1>Stock - </h1> 
            <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button>
