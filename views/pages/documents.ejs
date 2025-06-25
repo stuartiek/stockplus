@@ -29,9 +29,10 @@
         </div>
         <div>
             <% documents.forEach(function(documents) { %>
-                <div>
+                <div class="docOut">
                     <h1><%= documents.documentName %></h1>
                     <p><%= documents.published %></p>
+                    <button>Open</button>
                 </div>  
             <% }); %>
         </div>
