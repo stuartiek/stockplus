@@ -18,6 +18,12 @@
         <%- include('../partials/header') %>
     </header>
     <main id="stock">
+        <div>
+            <form action="/createDoc">
+                <input type="text" name="documentName" placeholder="Document Name">
+                <button>Create</button>
+            </form>
+        </div>
         <div class="stockHead">
            <h1>Stock - </h1> 
            <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button>

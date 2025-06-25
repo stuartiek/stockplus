@@ -137,6 +137,20 @@ app.get('/stock', async function(req, res) {
     });
 });
 
+
+//CREATE DOCUMENT
+app.post('/createDoc', function(req, res){
+    var datatostore ={
+        "documentName": req.body.documentName
+    }
+    db.collection('documents').insertOne(datatostore, function(err, result){
+        if (err) throw err;
+            console.log("✅ - New Document Created: " + "" + datatostore);
+            //when complete redirect back to index
+        res.redirect('/stock');
+    });
+});
+
 //ADDS STOCK TO DATABASE
 app.post('/addStock', upload.single('image'), function(req, res){
 
