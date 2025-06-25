@@ -148,6 +148,38 @@ main{
     flex-direction: row;
     justify-content: space-evenly;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.docDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 .projectCard{
     width: 15vw;
     height: 100%;
