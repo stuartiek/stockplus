@@ -160,10 +160,10 @@ app.get('/documents', async function(req, res) {
         res.redirect('/');
         return;
     }
-    
+
     const docSort = { "published": -1 };
 
-    console.log("🔍 Fetching documents with sort:", docSort, "and filter:", filter);
+    console.log("🔍 Fetching documents with sort:", docSort);
 
     db.collection('documents').find(filter).sort(docSort).toArray(function(err, result) {
         if (err) {
