@@ -348,7 +348,7 @@ main{
     background-color: #ffffff;
     
 }
-#createStock form input[type=select]{
+#createStock form select{
     margin-top: 20px;
     width: 200px;
     font-size: 1rem;
