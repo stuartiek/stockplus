@@ -222,6 +222,7 @@ main{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
 
+
 .btn button{
     margin: 30px;
     width: 3vw;
@@ -235,15 +236,36 @@ main{
     transition: 0.3s;
     text-align: center;
 }
-.btn button a{
-    text-decoration: none;
-    color: #555;
-}
-.btn button:hover{
+.btn .docDel:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
 
+.docDel {
+    /* font-size: 0.5dvw;
+    padding: 5px;
+    color: #ffffff;
+    border-radius: 50%;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    cursor: pointer; */
 
+    margin: 30px;
+    width: 3vw;
+    background-color: #F98D67;
+    padding: 20px 16px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    color: #555;
+    cursor:pointer;
+    transition: 0.3s;
+    text-align: center; 
+
+
+
+
+  }
 
 
 
