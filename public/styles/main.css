@@ -554,12 +554,12 @@ table {
 }
 .label.arm .labelHead{
     padding: 2px;
-    height: 20px;
+    height: 45px;
     font-weight: bold;
 }
 .label.arm .labelMid{
 
-    height: 45px;
+    height: 36px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -595,6 +595,9 @@ table {
     float: right;
 }
 .label.arm .labelBarcode{
+    display: none;
+}
+.label.arm .labelYear{
     display: none;
 }
 
