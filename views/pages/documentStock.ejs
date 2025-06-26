@@ -24,7 +24,7 @@
            <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button>
         </div>
         
-            <div id="createStock" popover>
+            <div id="createStock">
                 <form action="/addStock" method="POST" enctype="multipart/form-data">
                     <input type="file" name="image" accept="image/*" capture="camera" /> <!-- Image upload field -->
                     <input type="hidden" name="documentId" value="<%= document._id %>">
@@ -101,10 +101,6 @@
                             <td>£<%= stock.price %></td>
                             <td><%= stock.barcode %></td>
                             <td>
-                                <!-- <form class="delBtn" action="/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                    <input type="hidden" name="barcode" value="">
-                                    <button type="submit"><span class="material-symbols-outlined">delete</span></button>
-                                </form> -->
                                 <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>')">
                                     <span class="material-symbols-outlined">delete</span>
                                 </button> 
