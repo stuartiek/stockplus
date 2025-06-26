@@ -25,27 +25,30 @@
           <button class="printBtn" onclick="window.print()">Print</button>
           <br>
           <div class="labelDisplay">
-            <% selectedItems.forEach(item => { %>
-                <div class="label">
-                    <div class="labelHead">
-                        <h1 class="labelName"><%= item.productName %></h1>
-                    </div>
-                    
-                    <div class="labelMid">
-                        <h4 class="labelBrand"><%= item.brand %></h4>
-                        <h1 class="labelPrice">£<%= item.price %></h1>
-                    </div>
-
-                    <div class="labelFooter">
-                        <p class="labelCode"><%= item.productCode %></p>
-                        <p>2025</p>
-                        <p class="labelBarcode"><%= item.barcode %></p>
-                    </div>
-
-                    
+        <% selectedItems.forEach(item => { %>
+            <%#
+            Dynamically add the labelType as a CSS class.
+            We check if 'document' exists and has a labelType.
+            .toLowerCase() converts "Shelf" to "shelf", which is better for CSS.
+            %>
+            <div class="label <%= (document && document.labelType) ? document.labelType.toLowerCase() : '' %>">
+                <div class="labelHead">
+                    <h1 class="labelName"><%= item.productName %></h1>
                 </div>
-            <% }) %>
-          </div>
+                
+                <div class="labelMid">
+                    <h4 class="labelBrand"><%= item.brand %></h4>
+                    <h1 class="labelPrice">£<%= item.price %></h1>
+                </div>
+
+                <div class="labelFooter">
+                    <p class="labelCode"><%= item.productCode %></p>
+                    <p>2025</p>
+                    <p class="labelBarcode"><%= item.barcode %></p>
+                </div>
+            </div>
+        <% }) %>
+</div>
             
     </main>
 </body>

@@ -290,36 +290,45 @@ app.post('/addStock', upload.single('image'), function(req, res){
 // });
 
 
-//VIEW SELECTED PRODUCTS
-
+// VIEW SELECTED PRODUCTS
 app.post('/selected', async (req, res) => {
-  const selectedBarcodes = req.body.selectedBarcodes;
+    // Destructure both barcodes and the new documentId from the body
+    const { selectedBarcodes, documentId } = req.body;
 
-  if (!selectedBarcodes) {
-    return res.redirect('/stock');
-  }
+    if (!selectedBarcodes) {
+        // If no items were selected, redirect back to documents
+        return res.redirect('/documents');
+    }
 
-  // Ensure it's always an array and trim whitespace
-  const barcodeArray = Array.isArray(selectedBarcodes)
-    ? selectedBarcodes.map(b => b.trim())
-    : [selectedBarcodes.trim()];
+    const barcodeArray = Array.isArray(selectedBarcodes)
+        ? selectedBarcodes.map(b => b.trim())
+        : [selectedBarcodes.trim()];
 
-  try {
-    console.log('Running native query:', { barcode: { $in: barcodeArray } });
-    console.log('Barcodes received:', barcodeArray);
+    try {
+        // Fetch the selected stock items (this part is the same)
+        const selectedItems = await db.collection('stock')
+            .find({ barcode: { $in: barcodeArray } })
+            .toArray();
+            
+        // --- NEW LOGIC ---
+        // Now, fetch the document to get its labelType
+        let document = null;
+        if (documentId && ObjectId.isValid(documentId)) {
+            document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
+        }
+        
+        console.log(`Rendering ${selectedItems.length} labels for document type: ${document ? document.labelType : 'N/A'}`);
 
-    // Query using native MongoDB driver
-    const selectedItems = await db.collection('stock')
-      .find({ barcode: { $in: barcodeArray } })
-      .toArray();
+        // Pass both the items AND the document to the EJS template
+        res.render('pages/selectedStock', { 
+            selectedItems,
+            document // This can be null if no ID was passed
+        });
 
-    console.log('Found items:', selectedItems);
-
-    res.render('pages/selectedStock', { selectedItems });
-  } catch (error) {
-    console.error('Error fetching selected items:', error);
-    res.status(500).send('Server error fetching selected stock items.');
-  }
+    } catch (error) {
+        console.error('Error fetching selected items:', error);
+        res.status(500).send('Server error fetching selected stock items.');
+    }
 });
 
 //DELETE PRODUCT

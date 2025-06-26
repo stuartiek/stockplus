@@ -63,6 +63,7 @@
             <br>
             <!-- STOCK IS DISPLAYED IN TABLE -->
         <form class="stockDisplay" action="/selected" method="POST">
+            <input type="hidden" name="documentId" value="<%= document._id %>">
         <% if (stock && stock.length > 0) { %>
 
             <table>
