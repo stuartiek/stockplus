@@ -18,8 +18,42 @@
           <label for="email"><b>Email</b></label>
           <input type="email" placeholder="Enter Email" name="email" required>
             
+          <label for="accountType"><b>Account Type</b></label>
+          <select name="accountType">
+            <option value="Staff">Staff</option>
+            <option value="Admin">Admin</option>
+          </select>
+
           <button type="submit">Sign-Up</button>
         </div>
       </form>
+
+
+      <% if (stock && stock.length > 0) { %>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th style="width:10vw">Email</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody class="tableScroll">
+                    <% users.forEach(function(user) { %>
+                        <tr>
+                            <td><%= user.username %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.created %></td>
+                            <td>
+                                <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>')">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button> 
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            
+            </table>
 </body>
 </html>

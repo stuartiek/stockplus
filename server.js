@@ -425,13 +425,31 @@ app.get('/users', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
 
 
-    res.render('pages/users')
+
+    const userSort = { "published": -1 };
+
+    console.log("🔍 Fetching Users with sort:", userSort);
+
+    db.collection('users').find().sort(userSort).toArray(function(err, result) {
+        if (err) {
+            console.error("❌ Error fetching Users:", err);
+            throw err;
+        }
+
+        console.log("✅ Users fetched:", result.length);
+
+        res.render('pages/users', {
+            users: result,
+        });
+    });
 });
 
 
 // SIGN-UP
 app.post('/signUp', async function(req, res){
 
+    const isoDate = new Date();
+    const ISO = isoDate.toISOString();
     bcrypt.genSalt(saltRounds, function(err, salt){
         if(err) throw err;
         bcrypt.hash(req.body.psw, salt, function(err, hash){
@@ -439,6 +457,8 @@ app.post('/signUp', async function(req, res){
             let datatostore = {
                 "email": req.body.email,
                 "login": {"username": req.body.uname, "password": hash},
+                "accountType": req.body.accountType,
+                "created": ISO.slice(0, 19)
             }
 
             let uname = req.body.uname;
@@ -446,7 +466,7 @@ app.post('/signUp', async function(req, res){
                 if(err) throw err;
 
                 if(!result){
-                    db.collection('users').insertOne(datatostore, function(err, result){https://open.spotify.com/album/3pv30z3VATTE260rWIhWdE
+                    db.collection('users').insertOne(datatostore, function(err, result){
                         if(err) throw err;
                         console.log("User Created");
                         res.redirect('/');
