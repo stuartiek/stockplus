@@ -27,10 +27,6 @@
           <button type="submit">Sign-Up</button>
         </div>
       </form>
-
-
-      <% if (stock && stock.length > 0) { %>
-
             <table>
                 <thead>
                     <tr>
@@ -44,6 +40,7 @@
                         <tr>
                             <td><%= user.username %></td>
                             <td><%= user.email %></td>
+                            <td><%= user.accountType %></td>
                             <td><%= user.created %></td>
                             <td>
                                 <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>')">
