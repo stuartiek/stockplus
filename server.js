@@ -324,8 +324,11 @@ app.post('/selected', async (req, res) => {
 
 //DELETE PRODUCT
 
+//DELETE PRODUCT
 app.post('/delete', async (req, res) => {
+    // Receive both the barcode and the documentId from the request body
     const barcode = req.body.barcode;
+    const documentId = req.body.documentId;
 
     try {
         const result = await db.collection('stock').deleteOne({ barcode });
@@ -335,13 +338,20 @@ app.post('/delete', async (req, res) => {
         }
 
         console.log('Stock deleted:', barcode);
-        res.redirect('/document/' + documentId + '/stock');
+
+        // Check if a documentId was provided before trying to redirect
+        if (documentId) {
+            res.redirect('/document/' + documentId + '/stock');
+        } else {
+            // Fallback redirect if for some reason the ID is missing
+            res.redirect('/documents');
+        }
+
     } catch (err) {
         console.error(err);
         res.status(500).send('Delete error');
     }
 });
-
 //USERS PAGE
 app.get('/users', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}

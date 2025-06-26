@@ -131,11 +131,15 @@
         </form>
         <form id="deleteForm" action="/delete" method="POST" style="display:none;">
             <input type="hidden" name="barcode" id="deleteBarcode">
+            <input type="hidden" name="documentId" id="deleteDocumentId">
         </form>
+
         <script>
-            function deleteItem(barcode) {
+            // 3. UPDATE THE FUNCTION TO ACCEPT AND USE THE documentId
+            function deleteItem(barcode, documentId) {
                 if(confirm('Are you sure you want to delete this item?')) {
                     document.getElementById('deleteBarcode').value = barcode;
+                    document.getElementById('deleteDocumentId').value = documentId; // Set the new hidden input
                     document.getElementById('deleteForm').submit();
                 }
             }
