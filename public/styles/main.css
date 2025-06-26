@@ -440,6 +440,26 @@ main{
     background-color: #ffffff;
     
 }
+.createDoc form input[type=email]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    
+}
+.createDoc form input[type=password]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    
+}
 
 .createDoc button{
     margin-top: 20px;
