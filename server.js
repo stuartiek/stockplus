@@ -323,10 +323,7 @@ app.post('/selected', async (req, res) => {
 });
 
 //DELETE PRODUCT
-
-//DELETE PRODUCT
 app.post('/delete', async (req, res) => {
-    // Receive both the barcode and the documentId from the request body
     const barcode = req.body.barcode;
     const documentId = req.body.documentId;
 
@@ -339,19 +336,24 @@ app.post('/delete', async (req, res) => {
 
         console.log('Stock deleted:', barcode);
 
-        // Check if a documentId was provided before trying to redirect
-        if (documentId) {
+        // VALIDATE THE DOCUMENT ID BEFORE REDIRECTING
+        // ObjectId.isValid() checks if a string is a valid 24-char hex ID.
+        if (documentId && ObjectId.isValid(documentId)) {
+            // If the ID is valid, redirect back to that document's page
             res.redirect('/document/' + documentId + '/stock');
         } else {
-            // Fallback redirect if for some reason the ID is missing
+            // If the ID is missing or invalid, send the user to the main documents list
+            console.log("⚠️ Invalid or missing documentId after delete. Redirecting to /documents.");
             res.redirect('/documents');
         }
 
     } catch (err) {
-        console.error(err);
+        // This will catch errors from the deleteOne operation itself
+        console.error("Error during stock deletion:", err);
         res.status(500).send('Delete error');
     }
 });
+
 //USERS PAGE
 app.get('/users', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
