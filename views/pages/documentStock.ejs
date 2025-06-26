@@ -63,18 +63,20 @@
             <br>
             <!-- STOCK IS DISPLAYED IN TABLE -->
         <form class="stockDisplay" action="/selected" method="POST">
+        <% if (stock && stock.length > 0) { %>
+
             <table>
                 <thead>
                     <tr>
                         <th style="width:1vw"></th>
                         <th>Product Image</th>
-                        <th style="width:15vw">Product Name</th>
+                        <th style="width:10vw">Product Name</th>
                         <th>Product Code</th>
                         <th>Brand</th>
                         <th>Category</th>
                         <th style="width:2vw">Qty</th>
-                        <th width:5vw>RRP</th>
-                        <th width:5vw>Price</th>
+                        <th>RRP</th>
+                        <th>Price</th>
                         <th style="width:10vw">Barcode</th>
                         <th style="width:3vw"></th>
                     </tr>
@@ -82,6 +84,7 @@
                 <tbody class="tableScroll">
                     <% stock.forEach(function(stock) { %>
                         <tr>
+                            <%# Table row content remains the same... %>
                             <td class="checkbox">
                                 <input type="checkbox" name="selectedBarcodes[]" value="<%= stock.barcode %>">
                             </td>
@@ -106,13 +109,7 @@
                                 </button> 
                             </td>
                         </tr>
-                    <% } else { %>
-                        <div class="no-stock-message">
-                            <h3>No Stock Found</h3>
-                            <p>There are no items in this document that match the current filter.</p>
-                            <p>Try selecting a different category or adding a new item.</p>
-                        </div>
-                    <% } %>
+                    <% }); %>
                 </tbody>
             
             </table>
@@ -122,6 +119,15 @@
                 <button type="submit">View Selected</button>
             </div>
             
+
+        <% } else { %>
+                <div class="no-stock-message">
+                    <h3>No Stock Found</h3>
+                    <p>There are no items in this document that match the current filter.</p>
+                    <p>Try selecting a different category or adding a new item.</p>
+                </div>
+        <% } %>
+
         </form>
         <form id="deleteForm" action="/delete" method="POST" style="display:none;">
             <input type="hidden" name="barcode" id="deleteBarcode">
