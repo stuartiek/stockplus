@@ -396,7 +396,24 @@ main{
     border-radius: 40px;  
     border: 1px solid #e0e0e0;
     background-color: #ffffff;
-    
+}
+.createUser form input[type=email]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff; 
+}
+.createUser form input[type=password]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff; 
 }
 
 .createUser button{
@@ -509,7 +526,6 @@ main{
     border-radius: 40px;  
     border: 1px solid #e0e0e0;
     background-color: #ffffff;
-    
 }
 #createStock form input[type=text]{
     margin-top: 20px;
@@ -518,8 +534,7 @@ main{
     padding: 15px;
     border-radius: 40px;  
     border: 1px solid #e0e0e0;
-    background-color: #ffffff;
-    
+    background-color: #ffffff; 
 }
 
 #createStock button{
