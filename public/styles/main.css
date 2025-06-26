@@ -167,7 +167,7 @@ main{
     background-color: #F98D67;
 }
 .statsIcon span{
-    padding: auto;
+    margin: auto;
     font-size: 48px;
   font-variation-settings: 'OPSZ' 48;
 }
