@@ -250,15 +250,6 @@ main{
   }
 
 .docDel {
-    /* font-size: 0.5dvw;
-    padding: 5px;
-    color: #ffffff;
-    border-radius: 50%;
-    border-style: none;
-    background-color: #F98D67;
-    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
-    cursor: pointer; */
-
     margin: 20px;
     width: 3vw;
     background-color: #F98D67;
@@ -378,6 +369,51 @@ main{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 } */
+
+/* USERS PAGE */
+
+.createUser{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 84px;
+}
+.createUser form select{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    
+}
+.createUser form input[type=text]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    
+}
+
+.createUser button{
+    margin-top: 20px;
+    width: 150px;
+    font-size: 1rem;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 40px;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    cursor: pointer;
+}
+
+/* DOCUMENT PAGE */
+
 .createDoc{
     display: flex;
     flex-direction: row;

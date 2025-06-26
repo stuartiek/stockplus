@@ -18,26 +18,29 @@
         <%- include('../partials/header') %>
     </header>
     <main id="stock">
-    <form class="modal-content animate" action="/signUp" method="POST">
-        <div class="login-container">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="uname" required>
+      <div class="createUser">
+        <form class="modal-content animate" action="/signUp" method="POST">
+          <div class="login-container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+      
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Enter Email" name="email" required>
+              
+            <label for="accountType"><b>Account Type</b></label>
+            <select name="accountType">
+              <option value="Staff">Staff</option>
+              <option value="Admin">Admin</option>
+            </select>
+
+            <button type="submit">Sign-Up</button>
+          </div>
+        </form>
+      </div>
     
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" required>
-
-          <label for="email"><b>Email</b></label>
-          <input type="email" placeholder="Enter Email" name="email" required>
-            
-          <label for="accountType"><b>Account Type</b></label>
-          <select name="accountType">
-            <option value="Staff">Staff</option>
-            <option value="Admin">Admin</option>
-          </select>
-
-          <button type="submit">Sign-Up</button>
-        </div>
-      </form>
             <table>
                 <thead>
                     <tr>
