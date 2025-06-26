@@ -198,7 +198,7 @@ app.post('/createDoc', function(req, res){
         if (err) throw err;
             console.log("✅ - New Document Created:");
             //when complete redirect back to index
-        res.redirect('/stock');
+        res.redirect('/documents');
     });
 });
 
