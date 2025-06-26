@@ -495,26 +495,26 @@ table {
     gap: 10px;
 
 }
-.label{
+.label.shelf{
     height: 113px;
     width: 207px;
     border: #0C0A0F;
     border-style: dashed;
     border-width: 1px;
 }
-.labelHead{
+.labelHead.shelf{
     padding: 5px;
     height: 40px;
     font-weight: bold;
 }
-.labelMid{
+.labelMid.shelf{
     height: 45px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: flex-end;
 }
-.labelFooter{
+.labelFooter.shelf{
     height: 15px;
     display: flex;
     flex-direction: row;
@@ -522,20 +522,20 @@ table {
     align-items: flex-end;
     font-size: 10px;
 }
-.labelFooter p{
+.labelFooter.shelf p{
     padding: 0;
     margin: 0;
 }
-.labelName{
+.labelName.shelf{
     margin-top: 0px;
     margin-bottom: 0;
     margin-left: 5px;
     font-size: 18px;
 }
-.labelBrand{
+.labelBrand.shelf{
     font-size: 12px;
 }
-.labelPrice{
+.labelPrice.shelf{
     font-size: 40px;
     margin: 0;
     float: right;
