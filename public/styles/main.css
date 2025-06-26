@@ -167,9 +167,10 @@ main{
     background-color: #F98D67;
 }
 .statsIcon span{
-    margin: auto;
+    top: 50%;
+    transform: translate(0, -50%) ;
     font-size: 48px;
-  font-variation-settings: 'OPSZ' 48;
+    font-variation-settings: 'OPSZ' 48;
 }
 .statsInfo{
     margin-left: 20px;
