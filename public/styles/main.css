@@ -160,7 +160,6 @@ main{
     border-radius: 20px;
 }
 .statsIcon{
-    padding: auto;
     width: 5vw;
     height: 100%;
     border-radius: 20px;
@@ -168,6 +167,7 @@ main{
     background-color: #F98D67;
 }
 .statsIcon span{
+    padding: auto;
     font-size: 48px;
   font-variation-settings: 'OPSZ' 48;
 }
