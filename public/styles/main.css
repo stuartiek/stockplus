@@ -142,19 +142,7 @@ main{
 
 
 
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-}
+
 .stats{
     width: 100%;
     display: flex;
@@ -177,6 +165,10 @@ main{
     border-radius: 20px;
     color: #f2f2f2;
     background-color: #F98D67;
+}
+.statsIcon span{
+    font-size: 48px;
+    font-variation-settings: 'OPSZ' 48;
 }
 .statsInfo{
     margin-left: 20px;
