@@ -190,7 +190,58 @@ main{
 
 
 
+/* Dashboard Panel Styling */
+.dashboard-panel {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
 
+.dashboard-panel h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.dashboard-panel h2 small {
+    font-weight: normal;
+    font-size: 0.8em;
+    color: #777;
+}
+
+.low-stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.low-stock-table th, .low-stock-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.low-stock-table th {
+    background-color: #f9f9f9;
+}
+
+.low-stock-qty {
+    font-weight: bold;
+    color: #d9534f; /* A reddish color to indicate warning */
+    text-align: center;
+}
+
+.all-stocked-up {
+    color: #5cb85c; /* A green color for success */
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    background-color: #f0fff0;
+    border: 1px solid #d4edda;
+    border-radius: 5px;
+}
 
 
 
