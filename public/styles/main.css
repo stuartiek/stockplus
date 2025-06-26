@@ -381,6 +381,18 @@ main{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 }
+.selectBtn{
+    margin-top: 20px;
+    width: 150px;
+    font-size: 1rem;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 40px;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    cursor: pointer;
+}
 
 
 .stockDisplay{
