@@ -578,8 +578,12 @@ table {
     margin: 0;
 }
 .label.arm .labelName{
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 2px;
+    margin-right: 2px;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
 }
 .label.arm .labelBrand{
     display: none;
