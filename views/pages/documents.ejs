@@ -47,12 +47,28 @@
                         </div>
                         <div class="btn">
                             <a href="/document/<%= documents._id %>/stock" class="open-button">Open</a>
+                            <button class="delBtn" onclick="deleteDocument('<%= document._id %>')">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
                         </div>
                     </div>
                 <% }); %>
             </div>
             
         </div>
+        <form id="deleteDocumentForm" action="/delete-document" method="POST" style="display: none;">
+            <input type="hidden" name="documentId" id="documentIdToDelete">
+        </form>
+
+        <script>
+            function deleteDocument(documentId) {
+                const confirmationMessage = "Are you sure you want to delete this document and all of its associated stock items? This action cannot be undone.";
+                if (confirm(confirmationMessage)) {
+                    document.getElementById('documentIdToDelete').value = documentId;
+                    document.getElementById('deleteDocumentForm').submit();
+                }
+            }
+        </script>
     </main>
 </body>
 </html>

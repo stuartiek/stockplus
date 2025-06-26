@@ -354,6 +354,46 @@ app.post('/delete', async (req, res) => {
     }
 });
 
+// DELETE A DOCUMENT AND ALL ITS ASSOCIATED STOCK
+app.post('/delete-document', async (req, res) => {
+    // Ensure user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+
+    const { documentId } = req.body;
+
+    // A crucial validation step to prevent errors
+    if (!documentId || !ObjectId.isValid(documentId)) {
+        return res.status(400).send("Invalid or missing Document ID.");
+    }
+
+    try {
+        // Step 1: Delete all stock items linked to this documentId.
+        // We use the string ID here because that's how it's stored in the stock collection.
+        const stockDeleteResult = await db.collection('stock').deleteMany({ documentId: documentId });
+        console.log(`✅ Deleted ${stockDeleteResult.deletedCount} stock item(s) for document ${documentId}`);
+
+        // Step 2: Delete the main document itself.
+        // We use the BSON ObjectId here because that's the primary key type.
+        const docDeleteResult = await db.collection('documents').deleteOne({ _id: new ObjectId(documentId) });
+        
+        if (docDeleteResult.deletedCount === 1) {
+            console.log(`✅ Successfully deleted document ${documentId}`);
+        } else {
+            console.log(`⚠️ Document ${documentId} not found for deletion.`);
+        }
+
+        // Step 3: Redirect back to the documents page to show the updated list.
+        res.redirect('/documents');
+
+    } catch (err) {
+        console.error("❌ Error during cascading document deletion:", err);
+        res.status(500).send("An error occurred while trying to delete the document and its stock.");
+    }
+});
+
 //USERS PAGE
 app.get('/users', function(req, res){
     if(!req.session.loggedin){res.redirect('/');return;}
