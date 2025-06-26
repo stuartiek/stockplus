@@ -327,6 +327,42 @@ main{
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
 } */
+.createDoc form select{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    
+}
+.createDoc form input[type=text]{
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    
+}
+
+.createDoc button{
+    margin-top: 20px;
+    width: 150px;
+    font-size: 1rem;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 40px;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    cursor: pointer;
+}
+
+
+
 .stockHead{
     width: 50%;
 }
