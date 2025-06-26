@@ -168,7 +168,7 @@ main{
 }
 .statsIcon span{
     font-size: 64;
-    font-variation-settings: 'OPSZ' 64;
+    font-variation-settings: 'OPSZ' 48;
 }
 .statsInfo{
     margin-left: 20px;
