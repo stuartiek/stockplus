@@ -551,12 +551,13 @@ table {
     border-width: 1px;
 }
 .label.arm .labelHead{
-    font-size: 16px;
+    font-size: 12px;
     padding: 2px;
     height: 20px;
     font-weight: bold;
 }
 .label.arm .labelMid{
+
     height: 45px;
     display: flex;
     flex-direction: row;
@@ -582,10 +583,10 @@ table {
     font-size: 18px;
 }
 .label.arm .labelBrand{
-    font-size: 12px;
+    display: none;
 }
 .label.arm .labelPrice{
-    font-size: 40px;
+    font-size: 12px;
     margin: 0;
     float: right;
 }
