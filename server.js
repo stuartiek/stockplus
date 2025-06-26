@@ -99,11 +99,13 @@ app.get('/dashboard', async function(req, res) {
     try {
         const totalStock = await db.collection('stock').countDocuments();
         const totalDocuments = await db.collection('documents').countDocuments();
+        const totalUsers = await db.collection('users').countDocuments();
         // Render the dashboard with stock stats
         res.render('pages/dashboard', {
             user: currentuser,
             totalStock,
-            totalDocuments
+            totalDocuments,
+            totalUsers
         });
     } catch (err) {
         console.error("Error fetching stock stats:", err);
@@ -158,6 +160,24 @@ app.get('/document/:id/stock', async function(req, res) {
         res.status(500).send("Error fetching document details or stock data.");
     }
 });
+
+//UPDATE STOCK INFO
+app.post('/updateProfilePic', function(req, res) {
+
+    var query = { "login.username": req.session.currentuser};
+
+    var newvalues = { $set: {"picture": req.body.updatePPic}};
+
+    db.collection('users').updateOne(query,newvalues, function(err, result) {
+    if (err) throw err;
+        res.redirect('pages/documentStock');
+    });
+});
+
+
+
+
+
 
 // Define the limit of documents allowed
 const MAX_DOCUMENTS = 50;
