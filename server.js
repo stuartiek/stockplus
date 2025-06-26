@@ -160,7 +160,7 @@ app.get('/document/:id/stock', async function(req, res) {
 });
 
 // Define the limit of documents allowed
-const MAX_DOCUMENTS = 5;
+const MAX_DOCUMENTS = 50;
 
 //CREATE DOCUMENT
 app.post('/createDoc', async function(req, res){ // Make the function async
