@@ -33,20 +33,21 @@
         </div>
         <div>
             <div class="docDiv">
-                <% documents.forEach(function(documents) { %>
+                <% documents.forEach(function(document) { %>
                     <div class="projectCard">
                         <div class="projectImg">
                             <img src="/images/background/docBackground.jpg" alt=""/>
                         </div>
                         <div class="projectText">
-                            <h2><%= documents.documentName %></h2>
-                            <h3>Lable Type - <%= documents.labelType %></h3>
-                            <p><%= documents.published %></p>
-                            <p><%= documents._id %></p>
+                            <%# Use the new singular "document" variable everywhere inside the loop %>
+                            <h2><%= document.documentName %></h2>
+                            <h3>Label Type - <%= document.labelType %></h3>
+                            <p><%= document.published %></p>
+                            <p><%= document._id %></p>
                             
                         </div>
                         <div class="btn">
-                            <a href="/document/<%= documents._id %>/stock" class="open-button">Open</a>
+                            <a href="/document/<%= document._id %>/stock" class="open-button">Open</a>
                             <button class="delBtn" onclick="deleteDocument('<%= document._id %>')">
                                 <span class="material-symbols-outlined">delete</span>
                             </button>
