@@ -503,6 +503,7 @@ table {
     border-width: 1px;
 }
 .label.shelf .labelHead{
+    font-size: 18px;
     padding: 5px;
     height: 40px;
     font-weight: bold;
@@ -552,7 +553,6 @@ table {
     border-width: 1px;
 }
 .label.arm .labelHead{
-    font-size: 6px;
     padding: 2px;
     height: 20px;
     font-weight: bold;
@@ -581,7 +581,7 @@ table {
     margin-top: 0px;
     margin-bottom: 0;
     margin-left: 5px;
-    font-size: 18px;
+    font-size: 12px;
 }
 .label.arm .labelBrand{
     display: none;
