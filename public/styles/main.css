@@ -331,12 +331,11 @@ main{
     width: 50%;
 }
 #createStock{
-    background-color: #1b1b1bad;
     width: 100%;
     height: 100%;
 }
 #createStock form{
-    margin: 10%;
+    margin: 2%;
     background-color: #ffffff;
 }
 #createStock form input[type=file]{
