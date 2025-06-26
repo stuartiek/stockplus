@@ -559,7 +559,7 @@ table {
 }
 .label.arm .labelMid{
 
-    height: 36px;
+    height: 34px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
