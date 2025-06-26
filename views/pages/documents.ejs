@@ -18,6 +18,22 @@
         <%- include('../partials/header') %>
     </header>
     <main id="stock">
+        <%# Add this block to display flash messages %>
+        <% if (success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success_msg %>
+            </div>
+        <% } %>
+        <% if (error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-danger">
+                <%= error_msg %>
+            </div>
+        <% } %>
+
+        <div class="createDoc">
+            <form action="/createDoc" method="POST" >
+                </form>
+        </div>
         <div class="createDoc">
             <form action="/createDoc" method="POST" >
                 <input type="text" name="documentName" placeholder="Document Name">
