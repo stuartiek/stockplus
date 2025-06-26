@@ -86,30 +86,41 @@ app.get('/', function(req, res){
     res.render('pages/index');
 });
 
+const LOW_STOCK_THRESHOLD = 5;
+
 // DASHBOARD
 app.get('/dashboard', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
-    // Gets current user
+    
     var currentuser = req.session.currentuser;
 
-    // Aggregate the stats from the database
     try {
+        // --- Existing Stats ---
         const totalStock = await db.collection('stock').countDocuments();
         const totalDocuments = await db.collection('documents').countDocuments();
         const totalUsers = await db.collection('users').countDocuments();
-        // Render the dashboard with stock stats
+
+        // --- NEW: Find low stock items ---
+        // The `$lt` operator means "less than"
+        const lowStockItems = await db.collection('stock').find({ 
+            qty: { $lt: LOW_STOCK_THRESHOLD } 
+        }).toArray();
+
+        // Render the dashboard with all the data
         res.render('pages/dashboard', {
             user: currentuser,
             totalStock,
             totalDocuments,
-            totalUsers
+            totalUsers,
+            lowStockItems, // Pass the new array to the template
+            LOW_STOCK_THRESHOLD // Also pass the threshold value for display
         });
     } catch (err) {
-        console.error("Error fetching stock stats:", err);
-        res.status(500).send("Error fetching stock data");
+        console.error("Error fetching dashboard stats:", err);
+        res.status(500).send("Error fetching dashboard data");
     }
 });
 
@@ -265,7 +276,7 @@ app.post('/addStock', upload.single('image'), function(req, res){
         "productCode": req.body.productCode,
         "brand": req.body.Brand,
         "category": req.body.Category,
-        "qty": req.body.Qty,
+        "qty": parseInt(req.body.Qty, 10) || 0,
         "rrp": req.body.RRP,
         "price": req.body.Price,
         "barcode": req.body.Barcode,

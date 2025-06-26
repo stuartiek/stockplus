@@ -49,6 +49,37 @@
                 </div>
             </div>
         </section>
+        <section>
+            <div class="dashboard-panel">
+                <h2>Low Stock Alerts <small>(Less than <%= LOW_STOCK_THRESHOLD %> items)</small></h2>
+
+                <%# Check if the lowStockItems array has items in it %>
+                <% if (lowStockItems && lowStockItems.length > 0) { %>
+                    <table class="low-stock-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Product Code</th>
+                                <th>Quantity Remaining</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%# Loop through each low stock item and create a table row %>
+                            <% lowStockItems.forEach(item => { %>
+                                <tr>
+                                    <td><%= item.productName %></td>
+                                    <td><%= item.productCode %></td>
+                                    <td class="low-stock-qty"><%= item.qty %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <%# This message shows if there are no low stock items %>
+                    <p class="all-stocked-up">👍 Great job! No items are currently low on stock.</p>
+                <% } %>
+            </div>
+        </section>
 
 
 
