@@ -44,6 +44,7 @@ const dbname = 'stockplus';
 // LOAD NPM PACKAGES
 let express = require('express');
 let session = require('express-session');
+const flash = require('connect-flash'); //REQUIRE connect-flash
 let bodyParser = require('body-parser');
 const {Console, profile} = require('console');
 const app = express();
@@ -57,7 +58,15 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// 2. CONFIGURE connect-flash (must be after session)
+app.use(flash());
 
+// 3. Global Vars Middleware (to pass messages to all templates)
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    next();
+});
 // CONNECT TO DB
 let db;
 connectDB();
@@ -184,22 +193,44 @@ app.get('/document/:id/stock', async function(req, res) {
     }
 });
 
+// Define the limit of documents allowed
+const MAX_DOCUMENTS = 5;
 
 //CREATE DOCUMENT
-app.post('/createDoc', function(req, res){
-    const isoDate = new Date();
-    const ISO = isoDate.toISOString();
-    var datatostore ={
-        "documentName": req.body.documentName,
-        "labelType": req.body.labelType,
-        "published":ISO.slice(0 , 19) // Cuts out unwanted date information
-    }
-    db.collection('documents').insertOne(datatostore, function(err, result){
-        if (err) throw err;
-            console.log("✅ - New Document Created:");
-            //when complete redirect back to index
+app.post('/createDoc', async function(req, res){ // Make the function async
+    try {
+        // First, count how many documents already exist
+        const currentDocCount = await db.collection('documents').countDocuments();
+
+        // Check if the count is at or over the maximum limit
+        if (currentDocCount >= MAX_DOCUMENTS) {
+            // If so, set an error flash message and redirect
+            console.log(`⚠️ Document creation blocked. Limit of ${MAX_DOCUMENTS} reached.`);
+            req.flash('error_msg', `You have reached the maximum limit of ${MAX_DOCUMENTS} documents.`);
+            return res.redirect('/documents'); // Stop execution and redirect
+        }
+
+        // If the limit is not reached, proceed with creating the document
+        const isoDate = new Date();
+        const ISO = isoDate.toISOString();
+        var datatostore ={
+            "documentName": req.body.documentName,
+            "labelType": req.body.labelType,
+            "published": ISO.slice(0 , 19)
+        }
+        
+        await db.collection('documents').insertOne(datatostore);
+        
+        console.log("✅ - New Document Created:");
+        // Set a success flash message
+        req.flash('success_msg', 'Document created successfully!');
         res.redirect('/documents');
-    });
+
+    } catch (err) {
+        console.error("❌ Error creating document:", err);
+        req.flash('error_msg', 'An error occurred while creating the document.');
+        res.redirect('/documents');
+    }
 });
 
 //DISPLAY DOCUMENTS
