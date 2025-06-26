@@ -152,7 +152,7 @@ main{
 .statsCard{
     display: flex;
     flex-direction: row;
-    width: 20vw;
+    width: 15vw;
     height: 10vh;
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
