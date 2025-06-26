@@ -107,8 +107,12 @@
                             </td>
                         </tr>
                     <% } else { %>
-                        <p>No Stock Currently In Document</p>
-                    <% }); %>
+                        <div class="no-stock-message">
+                            <h3>No Stock Found</h3>
+                            <p>There are no items in this document that match the current filter.</p>
+                            <p>Try selecting a different category or adding a new item.</p>
+                        </div>
+                    <% } %>
                 </tbody>
             
             </table>
