@@ -160,7 +160,9 @@ main{
     border-radius: 20px;
 }
 .statsIcon{
-    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 5vw;
     height: 100%;
     border-radius: 20px;
