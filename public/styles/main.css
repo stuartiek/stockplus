@@ -160,6 +160,7 @@ main{
     border-radius: 20px;
 }
 .statsIcon{
+    position: absolute;
     width: 5vw;
     height: 100%;
     border-radius: 20px;
