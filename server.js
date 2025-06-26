@@ -272,22 +272,22 @@ app.post('/addStock', upload.single('image'), function(req, res){
 
 //GET PRODUCT
 
-app.get('/product', async (req, res) => {
-    const barcode = req.query.barcode;
+// app.get('/product', async (req, res) => {
+//     const barcode = req.query.barcode;
 
-    console.log('🔍 Received barcode:', barcode);
+//     console.log('🔍 Received barcode:', barcode);
 
-    db.collection('stock').findOne({ barcode }, (err, result) => {
-        if (err) throw err;
+//     db.collection('stock').findOne({ barcode }, (err, result) => {
+//         if (err) throw err;
 
-        if (!result) {
-            console.log('❌ No product found for barcode:', barcode);
-            return res.status(404).send('Product not found');
-        }
+//         if (!result) {
+//             console.log('❌ No product found for barcode:', barcode);
+//             return res.status(404).send('Product not found');
+//         }
 
-        res.render('pages/product', { stock: result });
-    });
-});
+//         res.render('pages/product', { stock: result });
+//     });
+// });
 
 
 //VIEW SELECTED PRODUCTS
