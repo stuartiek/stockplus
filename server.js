@@ -86,6 +86,7 @@ app.get('/', function(req, res){
     res.render('pages/index');
 });
 
+// DASHBOARD
 app.get('/dashboard', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');
@@ -97,11 +98,12 @@ app.get('/dashboard', async function(req, res) {
     // Aggregate the stats from the database
     try {
         const totalStock = await db.collection('stock').countDocuments();
-        
+        const totalDocuments = await db.collection('documents').countDocuments();
         // Render the dashboard with stock stats
         res.render('pages/dashboard', {
             user: currentuser,
             totalStock,
+            toaltDocuments
         });
     } catch (err) {
         console.error("Error fetching stock stats:", err);
@@ -109,43 +111,7 @@ app.get('/dashboard', async function(req, res) {
     }
 });
 
-//LABELS PAGE
-app.get('/labels', function(req, res){
-    if(!req.session.loggedin){res.redirect('/');return;}
-
-
-    res.render('pages/labels')
-});
-
-
-// STOCK PAGE 
-// app.get('/stock:_id', async function(req, res) {
-//     if (!req.session.loggedin) {
-//         res.redirect('/');
-//         return;
-//     }
-
-//     const selectedCategory = req.query.category || ''; // Get selected category from query
-//     const stockSort = { "published": -1 };
-
-//     const filter = selectedCategory ? { category: selectedCategory } : {};
-
-//     console.log("🔍 Fetching stock with sort:", stockSort, "and filter:", filter);
-
-//     db.collection('stock').find(filter).sort(stockSort).toArray(function(err, result) {
-//         if (err) {
-//             console.error("❌ Error fetching stock:", err);
-//             throw err;
-//         }
-
-//         console.log("✅ Stock items fetched:", result.length);
-
-//         res.render('pages/stock', {
-//             stock: result,
-//             selectedCategory // ✅ Pass this to EJS so dropdown can stay selected
-//         });
-//     });
-// });
+// DOCUMENTS STOCK PAGE
 app.get('/document/:id/stock', async function(req, res) {
     if (!req.session.loggedin) {
         res.redirect('/');

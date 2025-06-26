@@ -148,7 +148,13 @@ main{
     flex-direction: row;
     justify-content: space-evenly;
 }
-
+.statsCard{
+    width: 5vw;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
+    border-radius: 0 10% 10% 10%;
+}
 
 
 
