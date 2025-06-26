@@ -103,7 +103,7 @@ app.get('/dashboard', async function(req, res) {
         res.render('pages/dashboard', {
             user: currentuser,
             totalStock,
-            toaltDocuments
+            totalDocuments
         });
     } catch (err) {
         console.error("Error fetching stock stats:", err);
