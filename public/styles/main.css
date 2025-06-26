@@ -331,6 +331,7 @@ main{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    height: 84px;
 }
 .createDoc form select{
     margin-top: 20px;
