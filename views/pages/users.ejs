@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/stock.js"></script>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete" />
+    <link rel="icon" type="image/x-icon" href="images/logo/favicon.png">
     <link rel="manifest" href="manifest.json">
-    <title>Document</title>
+    <title>Users</title>
 </head>
 <body>
+    <header>
+        <%- include('../partials/header') %>
+    </header>
+    <main id="stock">
     <form class="modal-content animate" action="/signUp" method="POST">
         <div class="login-container">
           <label for="uname"><b>Username</b></label>
@@ -32,6 +43,7 @@
                     <tr>
                         <th>Username</th>
                         <th style="width:10vw">Email</th>
+                        <th style="width:10vw">Account Type</th>
                         <th>Created</th>
                     </tr>
                 </thead>
@@ -47,5 +59,7 @@
                 </tbody>
             
             </table>
+    </main>
 </body>
 </html>
+
