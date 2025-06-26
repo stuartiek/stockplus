@@ -566,6 +566,7 @@ table {
     align-items: flex-end;
 }
 .label.arm .labelFooter{
+    bottom: 0;
     height: 15px;
     display: flex;
     flex-direction: row;
