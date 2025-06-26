@@ -177,6 +177,12 @@ main{
 .statsInfo{
     margin-left: 20px;
 }
+.statsInfo h1{
+    font-size: 30px;
+}
+.statsInfo p{
+    font-size: 20px;
+}
 
 
 
