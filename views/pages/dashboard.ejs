@@ -60,8 +60,8 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Product Code</th>
-                                <th>Quantity Remaining</th>
                                 <th>Barcode</th>
+                                <th>Quantity Remaining</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,8 +70,8 @@
                                 <tr>
                                     <td><%= item.productName %></td>
                                     <td><%= item.productCode %></td>
-                                    <td class="low-stock-qty"><%= item.qty %></td>
                                     <td><%= item.barcode %></td>
+                                    <td class="low-stock-qty"><%= item.qty %></td>
                                 </tr>
                             <% }) %>
                         </tbody>
