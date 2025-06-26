@@ -336,7 +336,6 @@ main{
 }
 #createStock form{
     margin: 2%;
-    background-color: #ffffff;
 }
 #createStock form input[type=file]{
     margin-top: 20px;
