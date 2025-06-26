@@ -593,6 +593,9 @@ table {
     margin: 0;
     float: right;
 }
+.label.arm .labelBarcode{
+    display: none;
+}
 
 
 
