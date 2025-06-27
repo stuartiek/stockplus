@@ -484,10 +484,12 @@ app.post('/signUp', async function(req, res){
                 if(!result){
                     db.collection('users').insertOne(datatostore, function(err, result){
                         if(err) throw err;
+                        req.flash('success_msg', 'User created successfully!');
                         console.log("User Created");
                         res.redirect('/');
                     });
                 } else {
+                    req.flash('error_msg', 'User Already Exists.');
                     console.log("User Already Exists");
                     res.redirect('/users');
                 }
