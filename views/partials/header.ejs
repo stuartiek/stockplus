@@ -5,7 +5,7 @@
         <li><a href="/documents">Documents</a></li>
         <li><a href="/stock">Stock</a></li>
         <li>
-            <% if (userType === 'Admin') { %>
+            <% if (userType === 'Admin' || userType === 'Owner') { %>
                 <a href="/users">Manage Users</a>
             <% } %>
         </li>
