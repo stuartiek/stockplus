@@ -438,7 +438,7 @@ app.post('/delete-document', async (req, res) => {
 
 //USERS PAGE
 app.get('/users', function(req, res){
-    if(!req.session.loggedin){res.redirect('/');return;}
+   
 
 
 
