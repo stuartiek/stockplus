@@ -69,7 +69,7 @@ app.use((req, res, next) => {
     // Make session data available in all templates
     res.locals.loggedin = req.session.loggedin;
     res.locals.currentuser = req.session.currentuser;
-    res.locals.userType = req.session.userType;
+    res.locals.userType = req.session.userDoc;
     next();
 });
 // CONNECT TO DB
