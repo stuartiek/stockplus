@@ -497,31 +497,28 @@ app.post('/login', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
 
-    db.collection('users').findOne({"login.username":username}, function(err, result){
+    db.collection('users').findOne({"login.username":username}, function(err, userDoc){
         if (err) throw err;
         
-        //IF NO USER REDIRECT TO INDEX
-        if(!result){res.redirect('/');
+        if(!userDoc){
             console.log('No User Found')
-        return
+            return res.redirect('/');
         }
+        
+        console.log('Full user document found in database:', userDoc);
 
-        // ADD THIS LINE FOR DETAILED DEBUGGING
-        console.log('Full user document found in database:', result);
-        bcrypt.compare(password, result.login.password, function(err, result) {
-        // result == true
-        console.log(result);
-        //CHECKS PASSWORD AGAINST USER
-            if(result == true){
-                console.log("true")
-                console.log(result);
+        bcrypt.compare(password, userDoc.login.password, function(err, isMatch) {
+            // Check if the passwords match
+            if(isMatch){
+                // Set session variables using the 'userDoc' object
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
-                // Add the accountType to the session
-                req.session.accountType = result.accountType; 
-                console.log(`User ${username} logged in with account type: ${result.accountType}`);
+                req.session.accountType = userDoc.accountType; 
+
+                console.log(`User ${username} logged in with account type: ${userDoc.accountType}`);
                 res.redirect('/dashboard');
             } else {
+                console.log('Password does not match.');
                 res.redirect('/')
             }
         });
