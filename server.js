@@ -505,7 +505,7 @@ app.post('/login', async function(req, res){
             return res.redirect('/');
         }
         
-        console.log('Full user document found in database:', userDoc);
+        // console.log('Full user document found in database:', userDoc);
 
         bcrypt.compare(password, userDoc.login.password, function(err, isMatch) {
             // Check if the passwords match

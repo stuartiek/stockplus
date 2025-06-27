@@ -4,7 +4,11 @@
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/documents">Documents</a></li>
         <li><a href="/stock">Stock</a></li>
-        <li><a href="/users">User</a></li>
+        <li>
+            <% if (userType === 'Admin') { %>
+                <a href="/users">Manage Users (Admin Only)</a>
+            <% } %>
+        </li>
         
         <div class="sideBtm">
             <li><a href="/account">My Account</a></li>
