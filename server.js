@@ -515,6 +515,7 @@ app.post('/login', async function(req, res){
                 console.log(result);
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
+                req.session.accountType = accountType;
                 res.redirect('/dashboard');
             } else {
                 res.redirect('/')
@@ -578,7 +579,7 @@ async function sendLowStockReport() {
 
             // Create a simple HTML list of the items.
             const itemsHtml = lowStockItems.map(item =>
-                `<li><b>${item.productName}</b> (Code: ${item.productCode}) - Quantity: ${item.qty}</li>`
+                `<li><b>${item.productName}</b> (Code: ${item.productCode}) - Quantity: ${item.qty} - Barcode: ${item.barcode}</li>`
             ).join('');
 
             const mailOptions = {
@@ -608,7 +609,7 @@ async function sendLowStockReport() {
 
 // 3. Schedule the task.
 // This cron expression '0 9 * * *' means "at 9:00 AM every day".
-cron.schedule('9 16 * * *', sendLowStockReport, {
+cron.schedule('0 09 * * *', sendLowStockReport, {
     scheduled: true,
     timezone: "Europe/London"
 });
