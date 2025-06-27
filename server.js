@@ -515,7 +515,9 @@ app.post('/login', async function(req, res){
                 console.log(result);
                 req.session.loggedin = true; 
                 req.session.currentuser = username;
-                
+                // Add the accountType to the session
+                req.session.accountType = result.accountType; 
+                console.log(`User ${username} logged in with account type: ${result.accountType}`);
                 res.redirect('/dashboard');
             } else {
                 res.redirect('/')
