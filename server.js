@@ -506,6 +506,8 @@ app.post('/login', async function(req, res){
         return
         }
 
+        // ADD THIS LINE FOR DETAILED DEBUGGING
+        console.log('Full user document found in database:', result);
         bcrypt.compare(password, result.login.password, function(err, result) {
         // result == true
         console.log(result);
