@@ -615,7 +615,7 @@ async function sendLowStockReport() {
 
 // 3. Schedule the task.
 // This cron expression '0 9 * * *' means "at 9:00 AM every day".
-cron.schedule('59 17 * * *', sendLowStockReport, {
+cron.schedule('21 18 * * *', sendLowStockReport, {
     scheduled: true,
     timezone: "Europe/London"
 });
