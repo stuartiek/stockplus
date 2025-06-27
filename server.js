@@ -542,3 +542,75 @@ app.get('/logout', function(req, res){
 
 
 /////////// TEST //////////
+
+
+const cron = require('node-cron');
+const nodemailer = require('nodemailer');
+
+// --- NOTIFICATION SETUP ---
+
+// 1. Configure the email transporter.
+// IMPORTANT: Use environment variables in a real app for security.
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.hostinger.com", // Hostinger's SMTP server
+    port: 465,                  // Port for SSL
+    secure: true,               // Use SSL
+    auth: {
+        user: 'info@stockplus.abzdigitalgroup.com', // Your full Hostinger email address
+        pass: 'jtdhJ35j26Mfg?2' // The password for that email account
+    }
+});
+
+// 2. Define the low stock check and email function.
+async function sendLowStockReport() {
+    console.log('Running low stock check...');
+    const LOW_STOCK_THRESHOLD = 5; // Or whatever threshold you prefer
+
+    try {
+        const lowStockItems = await db.collection('stock').find({
+            qty: { $lt: LOW_STOCK_THRESHOLD }
+        }).toArray();
+
+        // Only send an email if there are low-stock items.
+        if (lowStockItems.length > 0) {
+            console.log(`Found ${lowStockItems.length} low-stock items. Preparing email.`);
+
+            // Create a simple HTML list of the items.
+            const itemsHtml = lowStockItems.map(item =>
+                `<li><b>${item.productName}</b> (Code: ${item.productCode}) - Quantity: ${item.qty}</li>`
+            ).join('');
+
+            const mailOptions = {
+                from: '"StockPlus Alerts" <your-email@gmail.com>',
+                to: 'stuartiek@gmail.com', // The email address to receive the alert
+                subject: `🚨 Low Stock Alert - ${lowStockItems.length} Items Need Attention`,
+                html: `
+                    <h1>Low Stock Report</h1>
+                    <p>The following items are below the threshold of ${LOW_STOCK_THRESHOLD}:</p>
+                    <ul>
+                        ${itemsHtml}
+                    </ul>
+                    <p>Please reorder soon.</p>
+                `
+            };
+
+            // Send the email
+            await transporter.sendMail(mailOptions);
+            console.log('✅ Low stock report sent successfully.');
+        } else {
+            console.log('👍 Stock levels are sufficient. No report sent.');
+        }
+    } catch (error) {
+        console.error('❌ Error sending low stock report:', error);
+    }
+}
+
+// 3. Schedule the task.
+// This cron expression '0 9 * * *' means "at 9:00 AM every day".
+cron.schedule('55 15 * * *', sendLowStockReport, {
+    scheduled: true,
+    timezone: "Europe/London"
+});
+
+console.log('🗓️  Low stock notification task scheduled to run daily at 9:00 AM.');
