@@ -582,7 +582,7 @@ async function sendLowStockReport() {
             ).join('');
 
             const mailOptions = {
-                from: '"StockPlus Alerts" <your-email@gmail.com>',
+                from: '"StockPlus Alerts" info@stockplus.abzdigitalgroup.com',
                 to: 'stuartiek@gmail.com', // The email address to receive the alert
                 subject: `🚨 Low Stock Alert - ${lowStockItems.length} Items Need Attention`,
                 html: `
@@ -608,7 +608,7 @@ async function sendLowStockReport() {
 
 // 3. Schedule the task.
 // This cron expression '0 9 * * *' means "at 9:00 AM every day".
-cron.schedule('2 15 * * *', sendLowStockReport, {
+cron.schedule('3 16 * * *', sendLowStockReport, {
     scheduled: true,
     timezone: "Europe/London"
 });
