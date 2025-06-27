@@ -65,6 +65,11 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
+
+    // Make session data available in all templates
+    res.locals.loggedin = req.session.loggedin;
+    res.locals.currentuser = req.session.currentuser;
+    res.locals.userType = req.session.userType;
     next();
 });
 // CONNECT TO DB
