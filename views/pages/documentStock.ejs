@@ -106,12 +106,12 @@
                             <td>£<%= stock.price %></td>
                             <td><%= stock.barcode %></td>
                             <td>
-                                <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>')">
+                                <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>', '<%= document._id %>')">
                                     <span class="material-symbols-outlined">delete</span>
                                 </button> 
                             </td>
                             <td>
-                                <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>')">
+                                <button class="editBtn" type="button" onclick='editItem(<%- JSON.stringify(stock) %>)'>
                                     <span class="material-symbols-outlined">edit</span>
                                 </button>
                             </td>
@@ -136,19 +136,84 @@
         <% } %>
 
         </form>
+
+                <!-- HIDDEN DELETE FORM -->
         <form id="deleteForm" action="/delete" method="POST" style="display:none;">
             <input type="hidden" name="barcode" id="deleteBarcode">
             <input type="hidden" name="documentId" id="deleteDocumentId">
         </form>
 
+        <!-- 1. ADD THE EDIT POP-UP DIALOG -->
+        <dialog id="editStockDialog">
+            <form action="/updateStock" method="POST">
+                <h2>Edit Stock Item</h2>
+                <!-- Hidden inputs to identify the item and for the redirect -->
+                <input type="hidden" id="edit_originalBarcode" name="originalBarcode">
+                <input type="hidden" name="documentId" value="<%= document._id %>">
+
+                <label for="edit_productName">Product Name</label>
+                <input type="text" id="edit_productName" name="productName" maxlength="35" required>
+
+                <label for="edit_productCode">Product Code</label>
+                <input type="text" id="edit_productCode" name="productCode">
+
+                <label for="edit_Brand">Brand</label>
+                <input type="text" id="edit_Brand" name="Brand">
+
+                <label for="edit_Category">Category</label>
+                <select id="edit_Category" name="Category">
+                    <option value="Tools">Tools</option>
+                    <option value="Sundries">Sundries</option>
+                    <option value="Chemicals">Chemicals</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Misc">Misc</option>
+                </select>
+
+                <label for="edit_Qty">Quantity</label>
+                <input type="number" id="edit_Qty" name="Qty">
+
+                <label for="edit_RRP">RRP</label>
+                <input type="text" id="edit_RRP" name="RRP">
+
+                <label for="edit_Price">Price</label>
+                <input type="text" id="edit_Price" name="Price">
+
+                <label for="edit_Barcode">Barcode</label>
+                <input type="text" id="edit_Barcode" name="Barcode" required>
+
+                <div class="dialog-buttons">
+                    <button type="submit">Update Item</button>
+                    <button type="button" onclick="document.getElementById('editStockDialog').close()">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+
         <script>
-            // 3. UPDATE THE FUNCTION TO ACCEPT AND USE THE documentId
             function deleteItem(barcode, documentId) {
                 if(confirm('Are you sure you want to delete this item?')) {
                     document.getElementById('deleteBarcode').value = barcode;
-                    document.getElementById('deleteDocumentId').value = documentId; // Set the new hidden input
+                    document.getElementById('deleteDocumentId').value = documentId;
                     document.getElementById('deleteForm').submit();
                 }
+            }
+
+            // 2. ADD THE NEW EDITITEM JAVASCRIPT FUNCTION
+            function editItem(stockItem) {
+                const dialog = document.getElementById('editStockDialog');
+
+                // Populate the form fields with data from the clicked item
+                dialog.querySelector('#edit_originalBarcode').value = stockItem.barcode;
+                dialog.querySelector('#edit_productName').value = stockItem.productName;
+                dialog.querySelector('#edit_productCode').value = stockItem.productCode;
+                dialog.querySelector('#edit_Brand').value = stockItem.brand;
+                dialog.querySelector('#edit_Category').value = stockItem.category;
+                dialog.querySelector('#edit_Qty').value = stockItem.qty;
+                dialog.querySelector('#edit_RRP').value = stockItem.rrp;
+                dialog.querySelector('#edit_Price').value = stockItem.price;
+                dialog.querySelector('#edit_Barcode').value = stockItem.barcode;
+
+                // Show the dialog pop-up
+                dialog.showModal();
             }
         </script>
     </main>

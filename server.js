@@ -177,22 +177,73 @@ app.get('/document/:id/stock', async function(req, res) {
     }
 });
 
-//UPDATE STOCK INFO
-app.post('/updateStock', function(req, res) {
+// UPDATE STOCK ITEM (Replaces your old /updateStock route)
+app.post('/updateStock', async (req, res) => {
+    if (!req.session.loggedin) {
+        return res.redirect('/');
+    }
 
-    var query = { "login.username": req.session.currentuser};
+    // Destructure all the data from the edit form
+    const {
+        originalBarcode,
+        documentId,
+        productName,
+        productCode,
+        Brand,
+        Category,
+        Qty,
+        RRP,
+        Price,
+        Barcode
+    } = req.body;
 
-    var newvalues = { $set: {"picture": req.body.updatePPic}};
+    // Validate that we have the necessary IDs to work with
+    if (!originalBarcode || !documentId) {
+        req.flash('error_msg', 'Could not update item. Required information is missing.');
+        // Redirect to a safe page if documentId is missing
+        return res.redirect('/documents');
+    }
 
-    db.collection('users').updateOne(query,newvalues, function(err, result) {
-    if (err) throw err;
-        res.redirect('pages/documentStock');
-    });
+    try {
+        // Use the original barcode to find the correct item to update
+        const filter = { barcode: originalBarcode };
+
+        // Create an object with all the new values
+        const updatedValues = {
+            $set: {
+                productName: productName,
+                productCode: productCode,
+                brand: Brand,
+                category: Category,
+                qty: parseInt(Qty, 10) || 0, // Ensure quantity is a number
+                rrp: RRP,
+                price: Price,
+                barcode: Barcode, // The barcode itself can be updated
+                productURL: "/product/" + Barcode, // Update the URLs as well
+                deleteURL: "/delete/" + Barcode,
+            }
+        };
+
+        // Perform the update operation in the database
+        const result = await db.collection('stock').updateOne(filter, updatedValues);
+
+        if (result.modifiedCount === 1) {
+            console.log(`✅ Stock item ${originalBarcode} updated successfully.`);
+            req.flash('success_msg', 'Stock item updated successfully!');
+        } else {
+            console.log(`⚠️ Stock item ${originalBarcode} not found or no changes were made.`);
+            req.flash('error_msg', 'Could not find the item to update, or no changes were made.');
+        }
+
+        // Redirect back to the same document stock page
+        res.redirect(`/document/${documentId}/stock`);
+
+    } catch (err) {
+        console.error("❌ Error updating stock item:", err);
+        req.flash('error_msg', 'An error occurred while updating the stock item.');
+        res.redirect(`/document/${documentId}/stock`);
+    }
 });
-
-
-
-
 
 
 // Define the limit of documents allowed
@@ -442,7 +493,7 @@ app.get('/users', function(req, res){
 
 
 
-    const userSort = { "published": -1 };
+    const userSort = { "created": -1 };
 
     console.log("🔍 Fetching Users with sort:", userSort);
 
