@@ -109,6 +109,11 @@
                                     <span class="material-symbols-outlined">delete</span>
                                 </button> 
                             </td>
+                            <td>
+                                <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>')">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </button>
+                            </td>
                         </tr>
                     <% }); %>
                 </tbody>
