@@ -23,27 +23,49 @@
             <button class="createBtn" popovertarget="createStockPopover">Create New Stock</button>
         </div>
 
-        <!-- Popover for Creating Stock -->
+        <!-- Popover for Creating Stock - UPDATED TO MATCH EDIT FORM -->
         <div id="createStockPopover" popover>
             <form action="/addStock" method="POST" enctype="multipart/form-data">
                 <h2>Add New Stock Item</h2>
-                <input type="file" name="image" accept="image/*" capture="camera" />
                 <input type="hidden" name="documentId" value="<%= document._id %>">
-                <input type="text" name="productName" maxlength="35" placeholder="Product Name" required>
-                <input type="text" name="productCode" placeholder="Product Code">
-                <input type="text" name="Brand" placeholder="Brand">
-                <select name="Category">
+                
+                <label for="create_image">Product Image</label>
+                <input type="file" id="create_image" name="image" accept="image/*" capture="camera" />
+
+                <label for="create_productName">Product Name</label>
+                <input type="text" id="create_productName" name="productName" maxlength="35" placeholder="Product Name" required>
+
+                <label for="create_productCode">Product Code</label>
+                <input type="text" id="create_productCode" name="productCode" placeholder="Product Code">
+
+                <label for="create_Brand">Brand</label>
+                <input type="text" id="create_Brand" name="Brand" placeholder="Brand">
+
+                <label for="create_Category">Category</label>
+                <select id="create_Category" name="Category">
                     <option value="Tools">Tools</option>
                     <option value="Sundries">Sundries</option>
                     <option value="Chemicals">Chemicals</option>
                     <option value="Hardware">Hardware</option>
                     <option value="Misc">Misc</option>
                 </select>
-                <input type="number" name="Qty" placeholder="Qty" required>
-                <input type="text" name="RRP" placeholder="RRP">
-                <input type="text" name="Price" placeholder="Price">
-                <input type="text" name="Barcode" placeholder="Barcode" required>
-                <button type="submit">Add Item</button>
+
+                <label for="create_Qty">Quantity</label>
+                <input type="number" id="create_Qty" name="Qty" placeholder="Qty" required>
+                
+                <label for="create_RRP">RRP</label>
+                <input type="text" id="create_RRP" name="RRP" placeholder="RRP">
+
+                <label for="create_Price">Price</label>
+                <input type="text" id="create_Price" name="Price" placeholder="Price">
+
+                <label for="create_Barcode">Barcode</label>
+                <input type="text" id="create_Barcode" name="Barcode" placeholder="Barcode" required>
+                
+                <div class="dialog-buttons">
+                    <button type="submit">Add Item</button>
+                    <button type="button" popovertarget="createStockPopover" popovertargetaction="hide">Cancel</button>
+                </div>
             </form>
         </div>
         <br>
