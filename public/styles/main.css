@@ -691,6 +691,20 @@ table {
     box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
   }
+  .editBtn {
+    font-size: 0.5dvw;
+    padding: 5px;
+    color: #ffffff;
+    border-radius: 50%;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    cursor: pointer;
+  }
+
+
+
+
 
 
 /* PRINT LABEL */
