@@ -111,7 +111,9 @@
                                     </button> 
                                 </td>
                                 <td>
-                                    <button class="editBtn" type="button" onclick='editItem(<%- JSON.stringify(item) %>)'>
+                                    <button class="editBtn" type="button" 
+                                            data-item='<%- JSON.stringify(item) %>' 
+                                            onclick="editItem(this)">
                                         <span class="material-symbols-outlined">edit</span>
                                     </button>
                                 </td>
