@@ -46,7 +46,6 @@ let express = require('express');
 let session = require('express-session');
 const flash = require('connect-flash'); //REQUIRE connect-flash
 let bodyParser = require('body-parser');
-const {Console, profile} = require('console');
 const app = express();
 
 app.use(session({secret: 'example'}));

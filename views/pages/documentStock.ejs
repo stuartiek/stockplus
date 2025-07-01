@@ -18,148 +18,139 @@
         <%- include('../partials/header') %>
     </header>
     <main id="stock">
-        </div>
         <div class="stockHead">
-           <h1>Document - <%= document.documentName %></h1> 
-           <!-- <button class="createBtn" popovertarget="createStock" popovertargetaction="show">Create </button> -->
+            <h1>Document - <%= document.documentName %></h1> 
+            <button class="createBtn" popovertarget="createStockPopover">Create New Stock</button>
         </div>
-        
-            <div id="createStock">
-                <form action="/addStock" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="image" accept="image/*" capture="camera" /> <!-- Image upload field -->
-                    <input type="hidden" name="documentId" value="<%= document._id %>">
-                    <input type="text" name="productName" maxlength="35" placeholder="Product Name">
-                    <input type="text" name="productCode" placeholder="Product Code">
-                    <input type="text" name="Brand" placeholder="Brand">
-                    <select name="Category">
-                        <option value="Tools">Tools</option>
-                        <option value="Sundries">Sundries</option>
-                        <option value="Chemicals">Chemicals</option>
-                        <option value="Hardware">Hardware</option>
-                        <option value="Misc">Misc</option>
-                    </select>
-                    <input type="text" name="Qty" placeholder="Qty">
-                    <input type="text" name="RRP" placeholder="RRP">
-                    <input type="text" name="Price" placeholder="Price">
-                    <input type="text" name="Barcode" placeholder="Barcode">
 
-                    <button>Add</button>
-                </form>
-            </div>
-            <br>
-            <!-- STOCK FILTER BY BRAND -->
-            <form action="/stock" method="GET">
-                <label for="categoryFilter">Filter by Category:</label>
-                <select name="category" id="categoryFilter">
-                    <option value="" <%= selectedCategory === '' ? 'selected' : '' %>>All</option>
-                    <option value="Tools" <%= selectedCategory === 'Tools' ? 'selected' : '' %>>Tools</option>
-                    <option value="Sundries" <%= selectedCategory === 'Sundries' ? 'selected' : '' %>>Sundries</option>
-                    <option value="Chemicals" <%= selectedCategory === 'Chemicals' ? 'selected' : '' %>>Chemicals</option>
-                    <option value="Hardware" <%= selectedCategory === 'Hardware' ? 'selected' : '' %>>Hardware</option>
-                    <option value="Misc" <%= selectedCategory === 'Misc' ? 'selected' : '' %>>Misc</option>
+        <!-- Popover for Creating Stock -->
+        <div id="createStockPopover" popover>
+            <form action="/addStock" method="POST" enctype="multipart/form-data">
+                <h2>Add New Stock Item</h2>
+                <input type="file" name="image" accept="image/*" capture="camera" />
+                <input type="hidden" name="documentId" value="<%= document._id %>">
+                <input type="text" name="productName" maxlength="35" placeholder="Product Name" required>
+                <input type="text" name="productCode" placeholder="Product Code">
+                <input type="text" name="Brand" placeholder="Brand">
+                <select name="Category">
+                    <option value="Tools">Tools</option>
+                    <option value="Sundries">Sundries</option>
+                    <option value="Chemicals">Chemicals</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Misc">Misc</option>
                 </select>
-                <button type="submit">Filter</button>
+                <input type="number" name="Qty" placeholder="Qty" required>
+                <input type="text" name="RRP" placeholder="RRP">
+                <input type="text" name="Price" placeholder="Price">
+                <input type="text" name="Barcode" placeholder="Barcode" required>
+                <button type="submit">Add Item</button>
             </form>
-            <br>
-            <!-- STOCK IS DISPLAYED IN TABLE -->
+        </div>
+        <br>
+        
+        <!-- STOCK FILTER FORM -->
+        <form action="/document/<%= document._id %>/stock" method="GET">
+            <label for="categoryFilter">Filter by Category:</label>
+            <select name="category" id="categoryFilter" onchange="this.form.submit()">
+                <option value="" <%= selectedCategory === '' ? 'selected' : '' %>>All</option>
+                <option value="Tools" <%= selectedCategory === 'Tools' ? 'selected' : '' %>>Tools</option>
+                <option value="Sundries" <%= selectedCategory === 'Sundries' ? 'selected' : '' %>>Sundries</option>
+                <option value="Chemicals" <%= selectedCategory === 'Chemicals' ? 'selected' : '' %>>Chemicals</option>
+                <option value="Hardware" <%= selectedCategory === 'Hardware' ? 'selected' : '' %>>Hardware</option>
+                <option value="Misc" <%= selectedCategory === 'Misc' ? 'selected' : '' %>>Misc</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+        <br>
+
+        <!-- STOCK DISPLAY TABLE -->
         <form class="stockDisplay" action="/selected" method="POST">
             <input type="hidden" name="documentId" value="<%= document._id %>">
-        <% if (stock && stock.length > 0) { %>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:1vw"></th>
-                        <th>Product Image</th>
-                        <th style="width:10vw">Product Name</th>
-                        <th>Product Code</th>
-                        <th>Brand</th>
-                        <th>Category</th>
-                        <th style="width:2vw">Qty</th>
-                        <th>RRP</th>
-                        <th>Price</th>
-                        <th style="width:10vw">Barcode</th>
-                        <th style="width:3vw"></th>
-                        <th style="width:3vw"></th>
-                    </tr>
-                </thead>
-                <tbody class="tableScroll">
-                    <% stock.forEach(function(stock) { %>
+            <% if (stock && stock.length > 0) { %>
+                <table>
+                    <thead>
                         <tr>
-                            <%# Table row content remains the same... %>
-                            <td class="checkbox">
-                                <input type="checkbox" name="selectedBarcodes[]" value="<%= stock.barcode %>">
-                            </td>
-                            <td>
-                                <% if (stock && stock.imageUrl) { %>
-                                    <img src="<%= stock.imageUrl %>" alt="Product Image">
-                                <% } else { %>
-                                    No image
-                                <% } %>
-                            </td>
-                            <td><%= stock.productName %></td>
-                            <td><%= stock.productCode %></td>
-                            <td><%= stock.brand %></td>
-                            <td><%= stock.category %></td>
-                            <td><%= stock.qty %></td>
-                            <td>£<%= stock.rrp %></td>
-                            <td>£<%= stock.price %></td>
-                            <td><%= stock.barcode %></td>
-                            <td>
-                                <button class="delBtn" type="button" onclick="deleteItem('<%= stock.barcode %>', '<%= document._id %>')">
-                                    <span class="material-symbols-outlined">delete</span>
-                                </button> 
-                            </td>
-                            <td>
-                                <button class="editBtn" type="button" onclick='editItem(<%- JSON.stringify(stock) %>)'>
-                                    <span class="material-symbols-outlined">edit</span>
-                                </button>
-                            </td>
+                            <th style="width:1vw"></th>
+                            <th>Image</th>
+                            <th style="width:10vw">Name</th>
+                            <th>Code</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th style="width:2vw">Qty</th>
+                            <th>RRP</th>
+                            <th>Price</th>
+                            <th style="width:10vw">Barcode</th>
+                            <th style="width:3vw"></th>
+                            <th style="width:3vw"></th>
                         </tr>
-                    <% }); %>
-                </tbody>
-            
-            </table>
-            <br>
-            <hr>
-            <div class="selectBtn">
-                <button type="submit">View Selected</button>
-            </div>
-            
-
-        <% } else { %>
+                    </thead>
+                    <tbody class="tableScroll">
+                        <% stock.forEach(function(item) { %>
+                            <tr>
+                                <td class="checkbox">
+                                    <input type="checkbox" name="selectedBarcodes[]" value="<%= item.barcode %>">
+                                </td>
+                                <td>
+                                    <% if (item && item.imageUrl) { %>
+                                        <img src="<%= item.imageUrl %>" alt="Product Image" style="width:50px; height:auto;">
+                                    <% } else { %>
+                                        No image
+                                    <% } %>
+                                </td>
+                                <td><%= item.productName %></td>
+                                <td><%= item.productCode %></td>
+                                <td><%= item.brand %></td>
+                                <td><%= item.category %></td>
+                                <td><%= item.qty %></td>
+                                <td>£<%= item.rrp %></td>
+                                <td>£<%= item.price %></td>
+                                <td><%= item.barcode %></td>
+                                <td>
+                                    <button class="delBtn" type="button" onclick="deleteItem('<%= item.barcode %>', '<%= document._id %>')">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button> 
+                                </td>
+                                <td>
+                                    <button class="editBtn" type="button" onclick='editItem(<%- JSON.stringify(item) %>)'>
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <br>
+                <hr>
+                <div class="selectBtn">
+                    <button type="submit">View Selected</button>
+                </div>
+            <% } else { %>
                 <div class="no-stock-message">
                     <h3>No Stock Found</h3>
                     <p>There are no items in this document that match the current filter.</p>
                     <p>Try selecting a different category or adding a new item.</p>
                 </div>
-        <% } %>
-
+            <% } %>
         </form>
 
-                <!-- HIDDEN DELETE FORM -->
+        <!-- HIDDEN DELETE FORM -->
         <form id="deleteForm" action="/delete" method="POST" style="display:none;">
             <input type="hidden" name="barcode" id="deleteBarcode">
             <input type="hidden" name="documentId" id="deleteDocumentId">
         </form>
 
-        <!-- 1. ADD THE EDIT POP-UP DIALOG -->
+        <!-- EDIT POP-UP DIALOG -->
         <dialog id="editStockDialog">
             <form action="/updateStock" method="POST">
                 <h2>Edit Stock Item</h2>
-                <!-- Hidden inputs to identify the item and for the redirect -->
                 <input type="hidden" id="edit_originalBarcode" name="originalBarcode">
                 <input type="hidden" name="documentId" value="<%= document._id %>">
-
                 <label for="edit_productName">Product Name</label>
                 <input type="text" id="edit_productName" name="productName" maxlength="35" required>
-
                 <label for="edit_productCode">Product Code</label>
                 <input type="text" id="edit_productCode" name="productCode">
-
                 <label for="edit_Brand">Brand</label>
                 <input type="text" id="edit_Brand" name="Brand">
-
                 <label for="edit_Category">Category</label>
                 <select id="edit_Category" name="Category">
                     <option value="Tools">Tools</option>
@@ -168,19 +159,14 @@
                     <option value="Hardware">Hardware</option>
                     <option value="Misc">Misc</option>
                 </select>
-
                 <label for="edit_Qty">Quantity</label>
                 <input type="number" id="edit_Qty" name="Qty">
-
                 <label for="edit_RRP">RRP</label>
                 <input type="text" id="edit_RRP" name="RRP">
-
                 <label for="edit_Price">Price</label>
                 <input type="text" id="edit_Price" name="Price">
-
                 <label for="edit_Barcode">Barcode</label>
                 <input type="text" id="edit_Barcode" name="Barcode" required>
-
                 <div class="dialog-buttons">
                     <button type="submit">Update Item</button>
                     <button type="button" onclick="document.getElementById('editStockDialog').close()">Cancel</button>
@@ -197,11 +183,8 @@
                 }
             }
 
-            // 2. ADD THE NEW EDITITEM JAVASCRIPT FUNCTION
             function editItem(stockItem) {
                 const dialog = document.getElementById('editStockDialog');
-
-                // Populate the form fields with data from the clicked item
                 dialog.querySelector('#edit_originalBarcode').value = stockItem.barcode;
                 dialog.querySelector('#edit_productName').value = stockItem.productName;
                 dialog.querySelector('#edit_productCode').value = stockItem.productCode;
@@ -211,8 +194,6 @@
                 dialog.querySelector('#edit_RRP').value = stockItem.rrp;
                 dialog.querySelector('#edit_Price').value = stockItem.price;
                 dialog.querySelector('#edit_Barcode').value = stockItem.barcode;
-
-                // Show the dialog pop-up
                 dialog.showModal();
             }
         </script>
