@@ -930,11 +930,11 @@ table {
 }
 
 #editStockDialog form button[type="submit"] {
-    background-color: #28a745;
+    background-color: #F98D67;
     color: white;
 }
 #editStockDialog form button[type="submit"]:hover {
-    background-color: #218838;
+    background-color: #f87b4e;
 }
 
 
