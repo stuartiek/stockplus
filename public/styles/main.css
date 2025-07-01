@@ -869,9 +869,14 @@ table {
 
 
 
-  /* --- STYLING FOR THE EDIT STOCK DIALOG --- */
 
-#editStockDialog {
+
+
+/* --- STYLING FOR POP-UP FORMS (APPLIES TO BOTH CREATE & EDIT) --- */
+
+/* Style for the pop-up container itself */
+#editStockDialog,
+#createStockPopover {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 2em;
@@ -882,43 +887,52 @@ table {
 }
 
 /* This styles the faded background behind the pop-up */
-#editStockDialog::backdrop {
+#editStockDialog::backdrop,
+#createStockPopover::backdrop {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-#editStockDialog form {
+/* General form layout inside the pop-ups */
+#editStockDialog form,
+#createStockPopover form {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-#editStockDialog form h2 {
+#editStockDialog form h2,
+#createStockPopover form h2 {
     margin-top: 0;
     text-align: center;
     color: #333;
 }
 
-#editStockDialog form label {
+#editStockDialog form label,
+#createStockPopover form label {
     font-weight: bold;
     color: #555;
     margin-bottom: -0.5em;
 }
 
 #editStockDialog form input,
-#editStockDialog form select {
+#editStockDialog form select,
+#createStockPopover form input,
+#createStockPopover form select {
     padding: 0.75em;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
 }
 
+/* Styles the container for the submit/cancel buttons */
 .dialog-buttons {
     display: flex;
     gap: 1em;
     margin-top: 1em;
 }
 
-#editStockDialog form button {
+/* General styles for buttons inside the dialogs */
+.dialog-buttons button {
     flex: 1; /* Make buttons share space equally */
     padding: 0.8em;
     border: none;
@@ -929,19 +943,20 @@ table {
     transition: background-color 0.2s;
 }
 
-#editStockDialog form button[type="submit"] {
+/* Green for the primary action button */
+.dialog-buttons button[type="submit"] {
     background-color: #F98D67;
     color: white;
 }
-#editStockDialog form button[type="submit"]:hover {
+.dialog-buttons button[type="submit"]:hover {
     background-color: #f87b4e;
 }
 
-
-#editStockDialog form button[type="button"] {
+/* Grey for the secondary/cancel button */
+.dialog-buttons button[type="button"] {
     background-color: #6c757d;
     color: white;
 }
-#editStockDialog form button[type="button"]:hover {
+.dialog-buttons button[type="button"]:hover {
     background-color: #5a6268;
 }
