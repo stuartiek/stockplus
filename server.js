@@ -178,7 +178,7 @@ app.get('/document/:id/stock', async function(req, res) {
 });
 
 //UPDATE STOCK INFO
-app.post('/updateProfilePic', function(req, res) {
+app.post('/updateStock', function(req, res) {
 
     var query = { "login.username": req.session.currentuser};
 
