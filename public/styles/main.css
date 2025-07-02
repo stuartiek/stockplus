@@ -507,7 +507,7 @@ main{
 }
 
 /* DOCUMENT PAGE */
-.stockHead{
+.headMsg{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -19,21 +19,25 @@
     </header>
     <main id="stock">
         <div class="stockHead">
-            <h1>Document - <%= document.documentName %></h1> 
-            <button class="createBtn" popovertarget="createStockPopover">Create New Stock</button>
-            <div>
-                <%# Add this block to display flash messages %>
-                <% if (success_msg && success_msg.length > 0) { %>
-                    <div class="alert alert-success">
-                        <%= success_msg %>
-                    </div>
-                <% } %>
-                <% if (error_msg && error_msg.length > 0) { %>
-                    <div class="alert alert-danger">
-                        <%= error_msg %>
-                    </div>
-                <% } %>
+            <div class="headMsg">
+                <div>
+                    <h1>Document - <%= document.documentName %></h1> 
+                </div>
+                <div>
+                    <%# Add this block to display flash messages %>
+                    <% if (success_msg && success_msg.length > 0) { %>
+                        <div class="alert alert-success">
+                            <%= success_msg %>
+                        </div>
+                    <% } %>
+                    <% if (error_msg && error_msg.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <%= error_msg %>
+                        </div>
+                    <% } %>
+                </div>
             </div>
+            <button class="createBtn" popovertarget="createStockPopover">Create New Stock</button>
         </div>
 
         <!-- Popover for Creating Stock - UPDATED TO MATCH EDIT FORM -->
