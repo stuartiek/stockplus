@@ -507,7 +507,12 @@ main{
 }
 
 /* DOCUMENT PAGE */
-
+.stockHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 84px;
+}
 .createDoc{
     display: flex;
     flex-direction: row;
