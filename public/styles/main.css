@@ -153,8 +153,8 @@ main{
 .statsCard{
     display: flex;
     flex-direction: row;
-    width: 15vw;
-    height: 10vh;
+    width: 350px;
+    height: 120px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
     border-radius: 20px;
@@ -163,7 +163,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 5vw;
+    width: 120px;
     height: 100%;
     border-radius: 20px;
     color: #f2f2f2;
