@@ -886,7 +886,7 @@ table {
     border-radius: 8px;
     padding: 2em;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    width: 90%;
+    /* width: 90%; */
     max-width: 20vw;
     margin: auto;
 }
