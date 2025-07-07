@@ -965,3 +965,146 @@ table {
 .dialog-buttons button[type="button"]:hover {
     background-color: #5a6268;
 }
+
+
+
+
+
+/* TEST */
+
+
+/* --- STYLING FOR POINT OF SALE (POS) PAGE --- */
+
+main#pos {
+    max-width: 1200px;
+    margin: 2em auto;
+    padding: 2em;
+}
+
+main#pos h1 {
+    text-align: center;
+    margin-bottom: 1em;
+    color: #212529;
+}
+
+.pos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
+/* Panel for entering new products */
+.pos-input-panel {
+    flex: 1;
+    min-width: 320px;
+    padding: 1.5em;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.pos-input-panel h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #343a40;
+}
+
+#addItemForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#addItemForm label {
+    font-weight: bold;
+    color: #495057;
+}
+
+#addItemForm input {
+    padding: 0.75em;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1.1em; /* Larger font for easier reading */
+}
+
+#addItemForm button {
+    padding: 0.8em;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; /* Blue for 'add' action */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+}
+
+#addItemForm button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Panel for displaying the current sale */
+.pos-sale-panel {
+    flex: 2; /* Makes the sale panel wider */
+    min-width: 400px;
+    padding: 1.5em;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.pos-sale-panel h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #343a40;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.5em;
+}
+
+#saleItemsList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Allows the list to fill available space */
+    overflow-y: auto; /* Adds a scrollbar if the list gets too long */
+}
+
+#saleItemsList li {
+    padding: 0.75em;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 1.1em;
+}
+
+#saleItemsList li:last-child {
+    border-bottom: none;
+}
+
+.sale-total {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 2px solid #343a40;
+    text-align: right;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+#completeSaleBtn {
+    margin-top: 1em;
+    padding: 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745; /* Professional green for the final action */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+}
+
+#completeSaleBtn:hover {
+    background-color: #218838;
+}
