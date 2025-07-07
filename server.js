@@ -601,7 +601,7 @@ app.get('/logout', function(req, res){
 
 
 
-/////////// TEST //////////
+
 
 
 const cron = require('node-cron');
@@ -674,3 +674,49 @@ cron.schedule('22 18 * * *', sendLowStockReport, {
 });
 
 console.log('🗓️  Low stock notification task scheduled to run daily at 9:00 AM.');
+
+
+
+
+
+
+/////////// TEST //////////
+
+// RENDER THE POINT OF SALE PAGE
+app.get('/pos', function(req, res) {
+    if (!req.session.loggedin) {
+        return res.redirect('/');
+    }
+    res.render('pages/pos');
+});
+
+
+// PROCESS A COMPLETED SALE
+app.post('/process-sale', express.json(), async (req, res) => {
+    if (!req.session.loggedin) {
+        return res.status(401).json({ error: 'User not logged in' });
+    }
+
+    const { items } = req.body; // Expects an array of { barcode, quantity }
+
+    if (!items || items.length === 0) {
+        return res.status(400).json({ error: 'No items in sale' });
+    }
+
+    try {
+        // Use a loop to update each item in the database
+        for (const item of items) {
+            await db.collection('stock').updateOne(
+                { barcode: item.barcode },
+                { $inc: { qty: -item.quantity } } // Use $inc to decrement the quantity
+            );
+        }
+
+        console.log(`✅ Sale processed successfully. ${items.length} item types updated.`);
+        res.status(200).json({ message: 'Sale processed successfully!' });
+
+    } catch (error) {
+        console.error("❌ Error processing sale:", error);
+        res.status(500).json({ error: 'An error occurred while processing the sale.' });
+    }
+});

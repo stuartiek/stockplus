@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockPlus POS</title>
+    <link rel="stylesheet" href="/styles/main.css"/>
+    <!-- You can add specific POS styles here or in a new CSS file -->
+</head>
+<body>
+    <header>
+        <%- include('../partials/header') %>
+    </header>
+    <main id="pos">
+        <h1>Point of Sale Terminal</h1>
+        <div class="pos-container">
+            <!-- Left Panel: Adding Items -->
+            <div class="pos-input-panel">
+                <h2>Scan or Enter Product</h2>
+                <form id="addItemForm">
+                    <label for="barcode">Barcode</label>
+                    <input type="text" id="barcode" name="barcode" placeholder="Enter barcode..." required autofocus>
+                    
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+                    
+                    <button type="submit">Add to Sale</button>
+                </form>
+            </div>
+
+            <!-- Right Panel: Current Sale -->
+            <div class="pos-sale-panel">
+                <h2>Current Sale</h2>
+                <ul id="saleItemsList">
+                    <!-- Items will be added here by JavaScript -->
+                </ul>
+                <div class="sale-total">
+                    <strong>Total: £<span id="saleTotal">0.00</span></strong>
+                </div>
+                <button id="completeSaleBtn">Complete Sale</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // JavaScript to handle the POS logic will go here
+        document.addEventListener('DOMContentLoaded', () => {
+            const addItemForm = document.getElementById('addItemForm');
+            const saleItemsList = document.getElementById('saleItemsList');
+            const saleTotalEl = document.getElementById('saleTotal');
+            const completeSaleBtn = document.getElementById('completeSaleBtn');
+            const barcodeInput = document.getElementById('barcode');
+
+            let currentSaleItems = [];
+
+            // Function to add an item to the sale
+            addItemForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const barcode = barcodeInput.value;
+                const quantity = parseInt(document.getElementById('quantity').value, 10);
+
+                // In a real app, you'd fetch product details from the server here
+                // For this example, we'll assume a fixed price
+                const price = 10.99; // Placeholder price
+                const productName = `Product ${barcode}`; // Placeholder name
+
+                const saleItem = { barcode, quantity, price, productName };
+                currentSaleItems.push(saleItem);
+
+                renderSaleList();
+                addItemForm.reset();
+                barcodeInput.focus();
+            });
+
+            // Function to render the list of items in the sale
+            function renderSaleList() {
+                saleItemsList.innerHTML = '';
+                let total = 0;
+
+                currentSaleItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = `${item.productName} (x${item.quantity}) - £${(item.price * item.quantity).toFixed(2)}`;
+                    saleItemsList.appendChild(li);
+                    total += item.price * item.quantity;
+                });
+
+                saleTotalEl.textContent = total.toFixed(2);
+            }
+
+            // Function to complete the sale
+            completeSaleBtn.addEventListener('click', async () => {
+                if (currentSaleItems.length === 0) {
+                    alert('Cannot complete an empty sale.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/process-sale', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ items: currentSaleItems }),
+                    });
+
+                    if (response.ok) {
+                        alert('Sale completed successfully!');
+                        currentSaleItems = [];
+                        renderSaleList();
+                    } else {
+                        alert('Error processing sale.');
+                    }
+                } catch (error) {
+                    console.error('Failed to complete sale:', error);
+                    alert('A network error occurred.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
