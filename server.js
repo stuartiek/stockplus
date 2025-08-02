@@ -370,6 +370,42 @@ app.post('/import-stock', excelImport.single('stockFile'), async (req, res) => {
     }
 });
 
+// VIEW SELECTED PRODUCTS
+app.post('/selected', async (req, res) => {
+    const { selectedBarcodes, documentId } = req.body;
+
+    if (!selectedBarcodes) {
+        req.flash('error_msg', 'You did not select any items.');
+        if (documentId) {
+            return res.redirect(`/document/${documentId}/stock`);
+        }
+        return res.redirect('/documents');
+    }
+
+    const barcodeArray = Array.isArray(selectedBarcodes) ? selectedBarcodes : [selectedBarcodes];
+
+    try {
+        const selectedItems = await db.collection('stock')
+            .find({ barcode: { $in: barcodeArray } })
+            .toArray();
+            
+        let document = null;
+        if (documentId && ObjectId.isValid(documentId)) {
+            document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
+        }
+        
+        res.render('pages/selectedStock', { 
+            selectedItems,
+            document
+        });
+
+    } catch (error) {
+        console.error('❌ Error fetching selected items:', error);
+        res.status(500).send('Server error fetching selected stock items.');
+    }
+});
+
+
 // PROCESS A POS SALE
 app.post('/process-sale', async (req, res) => {
     if (!req.session.loggedin) return res.status(401).json({ error: 'User not logged in' });
