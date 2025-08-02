@@ -111,7 +111,7 @@
                     </thead>
                     <tbody class="tableScroll">
                         <% stock.forEach(function(item) { %>
-                            <tr>
+                            <tr id="item-<%= item.barcode %>">
                                 <td class="checkbox">
                                     <!-- ITEM CHECKBOXES -->
                                     <input type="checkbox" class="stock-checkbox" name="selectedBarcodes" value="<%= item.barcode %>">
@@ -160,7 +160,7 @@
                 </div>
             <% } %>
         </form>
-        
+
         <!-- PAGINATION CONTROLS -->
         <% if (totalPages > 1) { %>
             <div class="pagination">
@@ -197,6 +197,8 @@
         <dialog id="editStockDialog">
             <form action="/updateStock" method="POST">
                 <h2>Edit Stock Item</h2>
+                <!-- Add a hidden input to send the current page number -->
+                <input type="hidden" name="currentPage" value="<%= currentPage %>">
                 <input type="hidden" id="edit_originalBarcode" name="originalBarcode">
                 <input type="hidden" name="documentId" value="<%= document._id %>">
                 <label for="edit_productName">Product Name</label>

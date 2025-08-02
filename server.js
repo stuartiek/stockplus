@@ -304,23 +304,56 @@ app.post('/addStock', imageUpload.single('image'), async (req, res) => {
 // UPDATE STOCK ITEM
 app.post('/updateStock', async (req, res) => {
     if (!req.session.loggedin) return res.redirect('/');
-    const { originalBarcode, documentId, productName, productCode, Brand, Category, Qty, RRP, Price, Barcode } = req.body;
+    
+    // Destructure the new currentPage field from the form
+    const { 
+        originalBarcode, 
+        documentId, 
+        currentPage, // <-- The current page number
+        productName, 
+        productCode, 
+        Brand, 
+        Category, 
+        Qty, 
+        RRP, 
+        Price, 
+        Barcode 
+    } = req.body;
+
     if (!originalBarcode || !documentId) {
         req.flash('error_msg', 'Could not update item. Required information is missing.');
         return res.redirect('/documents');
     }
+
     try {
         const filter = { barcode: originalBarcode };
         const updatedValues = {
-            $set: { productName, productCode, brand: Brand, category: Category, qty: parseInt(Qty, 10) || 0, rrp: RRP, price: Price, barcode: Barcode, productURL: "/product/" + Barcode, deleteURL: "/delete/" + Barcode }
+            $set: { 
+                productName, 
+                productCode, 
+                brand: Brand, 
+                category: Category, 
+                qty: parseInt(Qty, 10) || 0, 
+                rrp: RRP, 
+                price: Price, 
+                barcode: Barcode, 
+                productURL: "/product/" + Barcode, 
+                deleteURL: "/delete/" + Barcode 
+            }
         };
+
         const result = await db.collection('stock').updateOne(filter, updatedValues);
+
         if (result.modifiedCount === 1) {
             req.flash('success_msg', 'Stock item updated successfully!');
         } else {
             req.flash('error_msg', 'Could not find the item to update, or no changes were made.');
         }
-        res.redirect(`/document/${documentId}/stock`);
+
+        // Construct the redirect URL with the page number and a URL fragment for scrolling
+        const redirectUrl = `/document/${documentId}/stock?page=${currentPage || 1}#item-${Barcode}`;
+        res.redirect(redirectUrl);
+
     } catch (err) {
         console.error("❌ Error updating stock item:", err);
         req.flash('error_msg', 'An error occurred while updating the stock item.');
