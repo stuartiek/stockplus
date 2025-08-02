@@ -19,28 +19,11 @@
     </header>
     <main id="stock">
         <div class="stockHead">
-            <div class="headMsg">
-                <div>
-                    <h1>Document - <%= document.documentName %></h1> 
-                </div>
-                <div>
-                    <%# Add this block to display flash messages %>
-                    <% if (success_msg && success_msg.length > 0) { %>
-                        <div class="alert alert-success">
-                            <%= success_msg %>
-                        </div>
-                    <% } %>
-                    <% if (error_msg && error_msg.length > 0) { %>
-                        <div class="alert alert-danger">
-                            <%= error_msg %>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
+            <h1>Document - <%= document.documentName %></h1> 
             <button class="createBtn" popovertarget="createStockPopover">Create New Stock</button>
         </div>
 
-        <!-- Popover for Creating Stock - UPDATED TO MATCH EDIT FORM -->
+        <!-- Popover for Creating Stock -->
         <div id="createStockPopover" popover>
             <form action="/addStock" method="POST" enctype="multipart/form-data">
                 <h2>Add New Stock Item</h2>
@@ -109,7 +92,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width:1vw"></th>
+                            <th style="width:1vw">
+                                <!-- "SELECT ALL" CHECKBOX -->
+                                <input type="checkbox" id="selectAllCheckbox" title="Select All">
+                            </th>
                             <th>Image</th>
                             <th style="width:10vw">Name</th>
                             <th>Code</th>
@@ -127,7 +113,8 @@
                         <% stock.forEach(function(item) { %>
                             <tr>
                                 <td class="checkbox">
-                                    <input type="checkbox" name="selectedBarcodes[]" value="<%= item.barcode %>">
+                                    <!-- ITEM CHECKBOXES -->
+                                    <input type="checkbox" class="stock-checkbox" name="selectedBarcodes" value="<%= item.barcode %>">
                                 </td>
                                 <td>
                                     <% if (item && item.imageUrl) { %>
@@ -150,7 +137,6 @@
                                     </button> 
                                 </td>
                                 <td>
-                                    <!-- THE FIX: Store data in a data-* attribute -->
                                     <button class="editBtn" type="button" 
                                             data-item='<%- JSON.stringify(item) %>' 
                                             onclick="editItem(this)">
@@ -225,16 +211,11 @@
                 }
             }
 
-            // THE FIX: The function now accepts the button element
             function editItem(buttonElement) {
-                // Get the JSON string from the data-item attribute
                 const stockItemJSON = buttonElement.getAttribute('data-item');
-                // Parse the string back into a JavaScript object
                 const stockItem = JSON.parse(stockItemJSON);
-
                 const dialog = document.getElementById('editStockDialog');
                 
-                // Now populate the form using the object
                 dialog.querySelector('#edit_originalBarcode').value = stockItem.barcode;
                 dialog.querySelector('#edit_productName').value = stockItem.productName;
                 dialog.querySelector('#edit_productCode').value = stockItem.productCode;
@@ -247,6 +228,19 @@
                 
                 dialog.showModal();
             }
+
+            // JAVASCRIPT FOR "SELECT ALL"
+            document.addEventListener('DOMContentLoaded', () => {
+                const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.addEventListener('click', function() {
+                        const allItemCheckboxes = document.querySelectorAll('.stock-checkbox');
+                        allItemCheckboxes.forEach(checkbox => {
+                            checkbox.checked = this.checked;
+                        });
+                    });
+                }
+            });
         </script>
     </main>
 </body>
