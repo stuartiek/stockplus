@@ -119,12 +119,14 @@ app.get('/documents', async (req, res) => {
     }
 });
 
-// DISPLAY STOCK FOR A SPECIFIC DOCUMENT
+// DISPLAY STOCK FOR A SPECIFIC DOCUMENT (WITH PAGINATION)
 app.get('/document/:id/stock', async (req, res) => {
     if (!req.session.loggedin) return res.redirect('/');
 
     const { id } = req.params;
     const selectedCategory = req.query.category || ''; 
+    const itemsPerPage = 20; // Set how many items to show per page
+    const currentPage = parseInt(req.query.page) || 1;
 
     try {
         const document = await db.collection('documents').findOne({ _id: new ObjectId(id) });
@@ -135,8 +137,26 @@ app.get('/document/:id/stock', async (req, res) => {
             filter.category = selectedCategory;
         }
 
-        const stock = await db.collection('stock').find(filter).sort({ "published": -1 }).toArray();
-        res.render('pages/documentStock', { document, stock, selectedCategory });
+        // Get the total count of items for pagination
+        const totalItems = await db.collection('stock').countDocuments(filter);
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        // Fetch only the items for the current page
+        const stock = await db.collection('stock')
+            .find(filter)
+            .sort({ "published": -1 })
+            .skip((currentPage - 1) * itemsPerPage)
+            .limit(itemsPerPage)
+            .toArray();
+            
+        res.render('pages/documentStock', { 
+            document, 
+            stock, 
+            selectedCategory,
+            // Pass pagination data to the template
+            currentPage,
+            totalPages,
+        });
     } catch (err) {
         console.error("❌ Error fetching document or related stock:", err);
         res.status(500).send("Error fetching document details.");
@@ -160,6 +180,11 @@ app.get('/users', async (req, res) => {
 app.get('/pos', (req, res) => {
     if (!req.session.loggedin) return res.redirect('/');
     res.render('pages/pos');
+});
+
+
+app.get('/settings', (req, res) => {
+    res.render('pages/settings');
 });
 
 
