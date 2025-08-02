@@ -88,47 +88,67 @@
         <!-- STOCK DISPLAY TABLE -->
         <form class="stockDisplay" action="/selected" method="POST">
             <input type="hidden" name="documentId" value="<%= document._id %>">
-            
             <% if (stock && stock.length > 0) { %>
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="selectAllCheckbox"></th>
+                            <th style="width:1vw">
+                                <!-- "SELECT ALL" CHECKBOX -->
+                                <input type="checkbox" id="selectAllCheckbox" title="Select All">
+                            </th>
                             <th>Image</th>
-                            <th>Name</th>
-                            <th>Barcode</th>
-                            <th>Qty</th>
-                            <th>Actions</th>
+                            <th style="width:10vw">Name</th>
+                            <th>Code</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th style="width:2vw">Qty</th>
+                            <th>RRP</th>
+                            <th>Price</th>
+                            <th style="width:10vw">Barcode</th>
+                            <th style="width:3vw"></th>
+                            <th style="width:3vw"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="tableScroll">
                         <% stock.forEach(function(item) { %>
                             <tr>
                                 <td class="checkbox">
+                                    <!-- ITEM CHECKBOXES -->
                                     <input type="checkbox" class="stock-checkbox" name="selectedBarcodes" value="<%= item.barcode %>">
                                 </td>
                                 <td>
-                                    <% if (item.imageUrl) { %>
-                                        <img src="<%= item.imageUrl %>" alt="<%= item.productName %>" style="width:50px;">
+                                    <% if (item && item.imageUrl) { %>
+                                        <img src="<%= item.imageUrl %>" alt="Product Image" style="width:50px; height:auto;">
                                     <% } else { %>
-                                        No Image
+                                        No image
                                     <% } %>
                                 </td>
                                 <td><%= item.productName %></td>
-                                <td><%= item.barcode %></td>
+                                <td><%= item.productCode %></td>
+                                <td><%= item.brand %></td>
+                                <td><%= item.category %></td>
                                 <td><%= item.qty %></td>
+                                <td>£<%= item.rrp %></td>
+                                <td>£<%= item.price %></td>
+                                <td><%= item.barcode %></td>
                                 <td>
-                                    <button class="editBtn" type="button" data-item='<%- JSON.stringify(item) %>' onclick="editItem(this)">
-                                        <span class="material-symbols-outlined">edit</span>
-                                    </button>
                                     <button class="delBtn" type="button" onclick="deleteItem('<%= item.barcode %>', '<%= document._id %>')">
                                         <span class="material-symbols-outlined">delete</span>
+                                    </button> 
+                                </td>
+                                <td>
+                                    <button class="editBtn" type="button" 
+                                            data-item='<%- JSON.stringify(item) %>' 
+                                            onclick="editItem(this)">
+                                        <span class="material-symbols-outlined">edit</span>
                                     </button>
                                 </td>
                             </tr>
                         <% }); %>
                     </tbody>
                 </table>
+                <br>
+                <hr>
                 <div class="selectBtn">
                     <button type="submit">View Selected</button>
                 </div>
@@ -136,10 +156,11 @@
                 <div class="no-stock-message">
                     <h3>No Stock Found</h3>
                     <p>There are no items in this document that match the current filter.</p>
+                    <p>Try selecting a different category or adding a new item.</p>
                 </div>
             <% } %>
         </form>
-
+        
         <!-- PAGINATION CONTROLS -->
         <% if (totalPages > 1) { %>
             <div class="pagination">
