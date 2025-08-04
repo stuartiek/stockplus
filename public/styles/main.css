@@ -285,6 +285,11 @@ main{
     margin-right: 0.5em;
     height: 8em;
 }
+.docBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 .btn{
     margin: 30px;
