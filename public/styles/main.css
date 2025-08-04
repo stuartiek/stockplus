@@ -288,7 +288,7 @@ main{
 
 .btn{
     margin: 30px;
-    width: 3vw;
+    width: 100%;
     background-color: white;
     padding: 20px 16px;
     border: none;
@@ -573,7 +573,6 @@ main{
     cursor: pointer;
 }
 .documentBtn{
-    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
