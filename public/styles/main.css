@@ -896,7 +896,7 @@ table {
     width: 90%;
     max-width: 500px;
     margin: auto;
-    overflow:auto;
+    height: 100%;
 }
 
 /* This styles the faded background behind the pop-up */
