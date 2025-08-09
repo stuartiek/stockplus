@@ -909,7 +909,7 @@ table {
 #editStockDialog form,
 #createStockPopover form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 1em;
 }
 
