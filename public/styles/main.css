@@ -268,7 +268,7 @@ main{
     justify-content: flex-start;
 }
 .projectCard{
-    min-width: 5vw;
+    width: 10vw;
     height: 15vh;
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
