@@ -91,11 +91,10 @@
                             <h2><%= document.documentName %></h2>
                             <h3>Label Type - <%= document.labelType %></h3>
                             <p><%= document.published %></p>
-                            <div class="project-id"> 
-                                <p><%= document._id %></p>
-                            </div>
                         </div>
-                        
+                        <div class="project-id"> 
+                            <p><%= document._id %></p>
+                        </div>
                         <div class="docBtn">
                             <div class="btn">
                                 <a href="/document/<%= document._id %>/stock" class="open-button">Open</a>
