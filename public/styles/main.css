@@ -281,7 +281,7 @@ tr:last-child td {
 }
 
 /* --- BUTTONS --- */
-.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button {
+.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn {
     padding: 10px 16px;
     border: 1px solid #ced4da;
     border-radius: 8px;
