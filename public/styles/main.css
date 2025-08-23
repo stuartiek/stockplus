@@ -352,6 +352,7 @@ tr:last-child td {
 #editStockDialog form input,
 #editStockDialog form select,
 #createStockPopover form input,
+.createUser form input,
 #createStockPopover form select,
 #importStockPopover form select,
 .stockFilter form select,
