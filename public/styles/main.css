@@ -1,115 +1,98 @@
 @font-face {
     font-family: StockPlusFont;
     src: url(ABeeZee.ttf);
-}
+  }
 
-.barcodeFont {
+.barcodeFont{
     font-family: "Libre Barcode 39 Text", serif;
     font-weight: 400;
     font-style: normal;
+    font-size: 1dvw;
 }
-
-body {
+body{
     margin: 0;
     width: 100%;
-    font-family: StockPlusFont, sans-serif;
+    font-family: StockPlusFont;
     height: 100vh;
-    background-color: #f8f9fa;
-    color: #212529;
 }
 
-/* --- LOGIN PAGE --- */
 .loginHero {
     width: 40%;
     height: 100%;
-    background-image: url('/images/background/pexels-eduschadesoares-5498218.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+    background-image:  url('/images/background/pexels-eduschadesoares-5498218.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
     background-blend-mode: overlay;
-    background-position: center;
-    background-size: cover;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
     float: left;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.loginHero img {
-    width: 350px;
-    height: auto;
-}
-
+  }
+  
 .login {
     margin-left: 40%;
     height: 100%;
     background: #ffffff;
 }
 
-.loginForm {
+.loginHero img{
+    width: 350px;
+    height: auto;
+}
+
+.loginForm{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
-    gap: 1em;
-}
-
-.loginForm form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
 }
 
 .loginForm form input[type=text],
-.loginForm form input[type=password] {
-    width: 280px;
+.loginForm form input[type=password]{
+    margin-top: 20px;
+    width: 200px;
     font-size: 1rem;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
     background-color: #ffffff;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
 }
 
-.loginForm form input[type=submit] {
-    width: 280px;
-    font-size: 1.1rem;
-    padding: 12px;
+.loginForm form input[type=submit]{
+    margin-top: 20px;
+    width: 150px;
+    font-size: 1rem;
+    padding: 15px;
     color: #ffffff;
-    border-radius: 8px;
+    border-radius: 40px;
     border-style: none;
     background-color: #F98D67;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
     cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.loginForm form input[type=submit]:hover {
-    background-color: #f87b4e;
 }
 
 
-/* --- MAIN LAYOUT --- */
-.sideBar {
+/* DASHBOARD */
+.sideBar{
     position: fixed;
-    font-size: 1.1em;
-    width: 15vw;
+    font-size: 1.2em;
+    width: 14vw;
     height: 100vh;
-    background-color: #ffffff;
-    border-right: 1px solid #dee2e6;
-    display: flex;
-    flex-direction: column;
+    box-shadow:  20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
 }
 
-.sideBar ul {
+.sideBar ul{
     list-style-type: none;
-    padding: 0;
-    margin: 0;
 }
 
-.sideBar li a {
+.sideBar li a{
     display: block;
-    color: #343a40;
-    padding: 16px 20px;
+    color: #0C0A0F;
+    padding: 16px 5px 16px 5px;
     text-decoration: none;
-    transition: background-color 0.2s, color 0.2s;
 }
 
 .sideBar li a:hover,
@@ -118,7 +101,7 @@ body {
     color: #F98D67;
 }
 
-.sideBar img.sideLogo {
+.sideBar img.sideLogo{
     width: 60%;
     height: auto;
     display: block;
@@ -126,269 +109,234 @@ body {
     margin: 0 auto;
 }
 
-.sideBtm {
-    margin-top: auto;
-}
-.sideBtm p {
-    color: #6c757d;
-    padding: 20px;
-    font-size: 0.8em;
-    text-align: center;
-}
-
-
-main {
+.sideBtm{
     position: absolute;
-    width: 80vw;
-    left: 16vw;
-    padding: 30px;
+    bottom: 30px;
+}
+.sideBtm p{
+    color: #0c0a0fa1;
+    padding: 8px 16px;
 }
 
-/* --- DASHBOARD & CARDS --- */
-.stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+main{
+    position: absolute;
+    width: 75%;
+    top: 20px;
+    margin-left: 22vw;
 }
 
-.statsCard {
+.stats{
+    width: 100%;
     display: flex;
-    flex: 1;
-    min-width: 280px;
-    height: 110px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 30px;
+}
+.statsCard{
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+    height: 120px;
     background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
+    border-radius: 20px;
 }
-
-.statsIcon {
+.statsIcon{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
+    width: 120px;
     height: 100%;
-    color: #fff;
+    border-radius: 20px;
+    color: #f2f2f2;
     background-color: #F98D67;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
+}
+.statsIcon span{
+    font-size: 48px;
+    font-variation-settings: 'OPSZ' 48;
+}
+.statsInfo{
+    margin-left: 20px;
+}
+.statsInfo h1{
+    font-size: 20px;
+}
+.statsInfo p{
+    font-size: 20px;
 }
 
-.statsIcon span {
-    font-size: 40px;
-}
-
-.statsInfo {
-    padding: 20px;
-}
-
-.statsInfo h1 {
-    font-size: 1.1em;
-    margin: 0 0 8px 0;
-    color: #6c757d;
-}
-
-.statsInfo p {
-    font-size: 1.8em;
-    margin: 0;
-    font-weight: bold;
-}
-
-.dashboard-panel, .projectCard {
+/* Dashboard Panel Styling */
+.dashboard-panel {
     background-color: #fff;
     border-radius: 8px;
-    border: 1px solid #dee2e6;
     padding: 20px;
-    margin-top: 2em;
+    margin-top: 5vh;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
-
-.docDiv {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.projectCard {
-    width: 20vw;
-    min-width: 250px;
-    padding: 0;
+.dashboard-panel h2 {
     margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
-
-.projectImg img {
+.dashboard-panel h2 small {
+    font-weight: normal;
+    font-size: 0.8em;
+    color: #777;
+}
+.low-stock-table {
     width: 100%;
-    height: 14em;
-    object-fit: cover;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.low-stock-table th, .low-stock-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+.low-stock-table th {
+    background-color: #f9f9f9;
+}
+.low-stock-qty {
+    font-weight: bold;
+    color: #d9534f;
+    text-align: center;
+}
+.all-stocked-up {
+    color: #5cb85c;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    background-color: #f0fff0;
+    border: 1px solid #d4edda;
+    border-radius: 5px;
 }
 
-.projectText {
-    padding: 1.5em;
-    height: 7em;
-}
-
-.docBtn {
+.docDiv{
     display: flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+    gap: 30px;
+    justify-content: flex-start;
+}
+.projectCard{
+    width: 20vw;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
+    border-radius: 0 10% 10% 10%;
+}
+.projectImg img{
+    width: 100%;
+    height: 15em;
+    border-radius: 0 10% 0 10%;
+    border-bottom:  3px solid #2a2a2aae;
+}
+.projectText{
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    height: 8em;
+}
+.docBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: baseline;
+}
+
+/* UNIFIED BUTTON STYLES */
+.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn, .selectBtn button, .printBtn {
+    margin: 10px;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 40px;
+    border-style: none;
+    background-color: #F98D67;
+    box-shadow:  10px 10px 30px #d9d9d9, -10px -10px 30px #ffffff;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.delBtn, .editBtn {
+    border-radius: 50%;
+    padding: 8px;
+    font-size: 1rem;
+    line-height: 1; /* Helps center the icon */
+}
+
+/* STOCK & USER FORMS */
+.createDoc, .createUser, .importDoc {
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1.5em 1.5em 1.5em;
+    padding: 15px;
 }
-
-/* --- FORMS & TABLES --- */
-.createUser, .createDoc, .importDoc {
-    flex: 1;
-    min-width: 300px;
-    padding: 1.5em;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    background-color: #ffffff;
+.createDoc form, .createUser form, .importDoc form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
-
-table {
+.createDoc form select, .createUser form select, .importDoc form select,
+.createDoc form input, .createUser form input, .importDoc form input {
+    width: 200px;
     font-size: 1rem;
+    padding: 15px;
+    border-radius: 40px;  
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    box-shadow:  10px 10px 30px #d9d9d9, -10px -10px 30px #ffffff;
+}
+
+.stockHead{
+    width: 100%;
+}
+
+/* STOCK DISPLAY TABLE */
+.stockDisplay{
+    width: 75vw;
+}
+table {
+    font-size: 1dvw;
+    table-layout: fixed;
     border-collapse: collapse;
     width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #dee2e6;
 }
-
 th, td {
     text-align: left;
-    padding: 15px;
-    border-bottom: 1px solid #dee2e6;
+    padding: 12px;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+.stockDisplay table img{
+    width: 5vw;
+    height: 6vh;
 }
 
-th {
-    background-color: #f8f9fa;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-/* --- BUTTONS --- */
-.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button {
-    padding: 10px 16px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    color: #343a40;
-    background-color: #fff;
-}
-
-.btn a:hover, .btn button:hover, .docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover {
-    border-color: #343a40;
-    background-color: #f8f9fa;
-}
-
-.docDel, .delBtn, .editBtn, .createDoc button, .importDoc button {
-    background-color: #F98D67;
-    color: #fff;
-    border-color: #F98D67;
-}
-
-.docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover {
-    background-color: #f87b4e;
-    border-color: #f87b4e;
-}
-
-/* --- POP-UP FORMS --- */
-#editStockDialog, #createStockPopover, #importStockPopover {
-    border: none;
-    border-radius: 8px;
-    padding: 2em;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    width: 90vw;
-    max-width: 500px;
-    box-sizing: border-box;
-    max-height: 85vh;
-    overflow-y: auto;
-}
-
-#editStockDialog::backdrop, #createStockPopover::backdrop, #importStockPopover::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-#editStockDialog form,
-#createStockPopover form,
-#importStockPopover form {
+/* PRINT LABEL STYLES */
+.labelDisplay{
     display: flex;
-    flex-direction: column;
-    gap: 1em;
+    flex-flow: row wrap;
+    gap: 10px;
 }
+.label.shelf{
+    height: 113px;
+    width: 207px;
+    border: 1px dashed #0C0A0F;
+}
+/* ... (rest of label styles) ... */
 
-#editStockDialog form h2,
-#createStockPopover form h2,
-#importStockPopover form h2 {
-    margin-top: 0;
-    text-align: center;
-    color: #333;
-}
-
-#editStockDialog form label,
-#createStockPopover form label,
-#importStockPopover form label {
-    font-weight: bold;
-    color: #555;
-    margin-bottom: -0.5em;
-}
-
-#editStockDialog form input,
-#editStockDialog form select,
-#createStockPopover form input,
-#createStockPopover form select,
-#importStockPopover form select,
-#importStockPopover form input[type="file"] {
-    padding: 0.75em;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 1em;
-    background-color: #fff;
-}
-
-.dialog-buttons {
-    display: flex;
-    gap: 1em;
-    margin-top: 1em;
-}
-
-.dialog-buttons button {
-    flex: 1;
-    padding: 0.8em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.dialog-buttons button[type="submit"] {
-    background-color: #F98D67;
-    color: white;
-}
-.dialog-buttons button[type="submit"]:hover {
-    background-color: #f87b4e;
-}
-
-.dialog-buttons button[type="button"] {
-    background-color: #6c757d;
-    color: white;
-}
-.dialog-buttons button[type="button"]:hover {
-    background-color: #5a6268;
-}
-
-/* --- ALERTS --- */
+/* Alert Message Styling */
 .alert {
     padding: 15px;
-    margin: 15px 0;
+    margin: 15px auto;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 4px;
+    max-width: 800px;
     text-align: center;
+    font-weight: bold;
 }
 .alert-success {
     color: #155724;
@@ -401,28 +349,107 @@ tr:last-child td {
     border-color: #f5c6cb;
 }
 
-/* --- PAGINATION --- */
+@media print{
+    main{
+        margin: 0;
+        width: 100%;
+    }
+    .sideBar, .createBtn, .delBtn, .editBtn, .stockHead, .selectBtn, .pagination, .doc-actions, hr, .alert, .printBtn, header {
+        display: none;
+    }
+}
+
+/* --- POP-UP FORMS --- */
+#editStockDialog, #createStockPopover, #importStockPopover {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 2em;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 90vw;
+    max-width: 500px;
+    box-sizing: border-box;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+#editStockDialog::backdrop, #createStockPopover::backdrop, #importStockPopover::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+#editStockDialog form, #createStockPopover form, #importStockPopover form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+#editStockDialog form h2, #createStockPopover form h2, #importStockPopover form h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+}
+#editStockDialog form label, #createStockPopover form label, #importStockPopover form label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: -0.5em;
+}
+/* REVERTED INPUT STYLES */
+#editStockDialog form input, #editStockDialog form select, #createStockPopover form input, #createStockPopover form select, #importStockPopover form select, #importStockPopover form input[type="file"] {
+    padding: 0.75em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #fff;
+}
+.dialog-buttons {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
+.dialog-buttons button {
+    flex: 1;
+    padding: 0.8em;
+    border: none;
+    border-radius: 40px; /* Rounded buttons */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+.dialog-buttons button[type="submit"] {
+    background-color: #F98D67;
+    color: white;
+}
+.dialog-buttons button[type="submit"]:hover {
+    background-color: #f87b4e;
+}
+.dialog-buttons button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+.dialog-buttons button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* --- PAGINATION STYLING --- */
 .pagination {
     display: flex;
     justify-content: center;
     padding: 1em 0;
 }
 .pagination a {
-    color: #F98D67;
+    color: #007bff;
     padding: 8px 16px;
     text-decoration: none;
-    border: 1px solid #dee2e6;
+    border: 1px solid #ddd;
     margin: 0 4px;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 .pagination a.active {
-    background-color: #F98D67;
+    background-color: #007bff;
     color: white;
-    border-color: #F98D67;
+    border: 1px solid #007bff;
 }
 .pagination a:hover:not(.active) {
-    background-color: #f8f9fa;
+    background-color: #ddd;
 }
+
 
 /* --- PRINT LABEL STYLES (Restored) --- */
 .labelDisplay{
