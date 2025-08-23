@@ -18,7 +18,9 @@
     </header>
     <main id="dashboard">
         <h1>Dashboard</h1>
-        <h1>Good Evening, <%= user %></h1>
+        <h1>
+            <span id="time-greeting"></span>, <%= user %>
+        </h1>
 
         <section class="stats">
             <div class="statsCard">
@@ -95,5 +97,20 @@
 
 
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const greetingSpan = document.getElementById('time-greeting');
+            const currentHour = new Date().getHours();
+            let greeting = 'Good evening'; // Default greeting
+
+            if (currentHour < 12) {
+                greeting = 'Good morning';
+            } else if (currentHour < 18) {
+                greeting = 'Good afternoon';
+            }
+
+            greetingSpan.textContent = greeting;
+        });
+    </script>
 </body>
 </html>
