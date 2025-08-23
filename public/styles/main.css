@@ -954,9 +954,9 @@ table {
     transition: background-color 0.2s;
 }
 
-.importDoc .import-button:hover {
+/* .importDoc .import-button:hover {
     background-color: #138496;
-}
+} */
 
 /* Styles the container for the submit/cancel buttons */
 .dialog-buttons {
