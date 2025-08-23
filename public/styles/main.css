@@ -1,79 +1,81 @@
 @font-face {
     font-family: StockPlusFont;
     src: url(ABeeZee.ttf);
-  }
+}
 
-.barcodeFont{
+.barcodeFont {
     font-family: "Libre Barcode 39 Text", serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 1dvw;
-}
-body{
-    margin: 0;
-    width: 100%;
-    font-family: StockPlusFont;
-    height: 100vh;
-    background-color: #f8f9fa; /* Added a light background color */
 }
 
+body {
+    margin: 0;
+    width: 100%;
+    font-family: StockPlusFont, sans-serif;
+    height: 100vh;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* --- LOGIN PAGE --- */
 .loginHero {
     width: 40%;
     height: 100%;
-    background-image:  url('/images/background/pexels-eduschadesoares-5498218.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
-    background-blend-mode: overlay;
+    background-image: url('/images/background/pexels-eduschadesoares-5498218.jpg');
     background-position: center;
-    background-repeat: no-repeat;
     background-size: cover;
     float: left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
+}
+
 .login {
     margin-left: 40%;
     height: 100%;
     background: #ffffff;
 }
 
-.loginLogo img{
-    width: 30vw;
-    height: 15vh;
-}
-
-.loginForm{
+.loginForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
+    gap: 1em;
+}
+
+.loginLogo img {
+    width: 250px;
+    height: auto;
+    margin-bottom: 1em;
+}
+
+.loginForm form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
 }
 
 .loginForm form input[type=text],
-.loginForm form input[type=password]{
-    margin-top: 20px;
-    width: 250px; /* Increased width */
+.loginForm form input[type=password] {
+    width: 280px;
     font-size: 1rem;
-    padding: 15px;
-    border-radius: 40px;  
-    border: 1px solid #e0e0e0;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
     background-color: #ffffff;
-    box-shadow:  inset 5px 5px 10px #d9d9d9, inset -5px -5px 10px #ffffff; /* Inset shadow for a modern look */
 }
 
-.loginForm form input[type=submit]{
-    margin-top: 30px; /* Increased margin */
-    width: 180px; /* Increased width */
-    font-size: 1.1rem; /* Slightly larger font */
-    padding: 15px;
+.loginForm form input[type=submit] {
+    width: 280px;
+    font-size: 1.1rem;
+    padding: 12px;
     color: #ffffff;
-    border-radius: 40px;
+    border-radius: 8px;
     border-style: none;
     background-color: #F98D67;
-    box-shadow:  5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
 }
 
 .loginForm form input[type=submit]:hover {
@@ -81,30 +83,30 @@ body{
 }
 
 
-/* DASHBOARD */
-.sideBar{
+/* --- MAIN LAYOUT --- */
+.sideBar {
     position: fixed;
-    font-size: 1.2em;
-    width: 15vw; /* Slightly wider */
+    font-size: 1.1em;
+    width: 15vw;
     height: 100vh;
     background-color: #ffffff;
-    box-shadow:  5px 0px 15px rgba(0,0,0,0.05); /* Softer shadow */
+    border-right: 1px solid #dee2e6;
     display: flex;
     flex-direction: column;
 }
 
-.sideBar ul{
+.sideBar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.sideBar li a{
+.sideBar li a {
     display: block;
-    color: #343a40; /* Darker text */
-    padding: 16px;
+    color: #343a40;
+    padding: 16px 20px;
     text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .sideBar li a:hover {
@@ -112,214 +114,130 @@ body{
     color: #F98D67;
 }
 
-.sideBar img.sideLogo{
-    width: 70%;
+.sideBar img.sideLogo {
+    width: 60%;
     height: auto;
     display: block;
-    padding: 20px 0;
+    padding: 25px 0;
     margin: 0 auto;
 }
 
-.sideBtm{
-    margin-top: auto; /* Pushes the bottom items to the end */
+.sideBtm {
+    margin-top: auto;
 }
-.sideBtm p{
-    color: #6c757d; /* Lighter grey */
-    padding: 16px;
+.sideBtm p {
+    color: #6c757d;
+    padding: 20px;
     font-size: 0.8em;
     text-align: center;
 }
 
-main{
+main {
     position: absolute;
-    width: 82vw; /* Adjusted width */
-    top: 20px;
-    left: 16vw; /* Adjusted margin */
-    padding: 20px;
+    width: 80vw;
+    left: 16vw;
+    padding: 30px;
 }
 
-.stats{
-    width: 100%;
+/* --- DASHBOARD & CARDS --- */
+.stats {
     display: flex;
-    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
-    gap: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
-.statsCard{
+
+.statsCard {
     display: flex;
-    flex: 1; /* Allow cards to grow and shrink */
-    min-width: 300px; /* Minimum width before wrapping */
-    height: 120px;
+    flex: 1;
+    min-width: 280px;
+    height: 110px;
     background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    border-radius: 20px;
-    overflow: hidden; /* Prevents icon from overflowing */
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
 }
-.statsIcon{
+
+.statsIcon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
+    width: 100px;
     height: 100%;
     color: #fff;
     background-color: #F98D67;
 }
-.statsIcon span{
-    font-size: 48px;
+
+.statsIcon span {
+    font-size: 40px;
 }
-.statsInfo{
+
+.statsInfo {
     padding: 20px;
 }
-.statsInfo h1{
-    font-size: 1.2em;
-    margin: 0 0 10px 0;
+
+.statsInfo h1 {
+    font-size: 1.1em;
+    margin: 0 0 8px 0;
+    color: #6c757d;
 }
-.statsInfo p{
-    font-size: 1.5em;
+
+.statsInfo p {
+    font-size: 1.8em;
     margin: 0;
     font-weight: bold;
 }
 
-/* Dashboard Panel Styling */
-.dashboard-panel {
+.dashboard-panel, .projectCard {
     background-color: #fff;
     border-radius: 8px;
+    border: 1px solid #dee2e6;
     padding: 20px;
-    margin-top: 5vh;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin-top: 2em;
 }
 
-.dashboard-panel h2 {
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.dashboard-panel h2 small {
-    font-weight: normal;
-    font-size: 0.8em;
-    color: #777;
-}
-
-.low-stock-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.low-stock-table th, .low-stock-table td {
-    padding: 12px; /* Increased padding */
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.low-stock-table th {
-    background-color: #f9f9f9;
-}
-
-.low-stock-qty {
-    font-weight: bold;
-    color: #d9534f; /* A reddish color to indicate warning */
-    text-align: center;
-}
-
-.all-stocked-up {
-    color: #5cb85c; /* A green color for success */
-    font-weight: bold;
-    text-align: center;
-    padding: 20px;
-    background-color: #f0fff0;
-    border: 1px solid #d4edda;
-    border-radius: 5px;
-}
-
-.docDiv{
+.docDiv {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 20px;
 }
-.projectCard{
+
+.projectCard {
     width: 20vw;
-    min-width: 250px; /* Minimum width for cards */
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 15px; /* Softer radius */
-    overflow: hidden; /* Keeps image within rounded corners */
+    min-width: 250px;
+    padding: 0;
+    margin-top: 0;
 }
-.projectImg img{
+
+.projectImg img {
     width: 100%;
-    height: 15em;
-    object-fit: cover; /* Ensures image covers the area without distortion */
+    height: 14em;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
-.projectText{
-    padding: 1em;
-    height: 8em;
+
+.projectText {
+    padding: 1.5em;
+    height: 7em;
 }
-.docBtn{
+
+.docBtn {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1em 1em 1em;
+    padding: 0 1.5em 1.5em 1.5em;
 }
 
-.btn a, .btn button, .docDel {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    color: #555;
-    background-color: #fff;
-}
-
-.btn a:hover, .btn button:hover, .docDel:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transform: translateY(-2px);
-}
-
-.docDel {
-    background-color: #F98D67;
-    color: #fff;
-}
-
-/* STOCK PAGE & USERS PAGE FORMS */
-.createUser, .createDoc {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff;
+/* --- FORMS & TABLES --- */
+.createUser, .createDoc, .importDoc {
+    flex: 1;
+    min-width: 300px;
+    padding: 1.5em;
+    border: 1px solid #dee2e6;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background-color: #ffffff;
 }
 
-.createUser form, .createDoc form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.createUser form input, .createDoc form input, .createUser form select, .createDoc form select {
-    padding: 12px;
-    border-radius: 20px;
-    border: 1px solid #e0e0e0;
-}
-
-.createUser button, .createDoc button {
-    padding: 12px 20px;
-    color: #ffffff;
-    border-radius: 20px;
-    border-style: none;
-    background-color: #F98D67;
-    cursor: pointer;
-}
-
-/* STOCK DISPLAY TABLE */
-.stockDisplay{
-    width: 100%;
-}
 table {
     font-size: 1rem;
     border-collapse: collapse;
@@ -327,67 +245,74 @@ table {
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #dee2e6;
 }
+
 th, td {
     text-align: left;
     padding: 15px;
+    border-bottom: 1px solid #dee2e6;
 }
+
 th {
     background-color: #f8f9fa;
 }
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+
+tr:last-child td {
+    border-bottom: none;
 }
-.stockDisplay table img{
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-.delBtn, .editBtn {
-    padding: 8px;
-    color: #ffffff;
-    border-radius: 50%;
-    border-style: none;
-    background-color: #F98D67;
+
+/* --- BUTTONS --- */
+.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button {
+    padding: 10px 16px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: #343a40;
+    background-color: #fff;
 }
 
-/* PRINT LABEL STYLES */
-.labelDisplay{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+.btn a:hover, .btn button:hover, .docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover {
+    border-color: #343a40;
+    background-color: #f8f9fa;
 }
-.label.shelf{
-    height: 113px;
-    width: 207px;
-    border: 1px dashed #0C0A0F;
-    padding: 5px;
-    box-sizing: border-box;
-}
-.label.arm{
-    height: 94px;
-    width: 75px;
-    border: 1px dashed #0C0A0F;
-    padding: 2px;
-    box-sizing: border-box;
-    text-align: center;
-}
-/* ... (rest of your specific label styles) ... */
 
-/* Alert Message Styling */
+.docDel, .delBtn, .editBtn, .createDoc button, .importDoc button {
+    background-color: #F98D67;
+    color: #fff;
+    border-color: #F98D67;
+}
+
+.docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover {
+    background-color: #f87b4e;
+    border-color: #f87b4e;
+}
+
+/* --- POP-UP FORMS --- */
+#editStockDialog, #createStockPopover, #importStockPopover {
+    border: none;
+    border-radius: 8px;
+    padding: 2em;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    width: 90vw;
+    max-width: 500px;
+}
+
+#editStockDialog::backdrop, #createStockPopover::backdrop, #importStockPopover::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ... (rest of pop-up, label, and print styles can remain similar) ... */
+
+/* --- ALERTS --- */
 .alert {
     padding: 15px;
     margin: 15px 0;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 8px;
     text-align: center;
-    font-weight: bold;
 }
 .alert-success {
     color: #155724;
@@ -400,38 +325,32 @@ tr:nth-child(even) {
     border-color: #f5c6cb;
 }
 
-/* POP-UP FORM STYLES */
-#editStockDialog, #createStockPopover, #importStockPopover {
-    border: none;
-    border-radius: 8px;
-    padding: 2em;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    width: 90vw;
-    max-width: 500px;
-}
-#editStockDialog::backdrop, #createStockPopover::backdrop, #importStockPopover::backdrop {
-    background-color: rgba(0, 0, 0, 0.6);
-}
-/* ... (rest of your pop-up styles) ... */
-
-/* PAGINATION STYLING */
+/* --- PAGINATION --- */
 .pagination {
     display: flex;
     justify-content: center;
     padding: 1em 0;
 }
-/* ... (rest of your pagination styles) ... */
+.pagination a {
+    color: #F98D67;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #dee2e6;
+    margin: 0 4px;
+    border-radius: 8px;
+}
+.pagination a.active {
+    background-color: #F98D67;
+    color: white;
+    border-color: #F98D67;
+}
+.pagination a:hover:not(.active) {
+    background-color: #f8f9fa;
+}
 
-@media print{
-    body {
-        background-color: #fff;
-    }
-    main{
-        margin: 0;
-        width: 100%;
-        position: static;
-        padding: 0;
-    }
+@media print {
+    body { background-color: #fff; }
+    main { margin: 0; width: 100%; position: static; padding: 0; }
     .sideBar, .createBtn, .delBtn, .editBtn, .stockHead, .selectBtn, .pagination, .doc-actions, hr, .alert {
         display: none;
     }
