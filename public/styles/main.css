@@ -247,7 +247,7 @@ main {
     background-color: #ffffff;
 }
 .createDoc form input,
-.createDoc form input[type="file"]
+.createDoc form select
 {
     padding: 0.75em;
     border: 1px solid #ced4da;
