@@ -297,7 +297,7 @@ tr:last-child td {
     background-color: #f8f9fa;
 }
 
-.docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn, .selectBtn button, .stockFilter button .createUser button{
+.docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn, .selectBtn button, .stockFilter button, .createUser button{
     background-color: #F98D67;
     color: #fff;
     border-color: #F98D67;
