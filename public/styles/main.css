@@ -434,7 +434,9 @@ tr:last-child td {
     border-color: #F98D67;
 }
 .pagination a:hover:not(.active) {
-    background-color: #f8f9fa;
+    background-color: #F98D67;
+    color: white;
+    border-color: #F98D67;
 }
 
 /* --- PRINT LABEL STYLES (Restored) --- */
