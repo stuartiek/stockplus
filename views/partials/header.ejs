@@ -1,12 +1,12 @@
 <div class="sideBar">
     <img class="sideLogo" src="/images/logo/stock-high-resolution-logo-transparent.png" alt="Logo"/>
     <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/documents">Documents</a></li>
-        <li><a href="/stock">Stock</a></li>
+        <li><a href="/dashboard" class="<%= (typeof page !== 'undefined' && page === 'dashboard') ? 'active' : '' %>">Dashboard</a></li>
+        <li><a href="/documents"class="<%= (typeof page !== 'undefined' && page === 'documents') ? 'active' : '' %>">Documents</a></li>
+        <li><a href="/stock" class="<%= (typeof page !== 'undefined' && page === 'stock') ? 'active' : '' %>">Stock</a></li>
         <li>
             <% if (userType === 'Admin' || userType === 'Owner') { %>
-                <a href="/users">Manage Users</a>
+                <a href="/users" class="<%= (typeof page !== 'undefined' && page === 'users') ? 'active' : '' %>">Manage Users</a>
             <% } %>
         </li>
         
