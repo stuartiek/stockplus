@@ -281,7 +281,7 @@ tr:last-child td {
 }
 
 /* --- BUTTONS --- */
-.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn {
+.btn a, .btn button, .docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn, .selectBtn button{
     padding: 10px 16px;
     border: 1px solid #ced4da;
     border-radius: 8px;
@@ -292,18 +292,18 @@ tr:last-child td {
     background-color: #fff;
 }
 
-.btn a:hover, .btn button:hover, .docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover, .createBtn:hover {
+.btn a:hover, .btn button:hover, .docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover, .createBtn:hover, .selectBtn button:hover {
     border-color: #343a40;
     background-color: #f8f9fa;
 }
 
-.docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn {
+.docDel, .delBtn, .editBtn, .createDoc button, .importDoc button, .createBtn, .selectBtn button {
     background-color: #F98D67;
     color: #fff;
     border-color: #F98D67;
 }
 
-.docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover, .createBtn:hover  {
+.docDel:hover, .delBtn:hover, .editBtn:hover, .createDoc button:hover, .importDoc button:hover, .createBtn:hover, .selectBtn button:hover  {
     background-color: #f87b4e;
     border-color: #f87b4e;
 }
