@@ -300,6 +300,9 @@ tr:last-child td {
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     width: 90vw;
     max-width: 500px;
+    box-sizing: border-box; /* Ensures padding is included in the width/height */
+    max-height: 85vh; /* Don't let the dialog be taller than 85% of the screen */
+    overflow-y: auto; /* Add a scrollbar if the content is too tall */
 }
 
 #editStockDialog::backdrop, #createStockPopover::backdrop, #importStockPopover::backdrop {
