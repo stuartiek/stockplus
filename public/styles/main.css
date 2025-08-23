@@ -246,6 +246,13 @@ main {
     border-radius: 8px;
     background-color: #ffffff;
 }
+.createDoc form input{
+    padding: 0.75em;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #fff;
+}
 
 table {
     font-size: 1rem;
