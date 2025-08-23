@@ -118,7 +118,6 @@ body {
     color: #F98D67;
 }
 
-
 .sideBar img.sideLogo {
     width: 60%;
     height: auto;
@@ -136,7 +135,6 @@ body {
     font-size: 0.8em;
     text-align: center;
 }
-
 
 main {
     position: absolute;
@@ -337,17 +335,18 @@ tr:last-child td {
     margin-bottom: -0.5em;
 }
 
+/* UPDATED INPUT STYLES */
 #editStockDialog form input,
 #editStockDialog form select,
 #createStockPopover form input,
 #createStockPopover form select,
 #importStockPopover form select,
 #importStockPopover form input[type="file"] {
-    padding: 0.75em;
-    border: 1px solid #ced4da;
+    padding: 0.8em;
+    border: none; /* Removed border */
     border-radius: 8px;
     font-size: 1em;
-    background-color: #fff;
+    background-color: #f8f9fa; /* Light background color */
 }
 
 .dialog-buttons {
