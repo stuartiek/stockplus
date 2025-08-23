@@ -27,15 +27,13 @@ body {
     background-position: center;
     background-size: cover;
     float: left;
-    /* These properties will center the logo */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* New rule for the logo inside the hero section */
 .loginHero img {
-    width: 350px; /* Larger size */
+    width: 350px;
     height: auto;
 }
 
@@ -304,9 +302,9 @@ tr:last-child td {
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     width: 90vw;
     max-width: 500px;
-    box-sizing: border-box; /* Ensures padding is included in the width/height */
-    max-height: 85vh; /* Don't let the dialog be taller than 85% of the screen */
-    overflow-y: auto; /* Add a scrollbar if the content is too tall */
+    box-sizing: border-box;
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 #editStockDialog::backdrop, #createStockPopover::backdrop, #importStockPopover::backdrop {
@@ -425,10 +423,106 @@ tr:last-child td {
     background-color: #f8f9fa;
 }
 
+/* --- PRINT LABEL STYLES (Restored) --- */
+.labelDisplay{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+}
+.label.shelf{
+    height: 113px;
+    width: 207px;
+    border: 1px dashed #0C0A0F;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.label.shelf .labelHead{
+    font-size: 18px;
+    padding: 5px;
+    height: 40px;
+    font-weight: bold;
+}
+.label.shelf .labelMid{
+    height: 45px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+.label.shelf .labelFooter{
+    height: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    font-size: 10px;
+}
+.label.shelf .labelFooter p{
+    padding: 0;
+    margin: 0;
+}
+.label.shelf .labelName{
+    margin: 0 0 0 5px;
+    font-size: 18px;
+}
+.label.shelf .labelBrand{
+    font-size: 12px;
+}
+.label.shelf .labelPrice{
+    font-size: 40px;
+    margin: 0;
+    float: right;
+}
+
+.label.arm{
+    text-align: center;
+    height: 94px;
+    width: 75px;
+    border: 1px dashed #0C0A0F;
+    padding: 2px;
+    box-sizing: border-box;
+}
+.label.arm .labelHead{
+    padding: 2px;
+    height: 45px;
+    font-weight: bold;
+}
+.label.arm .labelMid{
+    height: 32px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+.label.arm .labelFooter{
+    bottom: 0;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 8px;
+}
+.label.arm .labelFooter p{
+    padding: 0;
+    margin: 0;
+}
+.label.arm .labelName{
+    margin: 0 2px;
+    text-align: center;
+    font-size: 12px;
+}
+.label.arm .labelBrand,
+.label.arm .labelBarcode,
+.label.arm .labelYear {
+    display: none;
+}
+.label.arm .labelPrice{
+    font-size: 20px;
+    margin: 0;
+    float: right;
+}
+
 @media print {
     body { background-color: #fff; }
     main { margin: 0; width: 100%; position: static; padding: 0; }
-    .sideBar, .createBtn, .delBtn, .editBtn, .stockHead, .selectBtn, .pagination, .doc-actions, hr, .alert {
+    .sideBar, .createBtn, .delBtn, .editBtn, .stockHead, .selectBtn, .pagination, .doc-actions, hr, .alert, .printBtn, header {
         display: none;
     }
 }
