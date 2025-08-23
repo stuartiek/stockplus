@@ -22,7 +22,8 @@ body {
 .loginHero {
     width: 40%;
     height: 100%;
-    background-image: url('/images/background/pexels-eduschadesoares-5498218.jpg');
+    background-image: url('/images/background/pexels-eduschadesoares-5498218.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+    background-blend-mode: overlay;
     background-position: center;
     background-size: cover;
     float: left;
@@ -109,7 +110,8 @@ body {
     transition: background-color 0.2s, color 0.2s;
 }
 
-.sideBar li a:hover {
+.sideBar li a:hover,
+.sideBar li a.active {
     background-color: #f8f9fa;
     color: #F98D67;
 }
@@ -304,7 +306,75 @@ tr:last-child td {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* ... (rest of pop-up, label, and print styles can remain similar) ... */
+#editStockDialog form,
+#createStockPopover form,
+#importStockPopover form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#editStockDialog form h2,
+#createStockPopover form h2,
+#importStockPopover form h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+}
+
+#editStockDialog form label,
+#createStockPopover form label,
+#importStockPopover form label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: -0.5em;
+}
+
+#editStockDialog form input,
+#editStockDialog form select,
+#createStockPopover form input,
+#createStockPopover form select,
+#importStockPopover form select,
+#importStockPopover form input[type="file"] {
+    padding: 0.75em;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #fff;
+}
+
+.dialog-buttons {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.dialog-buttons button {
+    flex: 1;
+    padding: 0.8em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.dialog-buttons button[type="submit"] {
+    background-color: #F98D67;
+    color: white;
+}
+.dialog-buttons button[type="submit"]:hover {
+    background-color: #f87b4e;
+}
+
+.dialog-buttons button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+.dialog-buttons button[type="button"]:hover {
+    background-color: #5a6268;
+}
 
 /* --- ALERTS --- */
 .alert {
