@@ -40,24 +40,40 @@
                 </form>
             </div>
 
-            <!-- NEW: Import from Excel Form -->
+            <!-- UPDATED: Import from Excel section now just a button -->
             <div class="importDoc">
                 <h3>Import Stock from Excel</h3>
-                <form action="/import-stock" method="POST" enctype="multipart/form-data">
-                    <p>Select the document to import stock into:</p>
-                    <select name="documentId" required>
-                        <option value="" disabled selected>-- Choose a Document --</option>
-                        <% documents.forEach(function(doc) { %>
-                            <option value="<%= doc._id %>"><%= doc.documentName %></option>
-                        <% }); %>
-                    </select>
-                    <p>Select the .xlsx file to upload:</p>
-                    <input type="file" name="stockFile" accept=".xlsx" required>
-                    <button type="submit">Import Stock</button>
-                </form>
-                <small>Ensure your Excel file has headers: <strong>productName, barcode, productCode, brand, category, qty, rrp, price</strong></small>
+                <p>Quickly add multiple items to a document from a spreadsheet.</p>
+                <button type="button" class="import-button" popovertarget="importStockPopover">
+                    Open Importer
+                </button>
             </div>
         </div>
+
+        <!-- NEW: The Import Form is now a popover -->
+        <div id="importStockPopover" popover>
+            <form action="/import-stock" method="POST" enctype="multipart/form-data">
+                <h2>Import Stock from Excel</h2>
+                
+                <label for="import_documentId">Select Document</label>
+                <select name="documentId" id="import_documentId" required>
+                    <option value="" disabled selected>-- Choose a Document --</option>
+                    <% documents.forEach(function(doc) { %>
+                        <option value="<%= doc._id %>"><%= doc.documentName %></option>
+                    <% }); %>
+                </select>
+                
+                <label for="import_stockFile">Select .xlsx File</label>
+                <input type="file" name="stockFile" id="import_stockFile" accept=".xlsx" required>
+                
+                <div class="dialog-buttons">
+                    <button type="submit">Import Stock</button>
+                    <button type="button" popovertarget="importStockPopover" popovertargetaction="hide">Cancel</button>
+                </div>
+                <small>Ensure headers are: <strong>productName, barcode, etc.</strong></small>
+            </form>
+        </div>
+
 
         <hr style="margin: 2em 0;">
 

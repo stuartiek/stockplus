@@ -884,11 +884,12 @@ table {
 
 
 
-/* --- STYLING FOR POP-UP FORMS (APPLIES TO BOTH CREATE & EDIT) --- */
 
-/* Style for the pop-up container itself */
+/* --- STYLING FOR ALL POP-UP FORMS (Create, Edit, & Import) --- */
+
 #editStockDialog,
-#createStockPopover {
+#createStockPopover,
+#importStockPopover {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 2em;
@@ -896,32 +897,33 @@ table {
     width: 90%;
     max-width: 500px;
     margin: auto;
-    height: 100%;
 }
 
-/* This styles the faded background behind the pop-up */
 #editStockDialog::backdrop,
-#createStockPopover::backdrop {
+#createStockPopover::backdrop,
+#importStockPopover::backdrop {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* General form layout inside the pop-ups */
 #editStockDialog form,
-#createStockPopover form {
+#createStockPopover form,
+#importStockPopover form {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
 #editStockDialog form h2,
-#createStockPopover form h2 {
+#createStockPopover form h2,
+#importStockPopover form h2 {
     margin-top: 0;
     text-align: center;
     color: #333;
 }
 
 #editStockDialog form label,
-#createStockPopover form label {
+#createStockPopover form label,
+#importStockPopover form label {
     font-weight: bold;
     color: #555;
     margin-bottom: -0.5em;
@@ -930,11 +932,30 @@ table {
 #editStockDialog form input,
 #editStockDialog form select,
 #createStockPopover form input,
-#createStockPopover form select {
+#createStockPopover form select,
+#importStockPopover form select,
+#importStockPopover form input[type="file"] {
     padding: 0.75em;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
+    background-color: #fff;
+}
+
+.importDoc .import-button {
+    width: 100%;
+    padding: 0.8em;
+    border: none;
+    border-radius: 4px;
+    background-color: #17a2b8; /* A distinct info/blue color */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.importDoc .import-button:hover {
+    background-color: #138496;
 }
 
 /* Styles the container for the submit/cancel buttons */
