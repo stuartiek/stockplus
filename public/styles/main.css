@@ -118,6 +118,7 @@ body {
     color: #F98D67;
 }
 
+
 .sideBar img.sideLogo {
     width: 60%;
     height: auto;
@@ -135,6 +136,7 @@ body {
     font-size: 0.8em;
     text-align: center;
 }
+
 
 main {
     position: absolute;

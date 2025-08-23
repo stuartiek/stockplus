@@ -93,6 +93,7 @@ app.get('/dashboard', async (req, res) => {
         const lowStockItems = await db.collection('stock').find({ qty: { $lt: LOW_STOCK_THRESHOLD } }).toArray();
 
         res.render('pages/dashboard', {
+            page: 'dashboard',
             user: req.session.currentuser,
             totalStock,
             totalDocuments,
@@ -112,7 +113,11 @@ app.get('/documents', async (req, res) => {
     
     try {
         const documents = await db.collection('documents').find().sort({ "published": -1 }).toArray();
-        res.render('pages/documents', { documents });
+        res.render('pages/documents', {
+            page: 'documents',
+            documents
+
+        });
     } catch (err) {
         console.error("❌ Error fetching documents:", err);
         res.status(500).send("Error fetching documents.");
@@ -169,7 +174,10 @@ app.get('/users', async (req, res) => {
     
     try {
         const users = await db.collection('users').find().sort({ "created": -1 }).toArray();
-        res.render('pages/users', { users });
+        res.render('pages/users', { 
+            page: 'users',
+            users 
+        });
     } catch (err) {
         console.error("❌ Error fetching users:", err);
         res.status(500).send("Error fetching users.");
@@ -184,7 +192,9 @@ app.get('/pos', (req, res) => {
 
 
 app.get('/settings', (req, res) => {
-    res.render('pages/settings');
+    res.render('pages/settings', {
+        page: 'dashboard'
+    });
 });
 
 
