@@ -225,6 +225,10 @@ main {
     padding: 1.5em;
     height: 7em;
 }
+.project-id {
+    padding: 1.5em;
+    height: 7em;
+}
 
 .docBtn {
     display: flex;
