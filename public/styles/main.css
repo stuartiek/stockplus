@@ -27,6 +27,16 @@ body {
     background-position: center;
     background-size: cover;
     float: left;
+    /* These properties will center the logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* New rule for the logo inside the hero section */
+.loginHero img {
+    width: 350px; /* Larger size */
+    height: auto;
 }
 
 .login {
@@ -42,12 +52,6 @@ body {
     align-items: center;
     height: 100%;
     gap: 1em;
-}
-
-.loginLogo img {
-    width: 250px;
-    height: auto;
-    margin-bottom: 1em;
 }
 
 .loginForm form {
