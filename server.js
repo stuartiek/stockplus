@@ -332,7 +332,10 @@ app.post('/updateStock', imageUpload.single('image'), async (req, res) => {
 
         let imageUrl = existingItem.imageUrl;
         if (req.file) {
+            console.log('New image file found:', req.file.filename);
             imageUrl = '/images/' + req.file.filename;
+        } else {
+            console.log('No new image file uploaded, keeping existing image.');
         }
 
         const updatedValues = {
