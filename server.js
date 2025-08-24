@@ -311,24 +311,11 @@ app.post('/addStock', imageUpload.single('image'), async (req, res) => {
     res.redirect(`/document/${documentId}/stock`);
 });
 
-// UPDATE STOCK ITEM
-app.post('/updateStock', async (req, res) => {
+// UPDATE STOCK ITEM (with Image Handling)
+app.post('/updateStock', imageUpload.single('image'), async (req, res) => {
     if (!req.session.loggedin) return res.redirect('/');
     
-    // Destructure the new currentPage field from the form
-    const { 
-        originalBarcode, 
-        documentId, 
-        currentPage, // <-- The current page number
-        productName, 
-        productCode, 
-        Brand, 
-        Category, 
-        Qty, 
-        RRP, 
-        Price, 
-        Barcode 
-    } = req.body;
+    const { originalBarcode, documentId, currentPage, productName, productCode, Brand, Category, Qty, RRP, Price, Barcode } = req.body;
 
     if (!originalBarcode || !documentId) {
         req.flash('error_msg', 'Could not update item. Required information is missing.');
@@ -337,30 +324,31 @@ app.post('/updateStock', async (req, res) => {
 
     try {
         const filter = { barcode: originalBarcode };
+        const existingItem = await db.collection('stock').findOne(filter);
+        if (!existingItem) {
+            req.flash('error_msg', 'Could not find the item to update.');
+            return res.redirect(`/document/${documentId}/stock`);
+        }
+
+        let imageUrl = existingItem.imageUrl;
+        if (req.file) {
+            imageUrl = '/images/' + req.file.filename;
+        }
+
         const updatedValues = {
             $set: { 
-                productName, 
-                productCode, 
-                brand: Brand, 
-                category: Category, 
-                qty: parseInt(Qty, 10) || 0, 
-                rrp: RRP, 
-                price: Price, 
-                barcode: Barcode, 
-                productURL: "/product/" + Barcode, 
-                deleteURL: "/delete/" + Barcode 
+                productName, productCode, brand: Brand, category: Category, qty: parseInt(Qty, 10) || 0, rrp: RRP, price: Price, barcode: Barcode, imageUrl, productURL: "/product/" + Barcode, deleteURL: "/delete/" + Barcode 
             }
         };
 
         const result = await db.collection('stock').updateOne(filter, updatedValues);
 
-        if (result.modifiedCount === 1) {
+        if (result.modifiedCount > 0) {
             req.flash('success_msg', 'Stock item updated successfully!');
         } else {
-            req.flash('error_msg', 'Could not find the item to update, or no changes were made.');
+            req.flash('error_msg', 'No changes were made to the stock item.');
         }
 
-        // Construct the redirect URL with the page number and a URL fragment for scrolling
         const redirectUrl = `/document/${documentId}/stock?page=${currentPage || 1}#item-${Barcode}`;
         res.redirect(redirectUrl);
 

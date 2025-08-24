@@ -28,6 +28,14 @@
             <form action="/addStock" method="POST" enctype="multipart/form-data">
                 <h2>Add New Stock Item</h2>
                 <input type="hidden" name="documentId" value="<%= document._id %>">
+
+                <div class="current-image-preview">
+                    <p>Current Image:</p>
+                    <img id="edit_currentImage" src="" alt="Current product image" style="max-width: 100px; max-height: 100px;">
+                </div>
+
+                <label for="edit_image">Upload New Image (optional)</label>
+                <input type="file" id="edit_image" name="image" accept="image/*" />
                 
                 <label for="create_image">Product Image</label>
                 <input type="file" id="create_image" name="image" accept="image/*" capture="camera" />
