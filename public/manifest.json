@@ -8,8 +8,8 @@
     "background_color": "#F98D67",
     "theme_color": "#F98D67",
     "orientation": "landscape",
-    "display": "fullscreen",
-    "display_override": ["window-controls-overlay"],
+    "display_override": ["fullscreen", "minimal-ui"],
+    "display": "standalone",
     "icons": [
         {
             "src": "/public/images/icons/android/android-launchericon-48-48.png",
