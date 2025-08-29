@@ -476,6 +476,9 @@ tr:last-child td {
     padding: 0;
     margin: 0;
 }
+.labelBarcode{
+    font-family: 'Libre Barcode 39';font-size: 22px;
+}
 .label.shelf .labelName{
     margin: 0 0 0 5px;
     font-size: 18px;
