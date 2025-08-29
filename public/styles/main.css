@@ -466,11 +466,12 @@ tr:last-child td {
     justify-content: space-between;
     align-items: flex-end;
 }
-.label.shelf .labelFooter span{
+.label.shelf .labelFooter{
     height: 22px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    text-align: end;
     font-size: 10px;
 }
 .label.shelf .labelFooter p{
