@@ -468,7 +468,7 @@ tr:last-child td {
 .label.shelf .labelFooter{
     height: 22px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-end;
     font-size: 10px;
 }
