@@ -447,7 +447,7 @@ tr:last-child td {
     gap: 10px;
 }
 .label.shelf{
-    height: 132.283px;
+    height: 120px;
     width: 226.772px;
     border: 1px dashed #0C0A0F;
     padding: 5px;
@@ -455,7 +455,7 @@ tr:last-child td {
 }
 .label.shelf .labelHead{
     font-size: 18px;
-    padding: 2px 0px 0px 5px;
+    padding-bottom: 5px;
     height: 40px;
     font-weight: bold;
 }
