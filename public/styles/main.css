@@ -488,6 +488,7 @@ span .labelBarcode{
 }
 .label.shelf .labelBrand{
     font-size: 12px;
+    width: 80px;
 }
 .label.shelf .labelPrice{
     font-size: 40px;
