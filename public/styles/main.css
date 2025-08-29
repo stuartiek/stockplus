@@ -462,7 +462,7 @@ tr:last-child td {
 .label.shelf .labelMid{
     height: 45px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-end;
 }
 .label.shelf .labelFooter{
