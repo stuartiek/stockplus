@@ -477,7 +477,8 @@ tr:last-child td {
     margin: 0;
 }
 span .labelBarcode{
-    font-family: 'Libre Barcode 39';
+    font-family: 'Libre Barcode 39',; 
+    font-size: 22px;
 }
 .label.shelf .labelName{
     margin: 0 0 0 5px;
