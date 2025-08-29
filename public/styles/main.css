@@ -455,7 +455,7 @@ tr:last-child td {
 }
 .label.shelf .labelHead{
     font-size: 18px;
-    padding: 5px;
+    padding: 2px 0px 0px 5px;
     height: 40px;
     font-weight: bold;
 }
