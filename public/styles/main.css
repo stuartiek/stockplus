@@ -444,7 +444,7 @@ tr:last-child td {
 .labelDisplay{
     display: flex;
     flex-flow: row wrap;
-    gap: 15px;
+    gap: 25px;
 }
 .label.shelf{
     height: 125px;
