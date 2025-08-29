@@ -470,6 +470,8 @@ tr:last-child td {
 .label.shelf .labelFooter{
     height: 22px;
     display: flex;
+    padding-left: 2px;
+    padding-right: 2px;
     justify-content: space-between;
     align-items: flex-start;
     font-size: 10px;
