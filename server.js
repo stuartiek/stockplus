@@ -130,7 +130,7 @@ app.get('/document/:id/stock', async (req, res) => {
 
     const { id } = req.params;
     const selectedCategory = req.query.category || ''; 
-    const itemsPerPage = 16; // Set how many items to show per page
+    const itemsPerPage = 19; // Set how many items to show per page
     const currentPage = parseInt(req.query.page) || 1;
 
     try {
