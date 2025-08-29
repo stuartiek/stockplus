@@ -545,7 +545,7 @@ tr:last-child td {
 }
 
 /* --- PRINT LABEL STYLES (Restored) --- */
-.labelDisplay{
+/* .labelDisplay{
     display: flex;
     flex-flow: row wrap;
     gap: 10px;
@@ -646,4 +646,4 @@ tr:last-child td {
     .sideBar, .createBtn, .delBtn, .editBtn, .stockHead, .selectBtn, .pagination, .doc-actions, hr, .alert, .printBtn, header {
         display: none;
     }
-}
+} */
