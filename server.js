@@ -124,47 +124,74 @@ app.get('/documents', async (req, res) => {
     }
 });
 
-// DISPLAY STOCK FOR A SPECIFIC DOCUMENT (WITH PAGINATION)
-app.get('/document/:id/stock', async (req, res) => {
-    if (!req.session.loggedin) return res.redirect('/');
+// DOCUMENTS STOCK PAGE (with Search and Pagination)
+app.get('/document/:id/stock', async function(req, res) {
+    if (!req.session.loggedin) {
+        return res.redirect('/');
+    }
 
-    const { id } = req.params;
+    const documentId = req.params.id;
+    const itemsPerPage = 20;
+
+    // Get filter, search, and page values from the URL query
     const selectedCategory = req.query.category || ''; 
-    const itemsPerPage = 21; // Set how many items to show per page
+    const searchQuery = req.query.searchQuery || '';
     const currentPage = parseInt(req.query.page) || 1;
 
     try {
-        const document = await db.collection('documents').findOne({ _id: new ObjectId(id) });
-        if (!document) return res.status(404).send("Document not found.");
+        const document = await db.collection('documents').findOne({ _id: new ObjectId(documentId) });
 
-        const filter = { documentId: id };
+        if (!document) {
+            console.log("❌ Document not found for ID:", documentId);
+            return res.status(404).send("Document not found.");
+        }
+
+        // --- SEARCH & FILTER LOGIC ---
+        // Start with the base filter for the current document
+        const filter = { documentId: documentId };
+
+        // Add category to filter if one is selected
         if (selectedCategory) {
             filter.category = selectedCategory;
         }
 
-        // Get the total count of items for pagination
+        // Add search query to filter if one is provided
+        if (searchQuery) {
+            // Use $or to search across multiple fields
+            // Use $regex for partial matching and 'i' for case-insensitivity
+            filter.$or = [
+                { productName: { $regex: searchQuery, $options: 'i' } },
+                { productCode: { $regex: searchQuery, $options: 'i' } },
+                { barcode: { $regex: searchQuery, $options: 'i' } }
+            ];
+        }
+
+        // --- PAGINATION LOGIC ---
+        // Count the total items that match the combined filter
         const totalItems = await db.collection('stock').countDocuments(filter);
         const totalPages = Math.ceil(totalItems / itemsPerPage);
 
         // Fetch only the items for the current page
-        const stock = await db.collection('stock')
-            .find(filter)
+        const stock = await db.collection('stock').find(filter)
             .sort({ "published": -1 })
             .skip((currentPage - 1) * itemsPerPage)
             .limit(itemsPerPage)
             .toArray();
-            
-        res.render('pages/documentStock', { 
-            document, 
-            stock, 
-            selectedCategory,
-            // Pass pagination data to the template
-            currentPage,
-            totalPages,
+
+        console.log(`✅ Fetched ${stock.length} stock items for document: ${document.documentName}`);
+
+        res.render('pages/documentStock', {
+            document: document,
+            stock: stock,
+            selectedCategory: selectedCategory,
+            searchQuery: searchQuery, // Pass search query back to the template
+            currentPage: currentPage,
+            totalPages: totalPages
         });
+
     } catch (err) {
         console.error("❌ Error fetching document or related stock:", err);
-        res.status(500).send("Error fetching document details.");
+        res.status(500).send("Error fetching document details or stock data.");
     }
 });
 
