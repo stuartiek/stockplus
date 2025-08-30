@@ -453,12 +453,40 @@ tr:last-child td {
     padding: 5px;
     box-sizing: border-box;
 }
-.label.shelf .labelHead{
+/* .label.shelf .labelHead{
     font-size: 18px;
     padding: 2px 5px 5px 2px;
     height: 40px;
     font-weight: bold;
+} */
+
+/* Update the labelHead to position the name and RRP */
+.label.shelf .labelHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligns items to the top */
+    padding: 5px;
+    height: 40px;
+    font-weight: bold;
 }
+
+/* Style for the new RRP text */
+.label.shelf .labelRrp {
+    font-size: 14px;
+    color: #d9534f; /* A reddish color to indicate a sale */
+    text-decoration: line-through;
+    font-weight: normal;
+    margin: 0;
+    white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+/* Ensure the product name doesn't take up all the space */
+.label.shelf .labelName {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
 .label.shelf .labelMid{
     height: 45px;
     display: flex;
@@ -484,10 +512,10 @@ span .labelBarcode{
     font-family: 'Libre Barcode 39'; 
     font-size: 26px;
 }
-.label.shelf .labelName{
+/* .label.shelf .labelName{
     margin: 0 0 0 5px;
     font-size: 18px;
-}
+} */
 .label.shelf .labelBrand{
     font-size: 12px;
     width: 80px;
