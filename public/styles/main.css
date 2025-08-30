@@ -542,15 +542,15 @@ span .labelBarcode{
 .label.arm .labelMid{
     height: 32px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: flex-end;
 }
 .label.arm .labelFooter{
     bottom: 0;
-    height: 15px;
+    height: 8px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     font-size: 8px;
 }
 .label.arm .labelFooter p{
@@ -560,7 +560,7 @@ span .labelBarcode{
 .label.arm .labelName{
     margin: 0 2px;
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
 }
 .label.arm .labelBrand,
 .label.arm .labelBarcode,
