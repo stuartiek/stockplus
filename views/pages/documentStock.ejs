@@ -115,7 +115,102 @@
     </main>
 
     <!-- Pop-up Dialogs -->
-    <%- include('../partials/stock-popups', { document: document, currentPage: currentPage }) %>
+    <dialog id="createStockPopover">
+        <form action="/addStock" method="POST" enctype="multipart/form-data">
+            <h2>Create New Stock</h2>
+            <input type="hidden" name="documentId" value="<%= document._id %>">
+            
+            <label for="image">Product Image</label>
+            <input type="file" name="image" accept="image/*" capture="camera" />
+
+            <label for="productName">Product Name</label>
+            <input type="text" name="productName" maxlength="35" placeholder="Product Name" required>
+            
+            <label for="productCode">Product Code</label>
+            <input type="text" name="productCode" placeholder="Product Code">
+            
+            <label for="Brand">Brand</label>
+            <input type="text" name="Brand" placeholder="Brand">
+            
+            <label for="Category">Category</label>
+            <select name="Category">
+                <option value="Tools">Tools</option>
+                <option value="Sundries">Sundries</option>
+                <option value="Chemicals">Chemicals</option>
+                <option value="Hardware">Hardware</option>
+                <option value="Misc">Misc</option>
+            </select>
+            
+            <label for="Qty">Quantity</label>
+            <input type="number" name="Qty" placeholder="Qty" required>
+            
+            <label for="RRP">RRP</label>
+            <input type="text" name="RRP" placeholder="e.g., 19.99">
+            
+            <label for="Price">Price</label>
+            <input type="text" name="Price" placeholder="e.g., 15.50" required>
+            
+            <label for="Barcode">Barcode</label>
+            <input type="text" name="Barcode" placeholder="Barcode" required>
+
+            <div class="dialog-buttons">
+                <button type="submit">Add Stock</button>
+                <button type="button" popovertarget="createStockPopover" popovertargetaction="hide">Cancel</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="editStockDialog">
+        <form action="/updateStock" method="POST" enctype="multipart/form-data">
+            <h2>Edit Stock Item</h2>
+            <input type="hidden" name="originalBarcode">
+            <input type="hidden" name="documentId" value="<%= document._id %>">
+            <input type="hidden" name="currentPage" value="<%= currentPage %>">
+
+            <div>
+                <label>Current Image</label>
+                <img id="current-image-preview" src="" alt="Current product image" style="max-width: 100px; margin-top: 5px; border-radius: 4px;">
+            </div>
+            
+            <label for="image">Upload New Image (Optional)</label>
+            <input type="file" name="image" accept="image/*" capture="camera" />
+
+            <label for="productName">Product Name</label>
+            <input type="text" name="productName" maxlength="35" placeholder="Product Name" required>
+            
+            <label for="productCode">Product Code</label>
+            <input type="text" name="productCode" placeholder="Product Code">
+            
+            <label for="Brand">Brand</label>
+            <input type="text" name="Brand" placeholder="Brand">
+            
+            <label for="Category">Category</label>
+            <select name="Category">
+                <option value="Tools">Tools</option>
+                <option value="Sundries">Sundries</option>
+                <option value="Chemicals">Chemicals</option>
+                <option value="Hardware">Hardware</option>
+                <option value="Misc">Misc</option>
+            </select>
+            
+            <label for="Qty">Quantity</label>
+            <input type="number" name="Qty" placeholder="Qty" required>
+            
+            <label for="RRP">RRP</label>
+            <input type="text" name="RRP" placeholder="e.g., 19.99">
+            
+            <label for="Price">Price</label>
+            <input type="text" name="Price" placeholder="e.g., 15.50" required>
+            
+            <label for="Barcode">Barcode</label>
+            <input type="text" name="Barcode" placeholder="Barcode" required>
+
+            <div class="dialog-buttons">
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="document.getElementById('editStockDialog').close()">Cancel</button>
+            </div>
+        </form>
+    </dialog>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -248,3 +343,4 @@
     </script>
 </body>
 </html>
+
