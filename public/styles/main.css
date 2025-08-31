@@ -2,12 +2,13 @@
     font-family: StockPlusFont;
     src: url(ABeeZee.ttf);
 }
+@import url('https://fonts.cdnfonts.com/css/code-128');
 
-.barcodeFont {
+/* .barcodeFont {
     font-family: "Libre Barcode 39 Text", serif;
     font-weight: 400;
     font-style: normal;
-}
+} */
 
 body {
     margin: 0;
@@ -509,9 +510,8 @@ tr:last-child td {
     margin: 0;
 }
 span .labelBarcode{
-    font-family: 'Libre Barcode 128'; 
+    font-family: 'Code 128', sans-serif;
     font-size: 40px;
-    font-size-adjust: 5px;
 }
 /* .label.shelf .labelName{
     margin: 0 0 0 5px;
