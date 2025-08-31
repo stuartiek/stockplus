@@ -511,6 +511,7 @@ tr:last-child td {
 span .labelBarcode{
     font-family: 'Libre Barcode 128'; 
     font-size: 40px;
+    font-size-adjust: 5px;
 }
 /* .label.shelf .labelName{
     margin: 0 0 0 5px;
