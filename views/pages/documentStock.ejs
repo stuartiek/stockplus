@@ -19,7 +19,7 @@
     <main id="stock">
         <div class="stockHead">
            <h1>Document - <%= document.documentName %></h1> 
-           <button class="createBtn" popovertarget="createStockPopover">Create New Stock</button>
+           <button class="createBtn" type="button" onclick="document.getElementById('createStockPopover').showModal()">
         </div>
         
         <!-- Filter and Search Form -->
@@ -155,7 +155,7 @@
 
             <div class="dialog-buttons">
                 <button type="submit">Add Stock</button>
-                <button type="button" popovertarget="createStockPopover" popovertargetaction="hide">Cancel</button>
+                <button type="button" onclick="document.getElementById('createStockPopover').close()">
             </div>
         </form>
     </dialog>
