@@ -511,15 +511,16 @@ tr:last-child td {
 }
 span .labelBarcode{
     font-family: "Libre Barcode EAN13 Text", system-ui;
-    font-weight: 400;
+  font-weight: 400;
     font-style: normal;
     /* font-family: 'Libre Barcode 128 Text'; */
-    font-size: 30px;
+    font-size: 50px;
     /* font-family: 'Code 128', sans-serif; */
     /* font-size: 10px; */
     overflow: hidden;
     height: 30px;
     padding-bottom: 2px;
+    overflow: hidden;
 }
 /* .label.shelf .labelName{
     margin: 0 0 0 5px;
