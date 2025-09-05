@@ -13,6 +13,7 @@
     <link rel="icon" type="image/x-icon" href="images/logo/favicon.png">
     <link rel="manifest" href="manifest.json">
     <script src="https://kit.fontawesome.com/e71e3c46fe.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <title>Stock</title>
 </head>
 <body>
@@ -22,40 +23,45 @@
     <main id="stock">
         <div class="stockHead">
             <h1>Selected Stock Items</h1>
+            <button class="printBtn" onclick="window.print()">Print</button>
         </div>
-          
-          <button class="printBtn" onclick="window.print()">Print</button>
-          <br>
-          <div class="labelDisplay">
-        <% selectedItems.forEach(item => { %>
-            <%#
-            Dynamically add the labelType as a CSS class.
-            We check if 'document' exists and has a labelType.
-            .toLowerCase() converts "Shelf" to "shelf", which is better for CSS.
-            %>
-            <div class="label <%= (document && document.labelType) ? document.labelType.toLowerCase() : '' %>">
-                <div class="labelHead">
-                    <p class="labelName"><%= item.productName %></p>
-
-                    <% if (item.rrp && item.rrp !== '0.00' && item.rrp !== item.price) { %>
-                            <p class="labelRrp">RRP £<%= item.rrp %></p>
-                    <% } %>
+        <br>
+        <div class="labelDisplay">
+            <% selectedItems.forEach(item => { %>
+                <div class="label <%= (document && document.labelType) ? document.labelType.toLowerCase() : 'shelf' %>">
+                    <div class="labelHead">
+                        <h2 class="labelName"><%= item.productName %></h2>
+                        <% if (item.rrp && item.rrp !== "0.00" && item.rrp !== item.price) { %>
+                            <p class="labelRrp">£<%= item.rrp %></p>
+                        <% } %>
+                    </div>
+                    <div class="labelMid">
+                        <p class="labelBrand"><%= item.brand %></p>
+                        <h1 class="labelPrice">£<%= item.price %></h1>
+                    </div>
+                    <div class="labelFooter">
+                        <p class="product-code"><%= item.productCode %></p>
+                        <!-- NEW BARCODE STRUCTURE -->
+                        <svg class="labelBarcode"
+                            jsbarcode-value="<%= item.barcode %>"
+                            jsbarcode-format="EAN13"
+                            jsbarcode-displayValue="true"
+                            jsbarcode-fontSize="14"
+                            jsbarcode-margin="0"
+                            jsbarcode-height="30">
+                        </svg>
+                        <p class="year">2025</p>
+                    </div>
                 </div>
-                
-                <div class="labelMid">
-                    <h4 class="labelBrand"><%= item.brand %></h4>
-                    <h1 class="labelPrice">£<%= item.price %></h1>
-                </div>
-
-                <div class="labelFooter">
-                    <p class="product-code"><%= item.productCode %></p>
-                    <p class="labelBarcode"><%= item.barcode %></p>
-                    <p class="year">2025</p>
-                </div>
-            </div>
-        <% }) %>
-</div>
-            
+            <% }) %>
+        </div>
     </main>
+
+    <!-- This script will automatically generate the barcodes -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            JsBarcode(".labelBarcode").init();
+        });
+    </script>
 </body>
 </html>

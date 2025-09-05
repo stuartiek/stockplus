@@ -501,11 +501,8 @@ tr:last-child td {
 
 /* --- FINAL BARCODE STYLING --- */
 .labelBarcode {
-    font-family: 'Libre Barcode EAN13';
-    font-size: 35px; /* Reduced font size */
-    line-height: 1; /* Ensures tight line spacing */
-    margin: 0;
-    text-align: center;
+    width: 120px; /* Adjust width as needed */
+    height: 40px;  /* Adjust height as needed */
 }
 
 .label.arm{
