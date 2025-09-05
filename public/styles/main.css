@@ -509,19 +509,13 @@ tr:last-child td {
     padding: 0;
     margin: 0;
 }
-span .labelBarcode{
-    font-family: "Libre Barcode EAN13 Text", system-ui;
-  font-weight: 400;
-    font-style: normal;
-    /* font-family: 'Libre Barcode 128 Text'; */
-    font-size: 70px;
-    /* font-family: 'Code 128', sans-serif; */
-    /* font-size: 10px; */
+.labelBarcode {
+    font-family: 'Code 128', sans-serif;
+    font-size: 45px;
     overflow: hidden;
     height: 20px;
-    padding-bottom: 2px;
-    overflow: hidden;
-    align-items: baseline;
+    line-height: 20px;
+    margin: 0 !important;
 }
 /* .label.shelf .labelName{
     margin: 0 0 0 5px;
@@ -591,107 +585,3 @@ span .labelBarcode{
         display: none;
     }
 }
-
-/* --- PRINT LABEL STYLES (Restored) --- */
-/* .labelDisplay{
-    display: flex;
-    flex-flow: row wrap;
-    gap: 10px;
-}
-.label.shelf{
-    height: 113px;
-    width: 207px;
-    border: 1px dashed #0C0A0F;
-    padding: 5px;
-    box-sizing: border-box;
-}
-.label.shelf .labelHead{
-    font-size: 18px;
-    padding: 5px;
-    height: 40px;
-    font-weight: bold;
-}
-.label.shelf .labelMid{
-    height: 45px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-}
-.label.shelf .labelFooter{
-    height: 15px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    font-size: 10px;
-}
-.label.shelf .labelFooter p{
-    padding: 0;
-    margin: 0;
-}
-.label.shelf .labelName{
-    margin: 0 0 0 5px;
-    font-size: 18px;
-}
-.label.shelf .labelBrand{
-    font-size: 12px;
-}
-.label.shelf .labelPrice{
-    font-size: 40px;
-    margin: 0;
-    float: right;
-}
-
-.label.arm{
-    text-align: center;
-    height: 94px;
-    width: 75px;
-    border: 1px dashed #0C0A0F;
-    padding: 2px;
-    box-sizing: border-box;
-}
-.label.arm .labelHead{
-    padding: 2px;
-    height: 45px;
-    font-weight: bold;
-}
-.label.arm .labelMid{
-    height: 32px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-}
-.label.arm .labelFooter{
-    bottom: 0;
-    height: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size: 8px;
-}
-.label.arm .labelFooter p{
-    padding: 0;
-    margin: 0;
-}
-.label.arm .labelName{
-    margin: 0 2px;
-    text-align: center;
-    font-size: 12px;
-}
-.label.arm .labelBrand,
-.label.arm .labelBarcode,
-.label.arm .labelYear {
-    display: none;
-}
-.label.arm .labelPrice{
-    font-size: 20px;
-    margin: 0;
-    float: right;
-}
-
-@media print {
-    body { background-color: #fff; }
-    main { margin: 0; width: 100%; position: static; padding: 0; }
-    .sideBar, .createBtn, .delBtn, .editBtn, .stockHead, .selectBtn, .pagination, .doc-actions, hr, .alert, .printBtn, header {
-        display: none;
-    }
-} */
