@@ -466,7 +466,7 @@ tr:last-child td {
     display: flex;
     justify-content: space-between;
     align-items: flex-start; /* Aligns items to the top */
-    padding: 5px;
+    padding: 2px;
     height: 40px;
     font-weight: bold;
 }
