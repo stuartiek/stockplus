@@ -521,6 +521,8 @@ span .labelBarcode{
     height: 20px;
     padding-bottom: 2px;
     overflow: hidden;
+    position: absolute;
+    bottom: 0;
 }
 /* .label.shelf .labelName{
     margin: 0 0 0 5px;
