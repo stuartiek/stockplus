@@ -500,7 +500,7 @@ tr:last-child td {
 }
 
 /* --- FINAL BARCODE STYLING --- */
-.labelFooter span .labelBarcode{
+.labelBarcode {
     font-family: 'Libre Barcode EAN13', serif;
     font-size: 35px; /* Reduced font size */
     line-height: 1; /* Ensures tight line spacing */
