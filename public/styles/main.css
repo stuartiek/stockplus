@@ -497,9 +497,11 @@ tr:last-child td {
 
 /* CORRECTED BARCODE STYLE */
 .labelBarcode {
-    font-family: 'Libre Barcode 39', serif;
-    font-size: 32px; /* Reduced size */
-    line-height: 1; /* Compact line height */
+    font-family: 'Libre Barcode EAN13', serif; /* Use EAN13 font */
+    font-size: 45px;
+    line-height: 25px; /* Set line-height smaller than font-size to crop */
+    height: 25px;      /* Set container height to match line-height */
+    overflow: hidden;  /* Hide the overflowing top part of the font */
     margin: 0 !important;
 }
 
