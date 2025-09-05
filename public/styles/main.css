@@ -2,13 +2,7 @@
     font-family: StockPlusFont;
     src: url(ABeeZee.ttf);
 }
-@import url('https://fonts.cdnfonts.com/css/code-128');
-
-/* .barcodeFont {
-    font-family: "Libre Barcode 39 Text", serif;
-    font-weight: 400;
-    font-style: normal;
-} */
+/* REMOVED @import for Code 128 */
 
 body {
     margin: 0;
@@ -454,34 +448,25 @@ tr:last-child td {
     padding: 5px;
     box-sizing: border-box;
 }
-/* .label.shelf .labelHead{
-    font-size: 18px;
-    padding: 2px 5px 5px 2px;
-    height: 40px;
-    font-weight: bold;
-} */
 
-/* Update the labelHead to position the name and RRP */
 .label.shelf .labelHead {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Aligns items to the top */
+    align-items: flex-start;
     padding: 2px;
     height: 40px;
     font-weight: bold;
 }
 
-/* Style for the new RRP text */
 .label.shelf .labelRrp {
     font-size: 14px;
-    color: #d9534f; /* A reddish color to indicate a sale */
+    color: #d9534f;
     text-decoration: line-through;
     font-weight: normal;
     margin: 0;
-    white-space: nowrap; /* Prevents the text from wrapping */
+    white-space: nowrap;
 }
 
-/* Ensure the product name doesn't take up all the space */
 .label.shelf .labelName {
     margin: 0;
     font-size: 16px;
@@ -509,18 +494,15 @@ tr:last-child td {
     padding: 0;
     margin: 0;
 }
+
+/* UPDATED BARCODE STYLE */
 .labelBarcode {
-    font-family: 'Code 128', sans-serif;
-    font-size: 45px;
-    overflow: hidden;
-    height: 20px;
-    line-height: 20px;
+    font-family: 'Libre Barcode 39', serif;
+    font-size: 38px;
+    line-height: 1;
     margin: 0 !important;
 }
-/* .label.shelf .labelName{
-    margin: 0 0 0 5px;
-    font-size: 18px;
-} */
+
 .label.shelf .labelBrand{
     font-size: 12px;
     width: 80px;
@@ -585,3 +567,4 @@ tr:last-child td {
         display: none;
     }
 }
+
