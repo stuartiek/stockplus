@@ -58,9 +58,28 @@
     </main>
 
     <!-- This script will automatically generate the barcodes -->
+    <!-- NEW, MORE ROBUST SCRIPT TO GENERATE BARCODES -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            JsBarcode(".labelBarcode").init();
+            // Select all elements that need a barcode
+            const barcodeElements = document.querySelectorAll('.labelBarcode');
+
+            // Loop through each one and generate the barcode individually
+            barcodeElements.forEach(svgElement => {
+                try {
+                    // This will attempt to generate the barcode
+                    JsBarcode(svgElement).init();
+                } catch (e) {
+                    // If an error occurs (like an invalid EAN13 code), log it to the console
+                    console.error('Could not generate barcode:', e);
+                    // And display an error message directly on the label for easy debugging
+                    const barcodeValue = svgElement.getAttribute('jsbarcode-value');
+                    const errorContainer = svgElement.parentElement;
+                    if(errorContainer) {
+                        errorContainer.innerHTML = `<span style="color: red; font-size: 9px; text-align: center; width: 100%;">Invalid Barcode:<br>${barcodeValue}</span>`;
+                    }
+                }
+            });
         });
     </script>
 </body>
