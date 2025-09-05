@@ -520,7 +520,7 @@ tr:last-child td {
     overflow: hidden;
     height: 20px;
     padding-bottom: 2px;
-    overflow: hidden;
+    /* overflow: hidden; */
     align-items: baseline;
 }
 /* .label.shelf .labelName{
