@@ -486,6 +486,17 @@ tr:last-child td {
     font-size: 10px;
     padding: 0 2px;
 }
+span .labelBarcode {
+    font-family: "Libre Barcode EAN13 Text", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 70px;
+    overflow: hidden;
+    height: 20px;
+    padding-bottom: 2px;
+    overflow: hidden;
+    align-items: baseline;
+}
 
 .label.shelf .labelBrand{
     font-size: 12px;
