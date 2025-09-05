@@ -511,11 +511,11 @@ tr:last-child td {
 }
 span .labelBarcode{
     font-family: 'Libre Barcode 128 Text';
-    font-size: 26px;
+    font-size: 30px;
     /* font-family: 'Code 128', sans-serif; */
     /* font-size: 10px; */
     overflow: hidden;
-    height: 26px;
+    height: 30px;
     padding-bottom: 2px;
 }
 /* .label.shelf .labelName{
