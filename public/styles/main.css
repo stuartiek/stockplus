@@ -483,19 +483,11 @@ tr:last-child td {
 }
 
 .label.shelf .labelFooter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 10px;
     padding: 0 2px;
-}
-span .labelBarcode {
-    font-family: "Libre Barcode EAN13 Text", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 70px;
-    overflow: hidden;
-    height: 20px;
-    padding-bottom: 2px;
-    overflow: hidden;
-    align-items: baseline;
 }
 
 .label.shelf .labelBrand{
@@ -505,6 +497,15 @@ span .labelBarcode {
 .label.shelf .labelPrice{
     font-size: 40px;
     margin: 0;
+}
+
+/* --- FINAL BARCODE STYLING --- */
+.labelBarcode {
+    font-family: 'Libre Barcode EAN13', serif;
+    font-size: 35px; /* Reduced font size */
+    line-height: 1; /* Ensures tight line spacing */
+    margin: 0;
+    text-align: center;
 }
 
 .label.arm{
