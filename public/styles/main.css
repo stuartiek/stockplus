@@ -435,7 +435,7 @@ tr:last-child td {
     background-color: #f8f9fa;
 }
 
-/* --- PRINT LABEL STYLES (Restored) --- */
+/* --- PRINT LABEL STYLES --- */
 .labelDisplay{
     display: flex;
     flex-flow: row wrap;
@@ -447,6 +447,8 @@ tr:last-child td {
     border: 1px dashed #0C0A0F;
     padding: 5px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .label.shelf .labelHead {
@@ -454,7 +456,6 @@ tr:last-child td {
     justify-content: space-between;
     align-items: flex-start;
     padding: 2px;
-    height: 40px;
     font-weight: bold;
 }
 
@@ -474,32 +475,31 @@ tr:last-child td {
 }
 
 .label.shelf .labelMid{
-    height: 45px;
     display: flex;
-    padding-left: 5px;
-    padding-bottom: 5px;
     justify-content: space-between;
     align-items: flex-end;
+    flex-grow: 1; /* Allows this section to take up remaining space */
+    padding: 0 5px 5px 5px;
 }
+
 .label.shelf .labelFooter{
-    height: 22px;
     display: flex;
-    padding-left: 2px;
-    padding-right: 2px;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center; /* Vertically center items */
     font-size: 10px;
+    padding: 0 2px;
 }
+
 .label.shelf .labelFooter p{
     padding: 0;
     margin: 0;
 }
 
-/* UPDATED BARCODE STYLE */
+/* CORRECTED BARCODE STYLE */
 .labelBarcode {
     font-family: 'Libre Barcode 39', serif;
-    font-size: 38px;
-    line-height: 1;
+    font-size: 32px; /* Reduced size */
+    line-height: 1; /* Compact line height */
     margin: 0 !important;
 }
 
@@ -510,7 +510,6 @@ tr:last-child td {
 .label.shelf .labelPrice{
     font-size: 40px;
     margin: 0;
-    float: right;
 }
 
 .label.arm{
