@@ -510,8 +510,10 @@ tr:last-child td {
     margin: 0;
 }
 span .labelBarcode{
+    font-family: 'Libre Barcode 128 Text';
+    font-size: 22px;
     /* font-family: 'Code 128', sans-serif; */
-    font-size: 10px;
+    /* font-size: 10px; */
     overflow: hidden;
     height: 22px;
     padding-bottom: 2px;
