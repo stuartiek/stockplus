@@ -40,17 +40,31 @@
                         <h1 class="labelPrice">£<%= item.price %></h1>
                     </div>
                     <div class="labelFooter">
-                        <!-- NEW BARCODE STRUCTURE -->
-                        <svg class="labelBarcode"
-                            jsbarcode-value="<%= item.barcode %>"
-                            jsbarcode-format="EAN13"
-                            jsbarcode-displayValue="true"
-                            jsbarcode-fontSize="14"
-                            jsbarcode-margin="0"
-                            jsbarcode-height="30">
-                        </svg>
+                        
+                        <!-- DYNAMIC BARCODE LOGIC -->
+                        <% if (item.barcode && item.barcode.length === 8) { %>
+                            <!-- If barcode is 8 digits, use EAN8 format -->
+                            <svg class="labelBarcode"
+                                jsbarcode-value="<%= item.barcode %>"
+                                jsbarcode-format="EAN8"
+                                jsbarcode-displayValue="true"
+                                jsbarcode-fontSize="14"
+                                jsbarcode-margin="0"
+                                jsbarcode-height="30">
+                            </svg>
+                        <% } else { %>
+                            <!-- Otherwise, default to EAN13 format -->
+                            <svg class="labelBarcode"
+                                jsbarcode-value="<%= item.barcode %>"
+                                jsbarcode-format="EAN13"
+                                jsbarcode-displayValue="true"
+                                jsbarcode-fontSize="14"
+                                jsbarcode-margin="0"
+                                jsbarcode-height="30">
+                            </svg>
+                        <% } %>
+
                         <div>
-                           
                             <p class="year"><%= item.productCode %><br>2025</p> 
                         </div>
                         
@@ -87,3 +101,4 @@
     </script>
 </body>
 </html>
+
