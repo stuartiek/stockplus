@@ -445,7 +445,7 @@ tr:last-child td {
     height: 130px;
     width: 240px;
     border: 1px dashed #0C0A0F;
-    padding: 5px;
+    padding: 3px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -496,7 +496,7 @@ tr:last-child td {
     width: 80px;
 }
 .label.shelf .labelPrice{
-    font-size: 40px;
+    font-size: 38px;
     margin: 0;
 }
 
