@@ -502,7 +502,7 @@ tr:last-child td {
 /* --- FINAL BARCODE STYLING --- */
 .labelBarcode {
     width: 120px; /* Adjust width as needed */
-    height: 40px;  /* Adjust height as needed */
+    height: 30px;  /* Adjust height as needed */
 }
 
 .label.arm{
