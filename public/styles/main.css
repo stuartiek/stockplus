@@ -481,6 +481,7 @@ tr:last-child td {
     align-items: flex-end;
     flex-grow: 1; /* Allows this section to take up remaining space */
     padding: 0 5px 2px 5px;
+    height: 48px;
 }
 
 .label.shelf .labelFooter{
