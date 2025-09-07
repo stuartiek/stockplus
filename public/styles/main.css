@@ -500,6 +500,9 @@ tr:last-child td {
     font-size: 38px;
     margin: 0;
 }
+.label.shelf .labelYear{
+    float: right;
+}
 
 /* --- FINAL BARCODE STYLING --- */
 .labelBarcode {
