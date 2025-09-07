@@ -479,7 +479,7 @@ tr:last-child td {
     justify-content: space-between;
     align-items: flex-end;
     flex-grow: 1; /* Allows this section to take up remaining space */
-    padding: 0 5px 5px 5px;
+    padding: 0 5px 2px 5px;
 }
 
 .label.shelf .labelFooter{
