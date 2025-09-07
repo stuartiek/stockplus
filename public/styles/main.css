@@ -489,6 +489,7 @@ tr:last-child td {
     align-items: center;
     font-size: 10px;
     padding: 0 2px;
+    height: 30px;
 }
 
 .label.shelf .labelBrand{
