@@ -457,6 +457,7 @@ tr:last-child td {
     align-items: flex-start;
     padding: 2px;
     font-weight: bold;
+    height: 40px;
 }
 
 .label.shelf .labelRrp {
