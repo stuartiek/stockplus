@@ -535,7 +535,7 @@ async function sendLowStockReport() {
             const itemsHtml = lowStockItems.map(item => `<li><b>${item.productName}</b> (Code: ${item.productCode}) - Quantity: ${item.qty}</li>`).join('');
             const mailOptions = {
                 from: '"StockPlus Alerts" <info@stockplus.abzdigitalgroup.com>',
-                to: 'stuartiek@gmail.com',
+                to: 'stuspam2025@gmail.com',
                 subject: `🚨 Low Stock Alert - ${lowStockItems.length} Items Need Attention`,
                 html: `<h1>Low Stock Report</h1><p>The following items are below the threshold of ${LOW_STOCK_THRESHOLD}:</p><ul>${itemsHtml}</ul><p>Please reorder soon.</p>`
             };
