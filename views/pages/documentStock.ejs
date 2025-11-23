@@ -57,7 +57,30 @@
         <h1>Document - <%= document.documentName %></h1>
 
         <!-- Filter and Create Forms -->
-        <!-- ... your existing filter and create forms go here ... -->
+        <div class="doc-actions">
+             <button class="createBtn" type="button" onclick="document.getElementById('createStockPopover').showModal()">Create New Stock</button>
+        </div>
+        
+        <!-- Filter Form -->
+        <form class="filter-search-form" action="/document/<%= document._id %>/stock" method="GET">
+            <div class="form-group">
+                <label for="categoryFilter">Filter by Category:</label>
+                <select name="category" id="categoryFilter" onchange="this.form.submit()">
+                    <option value="" <%= selectedCategory === '' ? 'selected' : '' %>>All</option>
+                    <option value="Tools" <%= selectedCategory === 'Tools' ? 'selected' : '' %>>Tools</option>
+                    <option value="Sundries" <%= selectedCategory === 'Sundries' ? 'selected' : '' %>>Sundries</option>
+                    <option value="Chemicals" <%= selectedCategory === 'Chemicals' ? 'selected' : '' %>>Chemicals</option>
+                    <option value="Hardware" <%= selectedCategory === 'Hardware' ? 'selected' : '' %>>Hardware</option>
+                    <option value="Misc" <%= selectedCategory === 'Misc' ? 'selected' : '' %>>Misc</option>
+                </select>
+            </div>
+            <!-- Add search input if you have search logic on the backend -->
+            <!-- <div class="form-group">
+                <label for="searchQuery">Search:</label>
+                <input type="search" id="searchQuery" name="searchQuery" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" placeholder="Name, Code, or Barcode...">
+            </div>
+            <button type="submit">Apply</button> -->
+        </form>
 
         <form class="stockDisplay" action="/selected" method="POST">
             <input type="hidden" name="documentId" value="<%= document._id %>">
@@ -139,7 +162,7 @@
                 <% } %>
             </div>
         <% } %>
-
+        
         <!-- CREATE STOCK DIALOG -->
         <dialog id="createStockPopover">
             <form action="/addStock" method="POST" enctype="multipart/form-data">
@@ -339,6 +362,17 @@
                         document.getElementById('createStockPopover').showModal();
                     };
                 }
+                
+                // Select All Checkbox Logic
+                const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.addEventListener('click', function() {
+                        const allItemCheckboxes = document.querySelectorAll('.stock-checkbox');
+                        allItemCheckboxes.forEach(checkbox => {
+                            checkbox.checked = this.checked;
+                        });
+                    });
+                }
             });
 
             // --- EXISTING DELETE/EDIT LOGIC ---
@@ -355,9 +389,10 @@
                 const stockItem = JSON.parse(stockItemJSON);
                 const dialog = document.getElementById('editStockDialog');
                 
+                // Populate fields
                 dialog.querySelector('#edit_originalBarcode').value = stockItem.barcode;
                 dialog.querySelector('#edit_productName').value = stockItem.productName;
-                // ... populate fields ...
+                // (Assuming other fields are populated here as per previous version)
                 if(dialog.querySelector('#edit_productCode')) dialog.querySelector('#edit_productCode').value = stockItem.productCode;
                 if(dialog.querySelector('#edit_Brand')) dialog.querySelector('#edit_Brand').value = stockItem.brand;
                 if(dialog.querySelector('#edit_Category')) dialog.querySelector('#edit_Category').value = stockItem.category;
