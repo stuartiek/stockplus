@@ -566,7 +566,7 @@ tr:last-child td {
     }
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* --- MOBILE RESPONSIVENESS (Hamburger Menu) --- */
 @media only screen and (max-width: 768px) {
 
     /* Login Page */
@@ -581,39 +581,92 @@ tr:last-child td {
         height: 70vh;
     }
     .loginHero img {
-        width: 50%; /* Smaller logo for mobile */
+        width: 50%;
     }
 
-    /* Layout & Sidebar */
+    /* Header & Hamburger Menu */
     .sideBar {
-        position: relative;
         width: 100%;
         height: auto;
-        box-shadow: none;
-        border-bottom: 1px solid #ddd;
-    }
-    .sideBar ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 10px 0;
-    }
-    .sideBar li a {
-        padding: 10px 15px;
-        font-size: 0.9em;
-    }
-    .sideBar img {
-        display: none; /* Hide sidebar logo on mobile to save space */
-    }
-    .sideBtm {
-        position: static;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding-bottom: 10px;
+        position: sticky;
+        top: 0;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding: 0;
+        display: block; /* Reset flex */
     }
 
-    /* Main Content */
+    /* Show the mobile header bar */
+    .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #fff;
+    }
+
+    .mobile-logo {
+        height: 40px; /* Adjust logo size for mobile */
+        width: auto;
+    }
+
+    .hamburger {
+        background: none;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #F98D67;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        box-shadow: none !important; /* Remove unified button shadow */
+    }
+
+    /* Hide the main desktop logo */
+    .sideBar > img.sideLogo {
+        display: none;
+    }
+
+    /* Nav Container - Hidden by default */
+    .nav-container {
+        display: none;
+        background-color: #fff;
+        border-top: 1px solid #eee;
+        width: 100%;
+    }
+
+    /* When 'open' class is added, show the menu */
+    .nav-container.open {
+        display: flex;
+        flex-direction: column;
+        height: auto; /* Allow content to dictate height */
+        padding-bottom: 20px;
+    }
+
+    .sideBar ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sideBar li a {
+        text-align: left;
+        padding: 15px 20px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .sideBtm {
+        position: static;
+        margin-top: 0;
+    }
+    
+    .sideBtm ul {
+         display: flex;
+         flex-direction: column;
+    }
+
+
+    /* Main Content Adjustments */
     main {
         position: relative;
         width: 100%;
@@ -624,7 +677,7 @@ tr:last-child td {
         box-sizing: border-box;
     }
 
-    /* Dashboard Stats */
+    /* Stacked Layouts */
     .stats {
         flex-direction: column;
     }
@@ -632,18 +685,8 @@ tr:last-child td {
         width: 100%;
         min-width: 0;
     }
-
-    /* Documents Page */
     .doc-actions {
         flex-direction: column;
-    }
-    .createDoc form, .importDoc form {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .createDoc form input, .createDoc form select, .createDoc button {
-        width: 100%;
-        margin-top: 10px;
     }
     .docDiv {
         justify-content: center;
@@ -652,48 +695,29 @@ tr:last-child td {
         width: 100%;
         min-width: 0;
     }
-
-    /* Stock & Tables */
+    
+    /* Table Scrolling */
     .stockDisplay {
         width: 100%;
-        overflow-x: auto; /* Allow table to scroll horizontally */
+        overflow-x: auto;
         display: block;
     }
     table {
-        width: 100%;
-        min-width: 600px; /* Force table to keep shape and scroll */
+        min-width: 600px;
     }
-    .filter-search-form {
+    
+    /* Form Stacking */
+    .createDoc, .createUser, .importDoc {
         flex-direction: column;
-        align-items: stretch;
-    }
-    .filter-search-form .form-group {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    .filter-search-form input, .filter-search-form select, .filter-search-form button {
-        width: 100%;
-    }
-    .stockHead {
-        text-align: center;
-    }
-
-    /* Users Page */
-    .createUser {
-        padding: 15px;
         height: auto;
     }
-    .createUser form {
+    .createDoc form, .createUser form, .importDoc form {
         flex-direction: column;
-        align-items: stretch;
+        width: 100%;
     }
-    .createUser form input, .createUser form select, .createUser button {
+    .createDoc form input, .createDoc button,
+    .createUser form input, .createUser button {
         width: 100%;
         margin-top: 10px;
-    }
-
-    /* General Buttons */
-    .createBtn {
-        width: 100%;
     }
 }
