@@ -566,3 +566,134 @@ tr:last-child td {
     }
 }
 
+/* --- MOBILE RESPONSIVENESS --- */
+@media only screen and (max-width: 768px) {
+
+    /* Login Page */
+    .loginHero {
+        width: 100%;
+        height: 30vh;
+        float: none;
+    }
+    .login {
+        margin-left: 0;
+        width: 100%;
+        height: 70vh;
+    }
+    .loginHero img {
+        width: 50%; /* Smaller logo for mobile */
+    }
+
+    /* Layout & Sidebar */
+    .sideBar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        border-bottom: 1px solid #ddd;
+    }
+    .sideBar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 0;
+    }
+    .sideBar li a {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+    .sideBar img {
+        display: none; /* Hide sidebar logo on mobile to save space */
+    }
+    .sideBtm {
+        position: static;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+
+    /* Main Content */
+    main {
+        position: relative;
+        width: 100%;
+        margin-left: 0;
+        top: 0;
+        left: 0;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Dashboard Stats */
+    .stats {
+        flex-direction: column;
+    }
+    .statsCard {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Documents Page */
+    .doc-actions {
+        flex-direction: column;
+    }
+    .createDoc form, .importDoc form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .createDoc form input, .createDoc form select, .createDoc button {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .docDiv {
+        justify-content: center;
+    }
+    .projectCard {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Stock & Tables */
+    .stockDisplay {
+        width: 100%;
+        overflow-x: auto; /* Allow table to scroll horizontally */
+        display: block;
+    }
+    table {
+        width: 100%;
+        min-width: 600px; /* Force table to keep shape and scroll */
+    }
+    .filter-search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-search-form .form-group {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .filter-search-form input, .filter-search-form select, .filter-search-form button {
+        width: 100%;
+    }
+    .stockHead {
+        text-align: center;
+    }
+
+    /* Users Page */
+    .createUser {
+        padding: 15px;
+        height: auto;
+    }
+    .createUser form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .createUser form input, .createUser form select, .createUser button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* General Buttons */
+    .createBtn {
+        width: 100%;
+    }
+}
