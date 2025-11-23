@@ -11,6 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/images/logo/favicon.png">
     <link rel="manifest" href="/manifest.json">
+
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
 </head>
 <body>
     <header>
@@ -153,7 +157,12 @@
             <input type="text" name="Price" placeholder="e.g., 15.50" required>
             
             <label for="Barcode">Barcode</label>
-            <input type="text" name="Barcode" placeholder="Barcode" required>
+            <div class="barcode-input-group">
+                    <input type="text" id="create_Barcode" name="Barcode" placeholder="Barcode" required>
+                    <button type="button" id="startScanBtn" class="scan-btn" title="Scan Barcode">
+                        <span class="material-symbols-outlined">qr_code_scanner</span>
+                    </button>
+            </div>
 
             <div class="dialog-buttons">
                 <button type="submit">Add Stock</button>
@@ -216,6 +225,54 @@
     </dialog>
 
     <script>
+        
+            let html5QrcodeScanner;
+
+            function startScanning() {
+                // Stop any existing instance
+                if (html5QrcodeScanner) {
+                     html5QrcodeScanner.clear().catch(error => console.error("Failed to clear scanner", error));
+                }
+
+                html5QrcodeScanner = new Html5QrcodeScanner(
+                    "reader", 
+                    { fps: 10, qrbox: {width: 250, height: 250} },
+                    false
+                );
+                
+                html5QrcodeScanner.render((decodedText, decodedResult) => {
+                    // SUCCESS: Barcode found
+                    document.getElementById('create_Barcode').value = decodedText;
+                    
+                    // Stop scanning automatically
+                    html5QrcodeScanner.clear().then(() => {
+                         // Cleared
+                    }).catch(error => {
+                        console.error("Failed to clear html5QrcodeScanner. ", error);
+                    });
+                }, (errorMessage) => {
+                    // Parse error, ignore usually
+                });
+            }
+
+            function closeCreateDialog() {
+                const dialog = document.getElementById('createStockPopover');
+                // Ensure scanner is off when closing
+                if (html5QrcodeScanner) {
+                    html5QrcodeScanner.clear().catch(err => console.log(err));
+                }
+                dialog.close();
+            }
+
+            // Attach listener to the new scan button
+            document.addEventListener('DOMContentLoaded', () => {
+                const scanBtn = document.getElementById('startScanBtn');
+                if(scanBtn) {
+                    scanBtn.addEventListener('click', startScanning);
+                }
+            });
+
+
         document.addEventListener('DOMContentLoaded', () => {
             const SESSION_STORAGE_KEY = `selectedBarcodes_<%= document._id %>`;
             
