@@ -1,0 +1,244 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Header -->
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+      <i data-lucide="sliders-horizontal" class="w-6 h-6 text-indigo-600"></i>
+      Dynamic Custom Product Attributes
+    </h1>
+    <p class="text-slate-500 text-xs mt-1">
+      Tailor your product catalog to your store's exact domain. Add attributes like Expiry Dates, Sizes, Batches, or Serial numbers.
+    </p>
+  </div>
+
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center">
+      <i data-lucide="check-circle" class="w-4 h-4 mr-2 flex-shrink-0"></i>
+      <span><%= success %></span>
+    </div>
+  <% } %>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs flex items-center">
+      <i data-lucide="alert-circle" class="w-4 h-4 mr-2 flex-shrink-0"></i>
+      <span><%= error %></span>
+    </div>
+  <% } %>
+
+  <!-- Current Active Custom Fields Table -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div>
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">Configured Attributes (<%= customFields.length %>)</h2>
+        <p class="text-[11px] text-slate-400">These fields dynamically populate your forms and inventory table.</p>
+      </div>
+      <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+        Store Type: <%= currentStore.storeType %>
+      </span>
+    </div>
+
+    <% if (customFields && customFields.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-100">
+            <tr>
+              <th class="py-3 px-6">Field Label & Key</th>
+              <th class="py-3 px-3">Data Type</th>
+              <th class="py-3 px-3">Options / Choices</th>
+              <th class="py-3 px-3 text-center">Required</th>
+              <th class="py-3 px-3 text-center">Show in Table</th>
+              <th class="py-3 px-6 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% customFields.forEach(f => { %>
+              <tr class="hover:bg-slate-50/70 transition">
+                <td class="py-3 px-6">
+                  <span class="font-bold text-slate-900 block"><%= f.label %></span>
+                  <span class="text-[10px] font-mono text-slate-400">key: <%= f.key %></span>
+                  <% if (f.description) { %>
+                    <span class="text-[11px] text-slate-500 block mt-0.5"><%= f.description %></span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                    <%= f.type === 'date' ? 'bg-amber-100 text-amber-800' : (f.type === 'select' ? 'bg-purple-100 text-purple-800' : (f.type === 'boolean' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700')) %>">
+                    <%= f.type %>
+                  </span>
+                </td>
+
+                <td class="py-3 px-3 text-slate-600">
+                  <% if (f.options && f.options.length > 0) { %>
+                    <div class="flex flex-wrap gap-1 max-w-xs">
+                      <% f.options.forEach(opt => { %>
+                        <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-medium"><%= opt %></span>
+                      <% }) %>
+                    </div>
+                  <% } else { %>
+                    <span class="text-slate-400">-</span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3 text-center">
+                  <% if (f.required) { %>
+                    <span class="text-red-600 font-bold text-xs">Yes</span>
+                  <% } else { %>
+                    <span class="text-slate-400">Optional</span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3 text-center">
+                  <% if (f.showInTable) { %>
+                    <span class="inline-flex items-center text-emerald-600 font-semibold text-xs">
+                      <i data-lucide="check" class="w-3.5 h-3.5 mr-0.5"></i> Yes
+                    </span>
+                  <% } else { %>
+                    <span class="text-slate-400">Hidden</span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-6 text-right whitespace-nowrap">
+                  <form action="/settings/custom-fields/<%= f._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Remove custom field <%= f.label %>? Existing product values will be preserved in database.');">
+                    <button type="submit" class="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-slate-100">
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="text-center py-10 text-slate-400 text-xs">
+        No custom fields currently configured for this store.
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Add New Custom Field Form -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
+    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center">
+      <i data-lucide="plus-circle" class="w-4 h-4 mr-1.5 text-indigo-600"></i>
+      Define New Custom Attribute
+    </h2>
+
+    <form action="/settings/custom-fields" method="POST" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Human Label *</label>
+          <input type="text" name="label" id="fieldLabel" required placeholder="e.g. Expiry Date or Garment Size"
+            oninput="autoGenerateKey()"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Database Key / Slug *</label>
+          <input type="text" name="key" id="fieldKey" required placeholder="e.g. expiry_date or garment_size"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono lowercase focus:outline-none focus:ring-1 focus:ring-indigo-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Attribute Type *</label>
+          <select name="type" id="fieldTypeSelect" onchange="toggleOptionsInput()"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 transition">
+            <option value="text">Text (Single-line string)</option>
+            <option value="number">Number (Quantity, weight, months)</option>
+            <option value="date">Date (Calendar picker / Expiration)</option>
+            <option value="select">Select Dropdown (Choose from list)</option>
+            <option value="boolean">Boolean (Checkbox / True-False)</option>
+          </select>
+        </div>
+
+        <div id="optionsGroup" class="md:col-span-3 hidden">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Dropdown Choices (Comma separated) *</label>
+          <input type="text" name="options" placeholder="e.g. XS, S, M, L, XL, 2XL or 1kg, 2kg, 5kg"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 transition">
+          <p class="text-[10px] text-slate-400 mt-1">Separate options with commas.</p>
+        </div>
+
+        <div class="md:col-span-3">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Help Text / Description</label>
+          <input type="text" name="description" placeholder="Brief guidance shown to staff filling out the form"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 transition">
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-6 pt-1">
+        <label class="flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" name="showInTable" checked class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+          <span class="text-xs text-slate-700 font-medium">Show as column in Products Table</span>
+        </label>
+
+        <label class="flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" name="required" class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+          <span class="text-xs text-slate-700 font-medium">Mandatory field (Required)</span>
+        </label>
+      </div>
+
+      <div class="pt-2 flex justify-end">
+        <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-sm transition">
+          Add Custom Attribute
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- One-Click Industry Presets Loader -->
+  <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-sm space-y-4">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-amber-300">
+        <i data-lucide="wand-2" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <h3 class="text-sm font-bold text-white">One-Click Industry Preset Templates</h3>
+        <p class="text-xs text-slate-400">Instantly populate standard custom fields tailored for specific store domains.</p>
+      </div>
+    </div>
+
+    <form action="/settings/custom-fields/apply-preset" method="POST" class="space-y-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <% Object.keys(presets).forEach(pKey => { %>
+          <label class="border border-slate-700 rounded-xl p-3 bg-slate-800/80 hover:bg-slate-700/60 cursor-pointer flex flex-col justify-between has-checked:border-amber-400 has-checked:bg-amber-400/10 transition">
+            <input type="radio" name="presetName" value="<%= pKey %>" <%= currentStore.storeType === pKey ? 'checked' : '' %> class="hidden">
+            <div>
+              <span class="text-xs font-bold text-white block capitalize"><%= pKey %></span>
+              <span class="text-[10px] text-slate-400 block mt-0.5"><%= presets[pKey].title %></span>
+            </div>
+            <span class="text-[10px] text-amber-300 mt-2 block"><%= presets[pKey].fields.length %> fields</span>
+          </label>
+        <% }) %>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-700">
+        <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+          <input type="checkbox" name="replaceExisting" class="w-4 h-4 rounded text-amber-500 focus:ring-amber-400">
+          <span>Replace existing custom fields instead of merging</span>
+        </label>
+
+        <button type="submit" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm transition">
+          Load Selected Preset
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function autoGenerateKey() {
+    const label = document.getElementById('fieldLabel').value;
+    const key = label.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_');
+    document.getElementById('fieldKey').value = key;
+  }
+
+  function toggleOptionsInput() {
+    const type = document.getElementById('fieldTypeSelect').value;
+    const group = document.getElementById('optionsGroup');
+    if (type === 'select') {
+      group.classList.remove('hidden');
+    } else {
+      group.classList.add('hidden');
+    }
+  }
+</script>
+

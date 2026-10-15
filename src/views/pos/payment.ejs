@@ -1,0 +1,905 @@
+<% 
+  const isDark = posSettings && posSettings.theme === 'dark';
+  const isHighContrast = posSettings && posSettings.theme === 'high-contrast';
+  const notes = (posSettings && posSettings.quickCashNotes && posSettings.quickCashNotes.length > 0) ? posSettings.quickCashNotes : [5, 10, 20, 50, 100];
+  const discountPresets = (posSettings && posSettings.quickDiscountButtons && posSettings.quickDiscountButtons.length > 0) ? posSettings.quickDiscountButtons : [5, 10, 15, 20, 25, 50];
+%>
+
+<div class="max-w-7xl mx-auto space-y-4 <%= isDark ? 'text-slate-100' : (isHighContrast ? 'text-black' : 'text-slate-800') %>">
+  
+  <!-- TOP NAVIGATION BAR -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl border <%= isDark ? 'bg-slate-900 border-slate-800' : (isHighContrast ? 'bg-yellow-50 border-4 border-black' : 'bg-white border-slate-200/80') %> shadow-2xs">
+    <div class="flex items-center space-x-3">
+      <button onclick="goBackToRegister()" title="Return to POS Catalog"
+        class="inline-flex items-center px-3.5 py-2 rounded-xl border <%= isDark ? 'border-slate-700 hover:bg-slate-800 text-slate-300' : 'border-slate-200 hover:bg-slate-100 text-slate-700' %> text-xs font-bold transition active:scale-95 cursor-pointer shadow-2xs">
+        <i data-lucide="arrow-left" class="w-4 h-4 mr-1.5 text-emerald-600"></i>
+        <span>Back to Register</span>
+      </button>
+      <div>
+        <h1 class="text-base sm:text-lg font-black tracking-tight flex items-center gap-2">
+          <span>Checkout & Discounts</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full <%= isDark ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500' %>">
+            Step 2 of 2
+          </span>
+        </h1>
+        <p class="text-[11px] text-slate-400">Review line items, apply store discounts, and tender payment.</p>
+      </div>
+    </div>
+
+    <!-- Store Badge & Quick Actions -->
+    <div class="flex items-center space-x-2">
+      <div class="hidden sm:flex flex-col text-right">
+        <span class="text-xs font-black"><%= currentStore.name %></span>
+        <span class="text-[10px] text-slate-400 font-mono">Tax Rate: <%= currentStore.taxRate %>%</span>
+      </div>
+      <button onclick="voidSale()" class="px-3 py-2 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 text-xs font-bold transition active:scale-95 cursor-pointer">
+        <i data-lucide="trash-2" class="w-3.5 h-3.5 inline mr-1"></i>
+        Void Order
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN 2-COLUMN CHECKOUT GRID -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    
+    <!-- LEFT COLUMN: ORDER ITEMS & CUSTOMER DETAILS (5 COLS) -->
+    <div class="lg:col-span-5 space-y-4">
+      
+      <!-- Card: Order Line Items -->
+      <div class="p-4 sm:p-5 rounded-2xl border <%= isDark ? 'bg-slate-900 border-slate-800' : (isHighContrast ? 'bg-yellow-50 border-2 border-black' : 'bg-white border-slate-200/80') %> shadow-2xs space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b <%= isDark ? 'border-slate-800' : 'border-slate-100' %>">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-500"></i>
+            Order Items (<span id="lineItemsCount">0</span>)
+          </h2>
+          <button onclick="goBackToRegister()" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Add Items
+          </button>
+        </div>
+
+        <!-- Scrollable Items Container -->
+        <div id="checkoutItemsList" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1">
+          <!-- Dynamically populated via JavaScript -->
+        </div>
+
+        <!-- Empty Cart Notice -->
+        <div id="emptyNotice" class="hidden py-8 text-center text-slate-400 space-y-2">
+          <i data-lucide="alert-circle" class="w-10 h-10 mx-auto stroke-1 text-slate-300"></i>
+          <p class="text-xs font-bold">No items found in active order.</p>
+          <a href="/pos" class="inline-block px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold">
+            Return to Register
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Customer Info & Order Remarks -->
+      <div class="p-4 sm:p-5 rounded-2xl border <%= isDark ? 'bg-slate-900 border-slate-800' : (isHighContrast ? 'bg-yellow-50 border-2 border-black' : 'bg-white border-slate-200/80') %> shadow-2xs space-y-3">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <i data-lucide="user" class="w-4 h-4 text-blue-500"></i>
+          Customer & Notes
+        </h2>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Customer Name</label>
+            <input type="text" id="custNameInput" placeholder="Walk-in Customer"
+              class="w-full px-3.5 py-2.5 rounded-xl border <%= isDark ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-900' %> focus:outline-none focus:ring-1 focus:ring-emerald-500 font-medium">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Phone (Optional)</label>
+              <input type="tel" id="custPhoneInput" placeholder="+1 (555) 000-0000"
+                class="w-full px-3.5 py-2 rounded-xl border <%= isDark ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-900' %> focus:outline-none focus:ring-1 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Email for Receipt</label>
+              <input type="email" id="custEmailInput" placeholder="customer@email.com"
+                class="w-full px-3.5 py-2 rounded-xl border <%= isDark ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-900' %> focus:outline-none focus:ring-1 focus:ring-emerald-500">
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Order Notes / Instructions</label>
+            <input type="text" id="custNotesInput" placeholder="e.g. Special gift wrap, VIP card, or pickup note"
+              class="w-full px-3.5 py-2 rounded-xl border <%= isDark ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-900' %> focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: DISCOUNTS ENGINE & PAYMENT TENDER (7 COLS) -->
+    <div class="lg:col-span-7 space-y-4">
+      
+      <!-- CARD 1: DYNAMIC DISCOUNTS ENGINE -->
+      <div class="p-4 sm:p-5 rounded-2xl border <%= isDark ? 'bg-slate-900 border-slate-800' : (isHighContrast ? 'bg-yellow-50 border-2 border-black' : 'bg-white border-slate-200/80') %> shadow-2xs space-y-4">
+        
+        <div class="flex items-center justify-between pb-2 border-b <%= isDark ? 'border-slate-800' : 'border-slate-100' %>">
+          <div class="flex items-center space-x-2">
+            <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <i data-lucide="tag" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700 <%= isDark ? 'text-slate-300' : '' %>">
+                Add Discounts & Promotions
+              </h2>
+              <p class="text-[10px] text-slate-400">Apply percentage discount, dollar savings, or enter promo coupon</p>
+            </div>
+          </div>
+
+          <!-- Active Discount Badge / Clear Button -->
+          <div id="activeDiscountBadge" class="hidden items-center space-x-1.5">
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-black bg-indigo-100 text-indigo-700 flex items-center gap-1">
+              <i data-lucide="check" class="w-3 h-3"></i>
+              <span id="badgeDiscountText">0% Off</span>
+            </span>
+            <button onclick="clearDiscount()" title="Clear Discount"
+              class="text-slate-400 hover:text-red-500 p-1 cursor-pointer">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Discount Method Tabs -->
+        <div class="flex items-center space-x-1 p-1 bg-slate-100 rounded-xl <%= isDark ? 'bg-slate-800' : '' %> text-xs font-bold">
+          <button type="button" onclick="switchDiscountTab('pct')" id="tabBtn-pct"
+            class="flex-1 py-1.5 rounded-lg transition text-center cursor-pointer bg-white text-slate-900 shadow-2xs">
+            % Percentage
+          </button>
+          <button type="button" onclick="switchDiscountTab('fixed')" id="tabBtn-fixed"
+            class="flex-1 py-1.5 rounded-lg transition text-center cursor-pointer text-slate-500 hover:text-slate-900">
+            <%= currentStore.currency %> Fixed Amount
+          </button>
+          <button type="button" onclick="switchDiscountTab('coupon')" id="tabBtn-coupon"
+            class="flex-1 py-1.5 rounded-lg transition text-center cursor-pointer text-slate-500 hover:text-slate-900">
+            🎟️ Promo Code
+          </button>
+        </div>
+
+        <!-- TAB 1: PERCENTAGE DISCOUNT -->
+        <div id="tabContent-pct" class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 mb-1.5">Preset Percentage Savings</label>
+            <div class="flex flex-wrap gap-2">
+              <% discountPresets.forEach(pct => { %>
+                <button type="button" onclick="applyPresetDiscount(<%= pct %>)"
+                  class="btn-preset-pct px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 text-slate-800 hover:text-indigo-700 text-xs font-black cursor-pointer transition active:scale-95 shadow-2xs"
+                  data-pct="<%= pct %>">
+                  <%= pct %>%
+                </button>
+              <% }) %>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1">
+            <div class="relative flex-1">
+              <input type="number" step="1" min="0" max="100" id="customPctInput" placeholder="Custom % (e.g. 12)"
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+              <span class="absolute inset-y-0 right-0 pr-3 flex items-center font-bold text-slate-400 text-xs">%</span>
+            </div>
+            <button type="button" onclick="applyCustomPct()"
+              class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold active:scale-95 cursor-pointer">
+              Apply %
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 2: FIXED AMOUNT DISCOUNT -->
+        <div id="tabContent-fixed" class="hidden space-y-3">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 mb-1.5">Quick Dollar Off</label>
+            <div class="flex flex-wrap gap-2">
+              <% [2, 5, 10, 15, 20, 50].forEach(amt => { %>
+                <button type="button" onclick="applyFixedDiscount(<%= amt %>)"
+                  class="btn-preset-fixed px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 text-slate-800 hover:text-indigo-700 text-xs font-black cursor-pointer transition active:scale-95 shadow-2xs"
+                  data-amt="<%= amt %>">
+                  -<%= currentStore.currency %><%= amt %>
+                </button>
+              <% }) %>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1">
+            <div class="relative flex-1">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center font-bold text-slate-400 text-xs"><%= currentStore.currency %></span>
+              <input type="number" step="0.01" min="0" id="customFixedInput" placeholder="0.00"
+                class="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            </div>
+            <button type="button" onclick="applyCustomFixed()"
+              class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold active:scale-95 cursor-pointer">
+              Apply Off
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 3: PROMO / COUPON CODE -->
+        <div id="tabContent-coupon" class="hidden space-y-3">
+          <p class="text-[11px] text-slate-400">Enter a customer coupon or promo code to activate special pricing.</p>
+          <div class="flex items-center gap-2">
+            <input type="text" id="couponCodeInput" placeholder="e.g. VIP15, SAVE10, STAFF20"
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-200 uppercase font-mono text-xs font-bold text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <button type="button" onclick="applyCouponCode()"
+              class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold active:scale-95 cursor-pointer whitespace-nowrap">
+              Redeem
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-1.5 text-[10px]">
+            <span class="text-slate-400">Try demo codes:</span>
+            <button type="button" onclick="useDemoCoupon('VIP15')" class="px-2 py-0.5 rounded bg-slate-100 font-mono text-indigo-600 font-bold hover:bg-slate-200 cursor-pointer">VIP15 (15% Off)</button>
+            <button type="button" onclick="useDemoCoupon('STAFF20')" class="px-2 py-0.5 rounded bg-slate-100 font-mono text-indigo-600 font-bold hover:bg-slate-200 cursor-pointer">STAFF20 (20% Off)</button>
+            <button type="button" onclick="useDemoCoupon('SAVE5')" class="px-2 py-0.5 rounded bg-slate-100 font-mono text-indigo-600 font-bold hover:bg-slate-200 cursor-pointer">SAVE5 ($5 Off)</button>
+          </div>
+        </div>
+
+        <!-- Discount Reason Selector -->
+        <div class="pt-2 border-t <%= isDark ? 'border-slate-800' : 'border-slate-100' %> flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          <label class="font-semibold text-slate-600 flex items-center gap-1">
+            <span>Discount Reason / Audit Tag:</span>
+          </label>
+          <select id="discountReasonSelect" class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs bg-white text-slate-800 font-medium">
+            <option value="Store Promotion">Store Promotion / Campaign</option>
+            <option value="VIP Loyalty">VIP Loyalty Member</option>
+            <option value="Staff Discount">Staff & Family Benefit</option>
+            <option value="Damaged / Floor Model">Damaged Packaging / Floor Item</option>
+            <option value="Price Match">Competitor Price Match</option>
+            <option value="Manager Override">Manager Discretionary Override</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CARD 2: REAL-TIME FINANCIAL SUMMARY -->
+      <div class="p-4 sm:p-5 rounded-2xl border <%= isDark ? 'bg-slate-950/60 border-slate-800' : (isHighContrast ? 'bg-yellow-50 border-2 border-black' : 'bg-slate-50 border-slate-200/80') %> shadow-2xs space-y-2.5 text-xs">
+        
+        <div class="flex justify-between <%= isDark ? 'text-slate-400' : 'text-slate-600' %> font-medium">
+          <span>Items Subtotal</span>
+          <span id="finSubtotal" class="font-bold text-slate-900 <%= isDark ? 'text-white' : '' %>"><%= currentStore.currency %>0.00</span>
+        </div>
+
+        <div class="flex justify-between items-center text-emerald-600 font-semibold">
+          <div class="flex items-center gap-1">
+            <span>Discount</span>
+            <span id="finDiscountReasonTag" class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.2 rounded-full border border-emerald-200 hidden"></span>
+          </div>
+          <span id="finDiscountDisplay" class="font-bold">-<%= currentStore.currency %>0.00</span>
+        </div>
+
+        <div class="flex justify-between <%= isDark ? 'text-slate-400' : 'text-slate-600' %> font-medium">
+          <span>Net Taxable Subtotal</span>
+          <span id="finNetSubtotal" class="font-bold text-slate-900 <%= isDark ? 'text-white' : '' %>"><%= currentStore.currency %>0.00</span>
+        </div>
+
+        <!-- Tax Row with Tax-Exempt Toggle -->
+        <div class="flex justify-between items-center <%= isDark ? 'text-slate-400' : 'text-slate-600' %> pt-1">
+          <div class="flex items-center space-x-2">
+            <span>Store Tax (<%= currentStore.taxRate %>%)</span>
+            <label class="inline-flex items-center space-x-1 cursor-pointer">
+              <input type="checkbox" id="taxExemptToggle" onchange="toggleTaxExempt()" class="w-3.5 h-3.5 rounded text-emerald-600">
+              <span class="text-[10px] text-slate-500 font-semibold">Tax Exempt</span>
+            </label>
+          </div>
+          <span id="finTax" class="font-bold text-slate-900 <%= isDark ? 'text-white' : '' %>"><%= currentStore.currency %>0.00</span>
+        </div>
+
+        <!-- Big Final Total Banner -->
+        <div class="pt-3 border-t <%= isDark ? 'border-slate-800' : 'border-slate-200' %> flex justify-between items-baseline">
+          <div>
+            <span class="text-xs font-black uppercase tracking-wider text-slate-500">FINAL TOTAL DUE</span>
+            <p class="text-[10px] text-slate-400">All taxes & discounts computed</p>
+          </div>
+          <span id="finGrandTotal" class="text-3xl font-black text-emerald-600 tracking-tight">
+            <%= currentStore.currency %>0.00
+          </span>
+        </div>
+      </div>
+
+      <!-- CARD 3: TENDER & PAYMENT METHODS -->
+      <div class="p-4 sm:p-5 rounded-2xl border <%= isDark ? 'bg-slate-900 border-slate-800' : (isHighContrast ? 'bg-yellow-50 border-2 border-black' : 'bg-white border-slate-200/80') %> shadow-2xs space-y-4">
+        
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <i data-lucide="wallet" class="w-4 h-4 text-emerald-500"></i>
+          Select Tender Method
+        </h2>
+
+        <!-- Tender Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <label class="tender-card border-2 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition active:scale-95 border-emerald-500 bg-emerald-50/30 text-center">
+            <input type="radio" name="paymentMethod" value="cash" checked class="hidden" onchange="selectTenderMethod('cash')">
+            <i data-lucide="banknote" class="w-6 h-6 text-emerald-600 mb-1"></i>
+            <span class="text-xs font-black text-slate-800">Cash</span>
+            <span class="text-[9px] text-slate-400">Tender & Change</span>
+          </label>
+
+          <label class="tender-card border-2 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition active:scale-95 border-slate-200 hover:bg-slate-50 text-center">
+            <input type="radio" name="paymentMethod" value="card" class="hidden" onchange="selectTenderMethod('card')">
+            <i data-lucide="credit-card" class="w-6 h-6 text-blue-600 mb-1"></i>
+            <span class="text-xs font-black text-slate-800">Card</span>
+            <span class="text-[9px] text-slate-400">Chip / Tap / Swipe</span>
+          </label>
+
+          <label class="tender-card border-2 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition active:scale-95 border-slate-200 hover:bg-slate-50 text-center">
+            <input type="radio" name="paymentMethod" value="mobile" class="hidden" onchange="selectTenderMethod('mobile')">
+            <i data-lucide="smartphone" class="w-6 h-6 text-purple-600 mb-1"></i>
+            <span class="text-xs font-black text-slate-800">Mobile Pay</span>
+            <span class="text-[9px] text-slate-400">Apple / QR / Contactless</span>
+          </label>
+
+          <label class="tender-card border-2 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition active:scale-95 border-slate-200 hover:bg-slate-50 text-center">
+            <input type="radio" name="paymentMethod" value="transfer" class="hidden" onchange="selectTenderMethod('transfer')">
+            <i data-lucide="arrow-left-right" class="w-6 h-6 text-indigo-600 mb-1"></i>
+            <span class="text-xs font-black text-slate-800">Transfer</span>
+            <span class="text-[9px] text-slate-400">EFT / Wire / Invoice</span>
+          </label>
+        </div>
+
+        <!-- CASH SPECIFIC: QUICK TENDER NOTES & CHANGE CALCULATOR -->
+        <div id="cashTenderDetails" class="space-y-3 pt-2 border-t <%= isDark ? 'border-slate-800' : 'border-slate-100' %>">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fast Cash Tender Presets</label>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="setCashTender('exact')"
+                class="px-3.5 py-2.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black cursor-pointer active:scale-95 shadow-2xs">
+                Exact Total
+              </button>
+              <% notes.forEach(n => { %>
+                <button type="button" onclick="setCashTender(<%= n %>)"
+                  class="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-xs font-black shadow-2xs cursor-pointer active:scale-95">
+                  <%= currentStore.currency %><%= n %>
+                </button>
+              <% }) %>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Amount Given by Customer (<%= currentStore.currency %>)</label>
+              <input type="number" step="any" id="cashReceivedInput" oninput="calculateChange()"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xl font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+            </div>
+
+            <div class="p-4 bg-emerald-50/80 border border-emerald-200 rounded-2xl flex flex-col justify-center">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800">Change Due to Customer</span>
+              <span id="changeDueDisplay" class="text-2xl font-black text-emerald-700 font-mono">
+                <%= currentStore.currency %>0.00
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPLETE SALE PRIMARY ACTION BUTTON -->
+        <button onclick="submitFinalCheckout()" id="btnSubmitPayment"
+          class="w-full py-4 px-6 rounded-2xl text-white font-black text-base shadow-xl transition active:scale-95 cursor-pointer flex items-center justify-between bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+            <span>COMPLETE TRANSACTION</span>
+          </div>
+          <span id="btnPayAmountDisplay" class="font-mono text-xl"><%= currentStore.currency %>0.00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS CONFIRMATION MODAL -->
+<div id="paymentSuccessModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-xs hidden items-center justify-center p-4 z-50 select-none">
+  <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+      <i data-lucide="check-check" class="w-9 h-9 stroke-[2.5]"></i>
+    </div>
+    
+    <div>
+      <h3 class="text-xl font-black text-slate-900">Sale Successfully Completed!</h3>
+      <p class="text-xs text-slate-400 mt-1">Receipt Number: <span id="modalSuccessReceiptNumber" class="font-mono font-bold text-slate-800"></span></p>
+    </div>
+    
+    <div class="p-3.5 bg-emerald-50/60 border border-emerald-100 rounded-2xl text-xs space-y-1">
+      <div class="flex justify-between text-slate-600 font-medium">
+        <span>Payment Method:</span>
+        <span id="modalSuccessPaymentMethod" class="font-bold uppercase text-slate-800"></span>
+      </div>
+      <div class="flex justify-between text-slate-600 font-medium">
+        <span>Total Paid:</span>
+        <span id="modalSuccessTotalPaid" class="font-bold text-slate-800"></span>
+      </div>
+      <div class="flex justify-between text-emerald-800 font-bold border-t border-emerald-100/80 pt-1">
+        <span>Change Returned:</span>
+        <span id="modalSuccessChange" class="font-black text-base text-emerald-700"></span>
+      </div>
+    </div>
+
+    <div class="flex flex-col space-y-2 pt-2">
+      <a id="btnModalPrintReceipt" href="#" target="_blank"
+        class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm active:scale-95">
+        <i data-lucide="printer" class="w-4 h-4"></i>
+        <span>Print Thermal Receipt</span>
+      </a>
+      <button onclick="startFreshSale()"
+        class="w-full py-3 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer active:scale-95">
+        New Sale (Return to Register)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== JAVASCRIPT LOGIC ==================== -->
+<script>
+  // State
+  let cart = [];
+  let currentDiscountMode = 'pct'; // 'pct', 'fixed', 'coupon'
+  let discountPct = 0;
+  let discountFixedAmt = 0;
+  let isTaxExempt = false;
+  let selectedPaymentMethod = 'cash';
+
+  const currencySymbol = "<%= currentStore.currency %>";
+  const storeTaxRate = <%= currentStore.taxRate || 0 %>;
+  const enableSound = <%= posSettings.enableSoundEffects !== false %>;
+
+  // Sound Synth
+  function playAudioFeedback(type = 'click') {
+    if (!enableSound) return;
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'beep') {
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
+      } else {
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.04);
+      }
+    } catch(e) {}
+  }
+
+  // Load cart from sessionStorage on boot
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const saved = sessionStorage.getItem('stockplus_pos_cart');
+      if (saved) {
+        cart = JSON.parse(saved);
+      }
+      const savedCust = sessionStorage.getItem('stockplus_pos_customer');
+      if (savedCust) {
+        document.getElementById('custNameInput').value = savedCust;
+      }
+      const savedDiscount = sessionStorage.getItem('stockplus_pos_discount');
+      if (savedDiscount) {
+        const val = parseFloat(savedDiscount);
+        if (!isNaN(val) && val > 0) {
+          discountPct = val;
+          currentDiscountMode = 'pct';
+        }
+      }
+    } catch(err) {
+      console.error('Failed to load cart from session:', err);
+    }
+
+    renderItems();
+    recalculateFinancials();
+    setCashTender('exact');
+  });
+
+  // Render items list
+  function renderItems() {
+    const list = document.getElementById('checkoutItemsList');
+    const emptyNotice = document.getElementById('emptyNotice');
+    const countBadge = document.getElementById('lineItemsCount');
+    const submitBtn = document.getElementById('btnSubmitPayment');
+
+    if (!cart || cart.length === 0) {
+      list.innerHTML = '';
+      emptyNotice.classList.remove('hidden');
+      countBadge.textContent = '0';
+      submitBtn.disabled = true;
+      return;
+    }
+
+    emptyNotice.classList.add('hidden');
+    countBadge.textContent = cart.reduce((acc, i) => acc + i.quantity, 0);
+    submitBtn.disabled = false;
+
+    let html = '';
+    cart.forEach(item => {
+      const lineTotal = (item.quantity * item.unitPrice).toFixed(2);
+      html += `
+        <div class="p-2.5 rounded-xl border border-slate-200/90 bg-white flex items-center justify-between text-xs shadow-2xs">
+          <div class="flex-1 pr-2">
+            <div class="font-bold text-slate-800">${item.name}</div>
+            <div class="text-[10px] text-slate-400 font-mono">
+              ${item.sku || 'MISC'} • ${currencySymbol}${Number(item.unitPrice).toFixed(2)} each
+              ${item.isCustom ? '<span class="ml-1 text-[9px] font-bold px-1.5 py-0.2 bg-amber-100 text-amber-800 rounded">Custom</span>' : ''}
+            </div>
+          </div>
+          
+          <div class="flex items-center space-x-2">
+            <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden">
+              <button onclick="updateQty('${item.productId}', -1)" class="w-6 h-6 flex items-center justify-center hover:bg-slate-100 font-bold cursor-pointer">-</button>
+              <span class="w-6 text-center font-bold text-xs">${item.quantity}</span>
+              <button onclick="updateQty('${item.productId}', 1)" class="w-6 h-6 flex items-center justify-center hover:bg-slate-100 font-bold cursor-pointer">+</button>
+            </div>
+            <span class="w-16 text-right font-black font-mono">${currencySymbol}${lineTotal}</span>
+            <button onclick="removeItem('${item.productId}')" class="text-slate-300 hover:text-red-500 p-1 cursor-pointer" title="Remove Item">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    list.innerHTML = html;
+    lucide.createIcons();
+  }
+
+  function updateQty(productId, delta) {
+    playAudioFeedback('click');
+    const item = cart.find(i => i.productId === productId);
+    if (!item) return;
+
+    item.quantity += delta;
+    if (!item.isCustom && item.quantity > item.stock) {
+      alert(`Only ${item.stock} in stock.`);
+      item.quantity = item.stock;
+    }
+
+    if (item.quantity <= 0) {
+      cart = cart.filter(i => i.productId !== productId);
+    }
+
+    syncSession();
+    renderItems();
+    recalculateFinancials();
+  }
+
+  function removeItem(productId) {
+    playAudioFeedback('click');
+    cart = cart.filter(i => i.productId !== productId);
+    syncSession();
+    renderItems();
+    recalculateFinancials();
+  }
+
+  function syncSession() {
+    sessionStorage.setItem('stockplus_pos_cart', JSON.stringify(cart));
+    sessionStorage.setItem('stockplus_pos_discount', discountPct.toString());
+  }
+
+  // ==================== DISCOUNTS ENGINE ====================
+
+  function switchDiscountTab(tab) {
+    playAudioFeedback('click');
+    currentDiscountMode = tab;
+    
+    // Tab buttons
+    ['pct', 'fixed', 'coupon'].forEach(t => {
+      const btn = document.getElementById(`tabBtn-${t}`);
+      const content = document.getElementById(`tabContent-${t}`);
+      if (t === tab) {
+        btn.className = 'flex-1 py-1.5 rounded-lg transition text-center cursor-pointer bg-white text-slate-900 shadow-2xs font-bold';
+        content.classList.remove('hidden');
+      } else {
+        btn.className = 'flex-1 py-1.5 rounded-lg transition text-center cursor-pointer text-slate-500 hover:text-slate-900 font-medium';
+        content.classList.add('hidden');
+      }
+    });
+  }
+
+  function applyPresetDiscount(pct) {
+    playAudioFeedback('click');
+    discountPct = pct;
+    discountFixedAmt = 0;
+    currentDiscountMode = 'pct';
+    highlightPresetButton(pct);
+    recalculateFinancials();
+  }
+
+  function applyCustomPct() {
+    playAudioFeedback('click');
+    const val = parseFloat(document.getElementById('customPctInput').value);
+    if (!isNaN(val) && val >= 0 && val <= 100) {
+      discountPct = val;
+      discountFixedAmt = 0;
+      currentDiscountMode = 'pct';
+      clearPresetButtonHighlights();
+      recalculateFinancials();
+    }
+  }
+
+  function applyFixedDiscount(amt) {
+    playAudioFeedback('click');
+    discountFixedAmt = amt;
+    discountPct = 0;
+    currentDiscountMode = 'fixed';
+    recalculateFinancials();
+  }
+
+  function applyCustomFixed() {
+    playAudioFeedback('click');
+    const val = parseFloat(document.getElementById('customFixedInput').value);
+    if (!isNaN(val) && val >= 0) {
+      discountFixedAmt = val;
+      discountPct = 0;
+      currentDiscountMode = 'fixed';
+      recalculateFinancials();
+    }
+  }
+
+  function useDemoCoupon(code) {
+    document.getElementById('couponCodeInput').value = code;
+    applyCouponCode();
+  }
+
+  function applyCouponCode() {
+    playAudioFeedback('click');
+    const code = document.getElementById('couponCodeInput').value.trim().toUpperCase();
+    if (!code) return;
+
+    if (code === 'VIP15') {
+      discountPct = 15;
+      discountFixedAmt = 0;
+      document.getElementById('discountReasonSelect').value = 'VIP Loyalty';
+      alert('Promo Code VIP15 applied: 15% discount!');
+    } else if (code === 'STAFF20') {
+      discountPct = 20;
+      discountFixedAmt = 0;
+      document.getElementById('discountReasonSelect').value = 'Staff Discount';
+      alert('Promo Code STAFF20 applied: 20% discount!');
+    } else if (code === 'SAVE5') {
+      discountFixedAmt = 5;
+      discountPct = 0;
+      document.getElementById('discountReasonSelect').value = 'Store Promotion';
+      alert('Promo Code SAVE5 applied: $5 off discount!');
+    } else if (code === 'SAVE10') {
+      discountFixedAmt = 10;
+      discountPct = 0;
+      document.getElementById('discountReasonSelect').value = 'Store Promotion';
+      alert('Promo Code SAVE10 applied: $10 off discount!');
+    } else {
+      alert(`Coupon code "${code}" is not recognized.`);
+      return;
+    }
+
+    recalculateFinancials();
+  }
+
+  function clearDiscount() {
+    playAudioFeedback('click');
+    discountPct = 0;
+    discountFixedAmt = 0;
+    document.getElementById('customPctInput').value = '';
+    document.getElementById('customFixedInput').value = '';
+    document.getElementById('couponCodeInput').value = '';
+    clearPresetButtonHighlights();
+    recalculateFinancials();
+  }
+
+  function highlightPresetButton(pct) {
+    document.querySelectorAll('.btn-preset-pct').forEach(btn => {
+      if (parseFloat(btn.dataset.pct) === pct) {
+        btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+        btn.classList.remove('bg-slate-50', 'text-slate-800');
+      } else {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+        btn.classList.add('bg-slate-50', 'text-slate-800');
+      }
+    });
+  }
+
+  function clearPresetButtonHighlights() {
+    document.querySelectorAll('.btn-preset-pct').forEach(btn => {
+      btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+      btn.classList.add('bg-slate-50', 'text-slate-800');
+    });
+  }
+
+  function toggleTaxExempt() {
+    isTaxExempt = document.getElementById('taxExemptToggle').checked;
+    recalculateFinancials();
+  }
+
+  // ==================== FINANCIAL CALCULATIONS ====================
+
+  function getComputedFinancials() {
+    const subtotal = cart.reduce((acc, i) => acc + (i.quantity * i.unitPrice), 0);
+    
+    let discountAmount = 0;
+    if (discountPct > 0) {
+      discountAmount = (subtotal * discountPct) / 100;
+    } else if (discountFixedAmt > 0) {
+      discountAmount = Math.min(subtotal, discountFixedAmt);
+    }
+
+    const netSubtotal = Math.max(0, subtotal - discountAmount);
+    const effectiveTaxRate = isTaxExempt ? 0 : storeTaxRate;
+    const tax = (netSubtotal * effectiveTaxRate) / 100;
+    const total = netSubtotal + tax;
+
+    return { subtotal, discountAmount, netSubtotal, tax, total };
+  }
+
+  function recalculateFinancials() {
+    const { subtotal, discountAmount, netSubtotal, tax, total } = getComputedFinancials();
+
+    document.getElementById('finSubtotal').textContent = `${currencySymbol}${subtotal.toFixed(2)}`;
+    document.getElementById('finDiscountDisplay').textContent = `-${currencySymbol}${discountAmount.toFixed(2)}`;
+    document.getElementById('finNetSubtotal').textContent = `${currencySymbol}${netSubtotal.toFixed(2)}`;
+    document.getElementById('finTax').textContent = `${currencySymbol}${tax.toFixed(2)}`;
+    document.getElementById('finGrandTotal').textContent = `${currencySymbol}${total.toFixed(2)}`;
+    document.getElementById('btnPayAmountDisplay').textContent = `${currencySymbol}${total.toFixed(2)}`;
+
+    // Update discount badge
+    const badge = document.getElementById('activeDiscountBadge');
+    const badgeText = document.getElementById('badgeDiscountText');
+    const reasonTag = document.getElementById('finDiscountReasonTag');
+
+    if (discountAmount > 0) {
+      badge.classList.remove('hidden');
+      badge.classList.add('flex');
+      const reason = document.getElementById('discountReasonSelect').value;
+      if (discountPct > 0) {
+        badgeText.textContent = `${discountPct}% Off`;
+      } else {
+        badgeText.textContent = `-${currencySymbol}${discountFixedAmt.toFixed(2)} Off`;
+      }
+      reasonTag.textContent = reason;
+      reasonTag.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+      badge.classList.remove('flex');
+      reasonTag.classList.add('hidden');
+    }
+
+    calculateChange();
+  }
+
+  // ==================== TENDER & PAYMENT ====================
+
+  function selectTenderMethod(method) {
+    playAudioFeedback('click');
+    selectedPaymentMethod = method;
+
+    document.querySelectorAll('.tender-card').forEach(card => {
+      const radio = card.querySelector('input[type="radio"]');
+      if (radio && radio.value === method) {
+        card.classList.add('border-emerald-500', 'bg-emerald-50/30');
+        card.classList.remove('border-slate-200');
+        radio.checked = true;
+      } else {
+        card.classList.remove('border-emerald-500', 'bg-emerald-50/30');
+        card.classList.add('border-slate-200');
+      }
+    });
+
+    const cashDetails = document.getElementById('cashTenderDetails');
+    if (cashDetails) {
+      cashDetails.style.display = method === 'cash' ? 'block' : 'none';
+    }
+  }
+
+  function setCashTender(val) {
+    playAudioFeedback('click');
+    const { total } = getComputedFinancials();
+    if (val === 'exact') {
+      document.getElementById('cashReceivedInput').value = total.toFixed(2);
+    } else {
+      document.getElementById('cashReceivedInput').value = Number(val).toFixed(2);
+    }
+    calculateChange();
+  }
+
+  function calculateChange() {
+    const { total } = getComputedFinancials();
+    const paid = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
+    const change = Math.max(0, paid - total);
+    document.getElementById('changeDueDisplay').textContent = `${currencySymbol}${change.toFixed(2)}`;
+  }
+
+  // Submit Final Sale
+  async function submitFinalCheckout() {
+    if (cart.length === 0) {
+      alert('Cart is empty.');
+      return;
+    }
+
+    const { discountAmount, total } = getComputedFinancials();
+    const customerName = document.getElementById('custNameInput').value.trim() || 'Walk-in Customer';
+    const customerPhone = document.getElementById('custPhoneInput').value.trim();
+    const customerEmail = document.getElementById('custEmailInput').value.trim();
+    const notes = document.getElementById('custNotesInput').value.trim();
+    const discountReason = document.getElementById('discountReasonSelect').value;
+    const cashReceived = parseFloat(document.getElementById('cashReceivedInput').value) || total;
+
+    const payload = {
+      items: cart,
+      discountAmount,
+      discountReason,
+      notes,
+      isTaxExempt,
+      paymentMethod: selectedPaymentMethod,
+      cashReceived: selectedPaymentMethod === 'cash' ? cashReceived : total,
+      customerName,
+      customerPhone,
+      customerEmail
+    };
+
+    const btn = document.getElementById('btnSubmitPayment');
+    btn.disabled = true;
+    btn.innerHTML = `<span class="flex items-center gap-2"><i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processing Payment...</span>`;
+    lucide.createIcons();
+
+    try {
+      const res = await fetch('/pos/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        playAudioFeedback('beep');
+
+        // Clear active session cart
+        sessionStorage.removeItem('stockplus_pos_cart');
+        sessionStorage.removeItem('stockplus_pos_discount');
+
+        // Populate and display receipt success modal
+        document.getElementById('modalSuccessReceiptNumber').textContent = data.receiptNumber;
+        document.getElementById('modalSuccessPaymentMethod').textContent = selectedPaymentMethod;
+        document.getElementById('modalSuccessTotalPaid').textContent = `${currencySymbol}${data.total.toFixed(2)}`;
+        document.getElementById('modalSuccessChange').textContent = `${currencySymbol}${data.changeGiven.toFixed(2)}`;
+        document.getElementById('btnModalPrintReceipt').href = `/pos/receipt/${data.saleId}`;
+
+        document.getElementById('paymentSuccessModal').classList.remove('hidden');
+        document.getElementById('paymentSuccessModal').classList.add('flex');
+        lucide.createIcons();
+      } else {
+        alert(data.message || 'Payment transaction failed.');
+      }
+    } catch(err) {
+      console.error(err);
+      alert('Network or server error during checkout.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `
+        <div class="flex items-center space-x-2">
+          <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+          <span>COMPLETE TRANSACTION</span>
+        </div>
+        <span class="font-mono text-xl">${currencySymbol}${total.toFixed(2)}</span>
+      `;
+      lucide.createIcons();
+    }
+  }
+
+  function goBackToRegister() {
+    // Preserve customer info back to POS session
+    const cust = document.getElementById('custNameInput').value.trim();
+    if (cust) {
+      sessionStorage.setItem('stockplus_pos_customer', cust);
+    }
+    sessionStorage.setItem('stockplus_pos_discount', discountPct.toString());
+    window.location.href = '/pos';
+  }
+
+  function voidSale() {
+    if (!confirm('Are you sure you want to void and discard this entire order?')) return;
+    sessionStorage.removeItem('stockplus_pos_cart');
+    sessionStorage.removeItem('stockplus_pos_customer');
+    sessionStorage.removeItem('stockplus_pos_discount');
+    window.location.href = '/pos';
+  }
+
+  function startFreshSale() {
+    sessionStorage.removeItem('stockplus_pos_cart');
+    sessionStorage.removeItem('stockplus_pos_customer');
+    sessionStorage.removeItem('stockplus_pos_discount');
+    window.location.href = '/pos';
+  }
+</script>
+

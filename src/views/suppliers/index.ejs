@@ -1,0 +1,92 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Suppliers Directory</h1>
+      <p class="text-slate-500 text-xs mt-1">Manage vendor contacts, payment terms, and restock communication.</p>
+    </div>
+    <div>
+      <a href="/suppliers/new" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-xs transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        <i data-lucide="plus" class="w-4 h-4 mr-1.5"></i>
+        Add New Supplier
+      </a>
+    </div>
+  </div>
+
+  <!-- Suppliers Grid / Table -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+    <% if (suppliers && suppliers.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-100">
+            <tr>
+              <th class="py-3 px-4">Supplier Name</th>
+              <th class="py-3 px-3">Contact Person</th>
+              <th class="py-3 px-3">Email</th>
+              <th class="py-3 px-3">Phone</th>
+              <th class="py-3 px-3">Payment Terms</th>
+              <th class="py-3 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% suppliers.forEach(sup => { %>
+              <tr class="hover:bg-slate-50/70 transition">
+                <td class="py-3 px-4">
+                  <a href="/suppliers/<%= sup._id %>" class="font-bold text-slate-900 hover:text-blue-600 block">
+                    <%= sup.name %>
+                  </a>
+                  <% if (sup.notes) { %>
+                    <span class="text-[11px] text-slate-400 truncate max-w-xs block"><%= sup.notes %></span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-700 font-medium">
+                  <%= sup.contactPerson || '-' %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-600">
+                  <% if (sup.email) { %>
+                    <a href="mailto:<%= sup.email %>" class="hover:underline text-blue-600"><%= sup.email %></a>
+                  <% } else { %>
+                    <span class="text-slate-400">-</span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-600">
+                  <%= sup.phone || '-' %>
+                </td>
+
+                <td class="py-3 px-3">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700">
+                    <%= sup.paymentTerms || 'Net 30' %>
+                  </span>
+                </td>
+
+                <td class="py-3 px-4 text-right whitespace-nowrap">
+                  <div class="flex items-center justify-end space-x-2">
+                    <a href="/purchase-orders/new?supplierId=<%= sup._id %>" class="px-2.5 py-1 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">
+                      Create PO
+                    </a>
+                    <a href="/suppliers/<%= sup._id %>/edit" class="p-1 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-slate-100">
+                      <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="text-center py-12 px-4">
+        <i data-lucide="users" class="w-10 h-10 mx-auto text-slate-400 mb-2"></i>
+        <h3 class="text-sm font-bold text-slate-800">No suppliers registered yet</h3>
+        <p class="text-xs text-slate-500 mt-1">Add your product distributors and vendors to manage restocking.</p>
+        <a href="/suppliers/new" class="mt-4 inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold text-white" style="background-color: <%= brandColor %>;">
+          Add First Supplier
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+

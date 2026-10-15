@@ -1,0 +1,118 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Purchase Orders & Procurement</h1>
+      <p class="text-slate-500 text-xs mt-1">Manage restock orders to suppliers and receive shipments automatically into stock.</p>
+    </div>
+    <div>
+      <a href="/purchase-orders/new" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-xs transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        <i data-lucide="plus" class="w-4 h-4 mr-1.5"></i>
+        Create Purchase Order
+      </a>
+    </div>
+  </div>
+
+  <!-- Status Filter Tabs -->
+  <div class="flex items-center space-x-2 border-b border-slate-200 pb-2 text-xs font-semibold">
+    <a href="/purchase-orders" class="px-3 py-1.5 rounded-lg transition <%= statusFilter === 'all' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100' %>">
+      All Orders
+    </a>
+    <a href="/purchase-orders?status=draft" class="px-3 py-1.5 rounded-lg transition <%= statusFilter === 'draft' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100' %>">
+      Drafts
+    </a>
+    <a href="/purchase-orders?status=ordered" class="px-3 py-1.5 rounded-lg transition <%= statusFilter === 'ordered' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100' %>">
+      Ordered / In Transit
+    </a>
+    <a href="/purchase-orders?status=received" class="px-3 py-1.5 rounded-lg transition <%= statusFilter === 'received' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100' %>">
+      Received
+    </a>
+  </div>
+
+  <!-- Purchase Orders Table -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+    <% if (orders && orders.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-100">
+            <tr>
+              <th class="py-3 px-4">PO Number</th>
+              <th class="py-3 px-3">Supplier</th>
+              <th class="py-3 px-3">Status</th>
+              <th class="py-3 px-3">Items</th>
+              <th class="py-3 px-3 text-right">Total Amount</th>
+              <th class="py-3 px-3">Expected Date</th>
+              <th class="py-3 px-3">Created By</th>
+              <th class="py-3 px-4 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% orders.forEach(po => { %>
+              <tr class="hover:bg-slate-50/70 transition">
+                <td class="py-3 px-4">
+                  <a href="/purchase-orders/<%= po._id %>" class="font-mono font-bold text-slate-900 hover:text-blue-600 block">
+                    <%= po.poNumber %>
+                  </a>
+                </td>
+
+                <td class="py-3 px-3">
+                  <% if (po.supplier) { %>
+                    <a href="/suppliers/<%= po.supplier._id %>" class="font-medium text-slate-800 hover:underline">
+                      <%= po.supplier.name %>
+                    </a>
+                  <% } else { %>
+                    <span class="text-slate-400">Unknown Supplier</span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3">
+                  <% if (po.status === 'received') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Received (In Stock)</span>
+                  <% } else if (po.status === 'ordered') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Ordered / Sent</span>
+                  <% } else if (po.status === 'cancelled') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800">Cancelled</span>
+                  <% } else { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">Draft</span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-600">
+                  <%= po.items ? po.items.length : 0 %> items (<%= po.items ? po.items.reduce((acc, i) => acc + i.quantity, 0) : 0 %> units)
+                </td>
+
+                <td class="py-3 px-3 text-right font-black text-slate-900">
+                  <%= formatMoney(po.totalAmount) %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-500 whitespace-nowrap">
+                  <%= formatDate(po.expectedDate) %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-500">
+                  <%= po.createdBy ? po.createdBy.name : 'System' %>
+                </td>
+
+                <td class="py-3 px-4 text-right whitespace-nowrap">
+                  <a href="/purchase-orders/<%= po._id %>" class="px-3 py-1 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                    View Order
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="text-center py-12 px-4">
+        <i data-lucide="truck" class="w-10 h-10 mx-auto text-slate-400 mb-2"></i>
+        <h3 class="text-sm font-bold text-slate-800">No purchase orders found</h3>
+        <p class="text-xs text-slate-500 mt-1">Draft a purchase order when you need to restock inventory from suppliers.</p>
+        <a href="/purchase-orders/new" class="mt-4 inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold text-white" style="background-color: <%= brandColor %>;">
+          Create First PO
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+

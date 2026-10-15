@@ -1,0 +1,137 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <a href="/purchase-orders" class="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 mb-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
+        Back to Purchase Orders
+      </a>
+      <div class="flex items-center space-x-3">
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight font-mono"><%= order.poNumber %></h1>
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider
+          <%= order.status === 'received' ? 'bg-emerald-100 text-emerald-800' : (order.status === 'ordered' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700') %>">
+          <%= order.status %>
+        </span>
+      </div>
+      <p class="text-slate-500 text-xs mt-0.5">Created on <%= formatDateTime(order.createdAt) %> by <%= order.createdBy ? order.createdBy.name : 'Staff' %></p>
+    </div>
+
+    <!-- Actions & Workflow Control -->
+    <div class="flex items-center space-x-2.5">
+      <button onclick="window.print()" class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs transition">
+        <i data-lucide="printer" class="w-4 h-4 mr-1.5 text-slate-500"></i>
+        Print PO Sheet
+      </button>
+
+      <% if (order.status !== 'received' && order.status !== 'cancelled') { %>
+        <!-- One-click Receive Goods Button -->
+        <form action="/purchase-orders/<%= order._id %>/receive" method="POST" onsubmit="return confirm('Receive this shipment? This will automatically increment stock quantities for all <%= order.items.length %> items and log Purchase-In movements in the ledger.');">
+          <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold text-white shadow-sm transition hover:opacity-95 bg-emerald-600 hover:bg-emerald-500 cursor-pointer">
+            <i data-lucide="check-check" class="w-4 h-4 mr-1.5"></i>
+            Receive Shipment into Stock
+          </button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- PO Info Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Supplier Box -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 text-xs space-y-2">
+      <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Supplier</span>
+      <% if (order.supplier) { %>
+        <h3 class="text-sm font-bold text-slate-900"><%= order.supplier.name %></h3>
+        <p class="text-slate-500">Contact: <%= order.supplier.contactPerson || '-' %></p>
+        <p class="text-slate-500">Email: <%= order.supplier.email || '-' %></p>
+        <p class="text-slate-500">Phone: <%= order.supplier.phone || '-' %></p>
+      <% } else { %>
+        <p class="text-slate-400">Unknown Supplier</p>
+      <% } %>
+    </div>
+
+    <!-- Dates & Delivery -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 text-xs space-y-2">
+      <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Timeline & Tracking</span>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Expected Arrival:</span>
+        <span class="font-semibold text-slate-800"><%= formatDate(order.expectedDate) %></span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Received On:</span>
+        <span class="font-semibold <%= order.receivedDate ? 'text-emerald-600' : 'text-slate-400' %>">
+          <%= order.receivedDate ? formatDateTime(order.receivedDate) : 'Pending' %>
+        </span>
+      </div>
+      <% if (order.notes) { %>
+        <div class="pt-2 border-t border-slate-100">
+          <span class="text-[10px] text-slate-400 uppercase font-bold">Notes</span>
+          <p class="text-slate-600"><%= order.notes %></p>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Status Flow Form -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 text-xs space-y-3">
+      <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Update Order Status</span>
+      <% if (order.status !== 'received') { %>
+        <form action="/purchase-orders/<%= order._id %>/status" method="POST" class="space-y-2">
+          <select name="status" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500">
+            <option value="draft" <%= order.status === 'draft' ? 'selected' : '' %>>Draft</option>
+            <option value="ordered" <%= order.status === 'ordered' ? 'selected' : '' %>>Ordered / Sent to Supplier</option>
+            <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+          </select>
+          <button type="submit" class="w-full py-1.5 px-3 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">
+            Update Status
+          </button>
+        </form>
+      <% } else { %>
+        <div class="p-3 bg-emerald-50 rounded-xl text-emerald-800 text-xs flex items-center">
+          <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i>
+          <span>Stock was received and added to physical inventory.</span>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Line Items Table -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">Ordered Products & Line Totals</h2>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-100">
+          <tr>
+            <th class="py-3 px-6">Product / Item</th>
+            <th class="py-3 px-3">SKU</th>
+            <th class="py-3 px-3 text-center">Ordered Qty</th>
+            <th class="py-3 px-3 text-right">Unit Acquisition Cost</th>
+            <th class="py-3 px-6 text-right">Line Total</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <% order.items.forEach(item => { %>
+            <tr class="hover:bg-slate-50/70 transition">
+              <td class="py-3 px-6 font-bold text-slate-900">
+                <a href="/products/<%= item.product %>" class="hover:text-blue-600"><%= item.name %></a>
+              </td>
+              <td class="py-3 px-3 font-mono text-slate-400 text-[11px]"><%= item.sku %></td>
+              <td class="py-3 px-3 text-center font-bold text-slate-800"><%= item.quantity %></td>
+              <td class="py-3 px-3 text-right text-slate-600"><%= formatMoney(item.unitCost) %></td>
+              <td class="py-3 px-6 text-right font-black text-slate-900"><%= formatMoney(item.totalCost) %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+        <tfoot class="bg-slate-50 border-t border-slate-200 text-xs">
+          <tr>
+            <td colspan="4" class="py-3 px-6 text-right font-bold text-slate-600">Total Purchase Order Value:</td>
+            <td class="py-3 px-6 text-right font-black text-base text-slate-900"><%= formatMoney(order.totalAmount) %></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+

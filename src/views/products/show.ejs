@@ -1,0 +1,260 @@
+<div class="space-y-6">
+  <!-- Top Navigation & Action Buttons -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <a href="/products" class="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 mb-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
+        Back to Products Catalog
+      </a>
+      <div class="flex items-center space-x-3">
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight"><%= product.name %></h1>
+        <% if (product.category) { %>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold" style="background-color: <%= product.category.color %>20; color: <%= product.category.color %>;">
+            <%= product.category.name %>
+          </span>
+        <% } %>
+      </div>
+      <p class="text-slate-500 text-xs mt-0.5 font-mono">SKU: <%= product.sku %></p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center space-x-2.5">
+      <a href="/products/<%= product._id %>/barcode" target="_blank" class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs transition">
+        <i data-lucide="printer" class="w-4 h-4 mr-1.5 text-slate-500"></i>
+        Print Label
+      </a>
+      <a href="/stock/adjust?productId=<%= product._id %>" class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs transition">
+        <i data-lucide="sliders" class="w-4 h-4 mr-1.5 text-slate-500"></i>
+        Adjust Stock
+      </a>
+      <a href="/products/<%= product._id %>/edit" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-xs transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        <i data-lucide="edit-3" class="w-4 h-4 mr-1.5"></i>
+        Edit Product
+      </a>
+    </div>
+  </div>
+
+  <!-- Key Metrics Row -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Current Stock Card -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Current Stock</span>
+      <div class="flex items-baseline space-x-2 mt-1">
+        <span class="text-2xl font-bold <%= product.currentStock <= product.reorderLevel ? 'text-amber-600' : 'text-slate-900' %>">
+          <%= product.currentStock %>
+        </span>
+        <span class="text-xs text-slate-500 font-medium"><%= product.unit %></span>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-1">
+        Reorder Threshold: <%= product.reorderLevel %> <%= product.unit %>
+      </p>
+    </div>
+
+    <!-- Selling Price -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Selling Price</span>
+      <div class="text-2xl font-bold text-slate-900 mt-1"><%= formatMoney(product.sellingPrice) %></div>
+      <p class="text-[11px] text-slate-400 mt-1">Cost: <%= formatMoney(product.costPrice) %></p>
+    </div>
+
+    <!-- Profit Margin -->
+    <% 
+      const profit = product.sellingPrice - (product.costPrice || 0);
+      const marginPct = product.sellingPrice > 0 ? ((profit / product.sellingPrice) * 100).toFixed(1) : 0;
+    %>
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Unit Profit & Margin</span>
+      <div class="text-2xl font-bold text-emerald-600 mt-1"><%= formatMoney(profit) %></div>
+      <p class="text-[11px] text-slate-500 mt-1">
+        Gross Margin: <span class="font-semibold text-emerald-600"><%= marginPct %>%</span>
+      </p>
+    </div>
+
+    <!-- Total Asset Valuation -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Inventory Holding Value</span>
+      <div class="text-2xl font-bold text-slate-900 mt-1">
+        <%= formatMoney(Math.max(0, product.currentStock) * (product.costPrice || 0)) %>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-1">
+        Retail Value: <%= formatMoney(Math.max(0, product.currentStock) * product.sellingPrice) %>
+      </p>
+    </div>
+  </div>
+
+  <!-- Product Details & Barcodes Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Barcodes & Identifiers (1 col) -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 space-y-5">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center">
+        <i data-lucide="barcode" class="w-3.5 h-3.5 mr-1.5 text-blue-500"></i>
+        Barcode & QR Identity
+      </h2>
+
+      <!-- Live Code128 Barcode Visual -->
+      <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex flex-col items-center justify-center text-center">
+        <svg id="barcodeCanvas" class="max-w-full h-16"></svg>
+        <div class="text-[11px] font-mono font-medium text-slate-700 mt-1">
+          <%= product.barcode || product.sku %>
+        </div>
+      </div>
+
+      <!-- Live QR Code -->
+      <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 class="text-xs font-bold text-slate-800">Mobile Scanner QR</h3>
+          <p class="text-[10px] text-slate-400 mt-0.5">Quick lookup via smartphone camera</p>
+        </div>
+        <img src="<%= qrCodeUrl %>" alt="QR Code" class="w-16 h-16 rounded-lg border border-slate-200 bg-white p-1">
+      </div>
+
+      <div class="pt-2">
+        <a href="/products/<%= product._id %>/barcode" target="_blank"
+          class="w-full py-2 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-center transition">
+          <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
+          Print Shelf Label Sticker
+        </a>
+      </div>
+    </div>
+
+    <!-- Store Custom Attributes Table (2 cols) -->
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-indigo-600 flex items-center">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1.5"></i>
+            Store Custom Attributes (<%= currentStore.storeType %>)
+          </h2>
+          <p class="text-slate-400 text-xs mt-0.5">Attributes configured specifically for this store's workflow.</p>
+        </div>
+        <a href="/products/<%= product._id %>/edit" class="text-xs text-indigo-600 hover:underline font-medium">Edit Attributes</a>
+      </div>
+
+      <% if (customFieldsConfig && customFieldsConfig.length > 0) { %>
+        <div class="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
+          <% customFieldsConfig.forEach(field => { %>
+            <% const val = product.customFields ? product.customFields[field.key] : null; %>
+            <div class="flex items-center justify-between px-4 py-3 hover:bg-slate-50/60 transition text-xs">
+              <span class="font-medium text-slate-600 flex items-center gap-1.5">
+                <%= field.label %>
+                <% if (field.description) { %>
+                  <span class="text-[10px] text-slate-400">(<%= field.description %>)</span>
+                <% } %>
+              </span>
+
+              <span class="font-semibold text-slate-900">
+                <% if (field.type === 'boolean') { %>
+                  <% if (val === true || val === 'true') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Yes</span>
+                  <% } else { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">No</span>
+                  <% } %>
+                <% } else if (field.type === 'date') { %>
+                  <span class="font-mono text-xs <%= val && new Date(val) < new Date() ? 'text-red-600 font-bold' : '' %>">
+                    <%= formatDate(val) %>
+                  </span>
+                <% } else { %>
+                  <%= val || '-' %>
+                <% } %>
+              </span>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="text-xs text-slate-400 p-4 bg-slate-50 rounded-xl text-center">No custom attributes defined yet.</p>
+      <% } %>
+
+      <!-- Description & Supplier Info -->
+      <div class="mt-6 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <div>
+          <span class="block text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-1">Supplier</span>
+          <% if (product.supplier) { %>
+            <a href="/suppliers/<%= product.supplier._id %>" class="font-semibold text-blue-600 hover:underline">
+              <%= product.supplier.name %>
+            </a>
+          <% } else { %>
+            <span class="text-slate-500">None assigned</span>
+          <% } %>
+        </div>
+        <div>
+          <span class="block text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-1">Product Description</span>
+          <p class="text-slate-600"><%= product.description || 'No description provided.' %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Stock Movement Audit Trail -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-sm font-bold text-slate-900">Stock Movement Audit History</h2>
+        <p class="text-xs text-slate-500">Chronological history of every stock change for this item</p>
+      </div>
+      <a href="/stock/adjust?productId=<%= product._id %>" class="text-xs font-semibold text-blue-600 hover:underline">
+        + Record Adjustment
+      </a>
+    </div>
+
+    <% if (movements && movements.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-y border-slate-100">
+            <tr>
+              <th class="py-2.5 px-3">Date / Time</th>
+              <th class="py-2.5 px-3">Type</th>
+              <th class="py-2.5 px-3 text-right">Qty Change</th>
+              <th class="py-2.5 px-3 text-right">Resulting Stock</th>
+              <th class="py-2.5 px-3">Reason / Ref</th>
+              <th class="py-2.5 px-3">Logged By</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% movements.forEach(m => { %>
+              <tr class="hover:bg-slate-50/70 transition">
+                <td class="py-2.5 px-3 text-slate-500 whitespace-nowrap"><%= formatDateTime(m.createdAt) %></td>
+                <td class="py-2.5 px-3">
+                  <% if (m.type === 'purchase_in') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">Stock In (Purchase)</span>
+                  <% } else if (m.type === 'sale_out') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-800">Sale Out</span>
+                  <% } else if (m.type === 'damage_loss') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-100 text-red-800">Damage / Loss</span>
+                  <% } else if (m.type === 'return_in') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-purple-800">Return In</span>
+                  <% } else { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-800">Adjustment</span>
+                  <% } %>
+                </td>
+                <td class="py-2.5 px-3 text-right font-bold <%= m.quantity > 0 ? 'text-emerald-600' : 'text-red-600' %>">
+                  <%= m.quantity > 0 ? '+' : '' %><%= m.quantity %>
+                </td>
+                <td class="py-2.5 px-3 text-right font-semibold text-slate-700"><%= m.newStock %></td>
+                <td class="py-2.5 px-3 text-slate-600 truncate max-w-xs"><%= m.reason || m.referenceId || '-' %></td>
+                <td class="py-2.5 px-3 text-slate-500"><%= m.performedBy ? m.performedBy.name : 'System' %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="text-center py-6 text-slate-400 text-xs">No stock movements recorded yet for this item.</div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Render Code128 Barcode with JsBarcode -->
+<script>
+  try {
+    JsBarcode("#barcodeCanvas", "<%= product.barcode || product.sku %>", {
+      format: "CODE128",
+      width: 1.6,
+      height: 48,
+      displayValue: false,
+      margin: 0
+    });
+  } catch (err) {
+    console.error("Barcode generation error:", err);
+  }
+</script>
+

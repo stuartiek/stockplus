@@ -1,0 +1,74 @@
+<div class="max-w-2xl mx-auto space-y-6">
+  <div>
+    <a href="/suppliers/<%= supplier._id %>" class="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 mb-1">
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
+      Back to <%= supplier.name %>
+    </a>
+    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Edit Supplier</h1>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6">
+    <form action="/suppliers/<%= supplier._id %>?_method=PUT" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Company / Supplier Name *</label>
+        <input type="text" name="name" required value="<%= supplier.name %>"
+          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Contact Person</label>
+          <input type="text" name="contactPerson" value="<%= supplier.contactPerson %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
+          <input type="email" name="email" value="<%= supplier.email %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number</label>
+          <input type="text" name="phone" value="<%= supplier.phone %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Payment Terms</label>
+          <input type="text" name="paymentTerms" value="<%= supplier.paymentTerms %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Physical Address</label>
+        <textarea name="address" rows="2"
+          class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition"><%= supplier.address %></textarea>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Internal Notes</label>
+        <textarea name="notes" rows="2"
+          class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition"><%= supplier.notes %></textarea>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+        <button type="button" onclick="if(confirm('Delete supplier?')) { document.getElementById('deleteSupplierForm').submit(); }"
+          class="text-xs font-semibold text-red-600 hover:text-red-700">
+          Delete Supplier
+        </button>
+
+        <div class="flex items-center space-x-3">
+          <a href="/suppliers/<%= supplier._id %>" class="px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-800">Cancel</a>
+          <button type="submit" class="px-5 py-2.5 rounded-xl font-semibold text-xs text-white shadow-sm transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+            Update Supplier
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <form id="deleteSupplierForm" action="/suppliers/<%= supplier._id %>?_method=DELETE" method="POST" class="hidden"></form>
+  </div>
+</div>
+

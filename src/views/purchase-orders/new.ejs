@@ -1,0 +1,201 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Header -->
+  <div>
+    <a href="/purchase-orders" class="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 mb-1">
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
+      Back to Purchase Orders
+    </a>
+    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Create Purchase Order</h1>
+    <p class="text-slate-500 text-xs">Specify supplier, items, expected replenishment date, and target unit costs.</p>
+  </div>
+
+  <form action="/purchase-orders" method="POST" id="poForm" class="space-y-6">
+    <!-- Order Meta Card -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center">
+        <i data-lucide="file-text" class="w-3.5 h-3.5 mr-1.5 text-blue-500"></i>
+        Order Details
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">PO Reference Number *</label>
+          <input type="text" name="poNumber" required value="<%= defaultPoNumber %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Select Supplier *</label>
+          <select name="supplier" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+            <option value="">-- Choose Supplier --</option>
+            <% suppliers.forEach(sup => { %>
+              <option value="<%= sup._id %>"><%= sup.name %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Expected Delivery Date</label>
+          <input type="date" name="expectedDate"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+
+        <div class="md:col-span-3">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Order Notes / Delivery Instructions</label>
+          <textarea name="notes" rows="2" placeholder="Delivery instructions, dock info, urgent remarks..."
+            class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line Items Card -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center">
+            <i data-lucide="list" class="w-3.5 h-3.5 mr-1.5 text-emerald-500"></i>
+            Order Line Items
+          </h2>
+          <p class="text-slate-400 text-[11px] mt-0.5">Select items to reorder and enter intended acquisition quantities.</p>
+        </div>
+        <button type="button" onclick="addLineItem()"
+          class="inline-flex items-center px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs">
+          <i data-lucide="plus" class="w-3.5 h-3.5 mr-1 text-slate-400"></i>
+          Add Line Item
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs" id="itemsTable">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-y border-slate-100">
+            <tr>
+              <th class="py-2.5 px-3 w-5/12">Product</th>
+              <th class="py-2.5 px-3 w-2/12 text-center">Quantity</th>
+              <th class="py-2.5 px-3 w-2/12 text-right">Unit Cost (<%= currentStore.currency %>)</th>
+              <th class="py-2.5 px-3 w-2/12 text-right">Line Total</th>
+              <th class="py-2.5 px-3 w-1/12 text-center"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100" id="itemsTableBody">
+            <!-- Dynamic rows injected here -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+        <span class="text-slate-500">Order Subtotal:</span>
+        <span id="grandTotalDisplay" class="text-lg font-black text-slate-900"><%= currentStore.currency %>0.00</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-end space-x-3 pt-2">
+      <a href="/purchase-orders" class="px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-800">Cancel</a>
+      <button type="submit" class="px-6 py-2.5 rounded-xl font-semibold text-xs text-white shadow-sm transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        Save Purchase Order
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Product options data template for JS -->
+<script>
+  const catalogProducts = [
+    <% products.forEach(p => { %>
+      { id: "<%= p._id %>", name: "<%= p.name.replace(/"/g, '\\"') %>", sku: "<%= p.sku %>", cost: <%= p.costPrice || 0 %>, unit: "<%= p.unit %>" },
+    <% }) %>
+  ];
+
+  let rowCount = 0;
+
+  function addLineItem() {
+    rowCount++;
+    const tbody = document.getElementById('itemsTableBody');
+    const tr = document.createElement('tr');
+    tr.id = `row-${rowCount}`;
+    tr.className = 'hover:bg-slate-50/50';
+
+    let productOptions = '<option value="">-- Select Product --</option>';
+    catalogProducts.forEach(p => {
+      productOptions += `<option value="${p.id}" data-cost="${p.cost}" data-unit="${p.unit}">${p.name} (${p.sku})</option>`;
+    });
+
+    tr.innerHTML = `
+      <td class="py-2 px-3">
+        <select name="items[${rowCount}][productId]" required onchange="onProductChange(this, ${rowCount})"
+          class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500">
+          ${productOptions}
+        </select>
+      </td>
+      <td class="py-2 px-3 text-center">
+        <input type="number" min="1" step="1" name="items[${rowCount}][quantity]" value="1" required
+          oninput="calculateRow(${rowCount})"
+          class="w-20 px-2 py-1.5 text-center font-bold rounded-lg border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500">
+      </td>
+      <td class="py-2 px-3 text-right">
+        <input type="number" min="0" step="0.01" name="items[${rowCount}][unitCost]" value="0.00" required
+          id="cost-${rowCount}"
+          oninput="calculateRow(${rowCount})"
+          class="w-24 px-2 py-1.5 text-right rounded-lg border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500">
+      </td>
+      <td class="py-2 px-3 text-right font-bold text-slate-800" id="total-${rowCount}">
+        <%= currentStore.currency %>0.00
+      </td>
+      <td class="py-2 px-3 text-center">
+        <button type="button" onclick="removeRow(${rowCount})" class="p-1 text-slate-400 hover:text-red-500">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        </button>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+    lucide.createIcons();
+    calculateGrandTotal();
+  }
+
+  function onProductChange(selectElem, rowId) {
+    const selected = selectElem.options[selectElem.selectedIndex];
+    if (selected && selected.dataset.cost !== undefined) {
+      document.getElementById(`cost-${rowId}`).value = parseFloat(selected.dataset.cost).toFixed(2);
+      calculateRow(rowId);
+    }
+  }
+
+  function calculateRow(rowId) {
+    const row = document.getElementById(`row-${rowId}`);
+    if (!row) return;
+
+    const qty = parseFloat(row.querySelector('input[type="number"][name*="quantity"]').value) || 0;
+    const cost = parseFloat(document.getElementById(`cost-${rowId}`).value) || 0;
+    const lineTotal = qty * cost;
+
+    document.getElementById(`total-${rowId}`).textContent = `<%= currentStore.currency %>${lineTotal.toFixed(2)}`;
+    calculateGrandTotal();
+  }
+
+  function removeRow(rowId) {
+    const row = document.getElementById(`row-${rowId}`);
+    if (row) row.remove();
+    calculateGrandTotal();
+  }
+
+  function calculateGrandTotal() {
+    let grandTotal = 0;
+    const tbody = document.getElementById('itemsTableBody');
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(r => {
+      const qty = parseFloat(r.querySelector('input[type="number"][name*="quantity"]').value) || 0;
+      const cost = parseFloat(r.querySelector('input[type="number"][name*="unitCost"]').value) || 0;
+      grandTotal += (qty * cost);
+    });
+
+    document.getElementById('grandTotalDisplay').textContent = `<%= currentStore.currency %>${grandTotal.toFixed(2)}`;
+  }
+
+  // Pre-seed with one row
+  window.addEventListener('DOMContentLoaded', () => {
+    addLineItem();
+  });
+</script>
+

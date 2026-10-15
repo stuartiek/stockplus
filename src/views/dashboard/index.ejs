@@ -1,0 +1,300 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center space-x-2">
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight"><%= currentStore.name %></h1>
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200">
+          <%= currentStore.storeType %>
+        </span>
+      </div>
+      <p class="text-slate-500 text-xs mt-1">Live inventory, stock movement auditing, and store analytics.</p>
+    </div>
+
+    <!-- Quick Buttons -->
+    <div class="flex items-center space-x-3">
+      <a href="/stock/adjust" class="inline-flex items-center px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs transition">
+        <i data-lucide="sliders" class="w-4 h-4 mr-1.5 text-slate-500"></i>
+        Adjust Stock
+      </a>
+      <a href="/products/new" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-xs transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        <i data-lucide="plus" class="w-4 h-4 mr-1.5"></i>
+        New Product
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Cards Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Total Cost Value -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div class="flex items-center justify-between text-slate-500 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Inventory Value</span>
+        <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+          <i data-lucide="wallet" class="w-4 h-4"></i>
+        </div>
+      </div>
+      <div class="text-2xl font-bold text-slate-900"><%= formatMoney(metrics.totalCostValue) %></div>
+      <p class="text-[11px] text-slate-500 mt-1">
+        Retail Potential: <span class="font-medium text-emerald-600"><%= formatMoney(metrics.totalRetailValue) %></span>
+      </p>
+    </div>
+
+    <!-- Products Count -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div class="flex items-center justify-between text-slate-500 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Total Products</span>
+        <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="package" class="w-4 h-4"></i>
+        </div>
+      </div>
+      <div class="text-2xl font-bold text-slate-900"><%= metrics.totalProducts %></div>
+      <p class="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
+        <a href="/products" class="text-blue-600 hover:underline">View catalog</a> • 
+        <a href="/settings/custom-fields" class="text-indigo-600 hover:underline"><%= currentStore.customFields.length %> custom fields</a>
+      </p>
+    </div>
+
+    <!-- Low Stock Items Alert -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div class="flex items-center justify-between text-slate-500 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Low Stock Warnings</span>
+        <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+        </div>
+      </div>
+      <div class="text-2xl font-bold <%= metrics.lowStockCount > 0 ? 'text-amber-600' : 'text-slate-900' %>">
+        <%= metrics.lowStockCount %>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-1">
+        Threshold: &le; <%= currentStore.lowStockThreshold %> units (<a href="/stock/low" class="text-amber-600 font-medium hover:underline">View alert list</a>)
+      </p>
+    </div>
+
+    <!-- Today's Sales -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div class="flex items-center justify-between text-slate-500 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Today's Sales</span>
+        <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
+        </div>
+      </div>
+      <div class="text-2xl font-bold text-emerald-600"><%= formatMoney(metrics.todaySalesTotal) %></div>
+      <p class="text-[11px] text-slate-500 mt-1">
+        <%= metrics.todayTransactionsCount %> transactions today (<a href="/pos/sales" class="text-emerald-600 hover:underline">History</a>)
+      </p>
+    </div>
+  </div>
+
+  <!-- Store Customization Highlights Bar -->
+  <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-5 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div class="flex items-center space-x-3.5">
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-amber-300">
+        <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <h3 class="text-sm font-bold text-white">Store Customization Active</h3>
+        <p class="text-xs text-slate-300">
+          This store is running <strong class="text-white"><%= currentStore.customFields.length %> dynamic attributes</strong> 
+          <% if (currentStore.customFields && currentStore.customFields.length > 0) { %>
+            (<%= currentStore.customFields.map(f => f.label).slice(0, 3).join(', ') %><%= currentStore.customFields.length > 3 ? '...' : '' %>)
+          <% } %>
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <a href="/settings/custom-fields" class="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition">
+        Configure Fields
+      </a>
+      <a href="/settings/store" class="px-3.5 py-1.5 rounded-lg bg-white text-slate-900 text-xs font-semibold hover:bg-slate-100 transition shadow-xs">
+        Branding Settings
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Grid: Low Stock Alert & Category Distribution -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Low Stock Priority List (2 cols) -->
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-sm font-bold text-slate-900">Restock Priority Items</h2>
+          <p class="text-xs text-slate-500">Products at or below reorder threshold</p>
+        </div>
+        <a href="/stock/low" class="text-xs font-semibold text-blue-600 hover:text-blue-700">View All</a>
+      </div>
+
+      <% if (lowStockProducts && lowStockProducts.length > 0) { %>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-y border-slate-100">
+              <tr>
+                <th class="py-2.5 px-3">Product / SKU</th>
+                <th class="py-2.5 px-3">Category</th>
+                <th class="py-2.5 px-3 text-right">In Stock</th>
+                <th class="py-2.5 px-3 text-right">Reorder Level</th>
+                <th class="py-2.5 px-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <% lowStockProducts.forEach(prod => { %>
+                <tr class="hover:bg-slate-50/70 transition">
+                  <td class="py-2.5 px-3">
+                    <a href="/products/<%= prod._id %>" class="font-semibold text-slate-900 hover:text-blue-600 block">
+                      <%= prod.name %>
+                    </a>
+                    <span class="text-[11px] text-slate-400 font-mono"><%= prod.sku %></span>
+                  </td>
+                  <td class="py-2.5 px-3">
+                    <% if (prod.category) { %>
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-medium" style="background-color: <%= prod.category.color %>20; color: <%= prod.category.color %>;">
+                        <%= prod.category.name %>
+                      </span>
+                    <% } else { %>
+                      <span class="text-slate-400">-</span>
+                    <% } %>
+                  </td>
+                  <td class="py-2.5 px-3 text-right">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold <%= prod.currentStock <= 0 ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700' %>">
+                      <%= prod.currentStock %> <%= prod.unit %>
+                    </span>
+                  </td>
+                  <td class="py-2.5 px-3 text-right font-medium text-slate-500">
+                    <%= prod.reorderLevel %>
+                  </td>
+                  <td class="py-2.5 px-3 text-right">
+                    <a href="/stock/adjust?productId=<%= prod._id %>" class="inline-flex items-center px-2.5 py-1 rounded-lg border border-slate-200 text-[11px] font-medium text-slate-700 hover:bg-slate-100">
+                      Restock
+                    </a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="text-center py-10 text-slate-400">
+          <i data-lucide="check-circle-2" class="w-10 h-10 mx-auto text-emerald-500/70 mb-2"></i>
+          <p class="text-xs font-medium text-slate-600">Stock levels healthy</p>
+          <p class="text-[11px] text-slate-400">No items are currently below your low stock threshold.</p>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Category Distribution Breakdown (1 col) -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 flex flex-col">
+      <h2 class="text-sm font-bold text-slate-900 mb-1">Catalog Breakdown</h2>
+      <p class="text-xs text-slate-500 mb-4">Products distributed by category</p>
+      
+      <div class="flex-1 flex items-center justify-center min-h-[220px]">
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Stock Movements Audit Trail -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-sm font-bold text-slate-900">Recent Stock Movements</h2>
+        <p class="text-xs text-slate-500">Live audit log of stock-ins, sales, and corrections</p>
+      </div>
+      <a href="/stock/movements" class="text-xs font-semibold text-blue-600 hover:text-blue-700">View Full Ledger</a>
+    </div>
+
+    <% if (recentMovements && recentMovements.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-y border-slate-100">
+            <tr>
+              <th class="py-2.5 px-3">Date / Time</th>
+              <th class="py-2.5 px-3">Product</th>
+              <th class="py-2.5 px-3">Type</th>
+              <th class="py-2.5 px-3 text-right">Qty Change</th>
+              <th class="py-2.5 px-3 text-right">Resulting Stock</th>
+              <th class="py-2.5 px-3">Reason / Ref</th>
+              <th class="py-2.5 px-3">Staff</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% recentMovements.forEach(m => { %>
+              <tr class="hover:bg-slate-50/70 transition">
+                <td class="py-2.5 px-3 text-slate-500 whitespace-nowrap"><%= formatDateTime(m.createdAt) %></td>
+                <td class="py-2.5 px-3">
+                  <% if (m.product) { %>
+                    <a href="/products/<%= m.product._id %>" class="font-medium text-slate-900 hover:text-blue-600">
+                      <%= m.product.name %>
+                    </a>
+                  <% } else { %>
+                    <span class="text-slate-400">Deleted Product</span>
+                  <% } %>
+                </td>
+                <td class="py-2.5 px-3">
+                  <% if (m.type === 'purchase_in') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">Stock In (Purchase)</span>
+                  <% } else if (m.type === 'sale_out') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-800">Sale Out</span>
+                  <% } else if (m.type === 'damage_loss') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-100 text-red-800">Damage / Waste</span>
+                  <% } else if (m.type === 'return_in') { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-purple-800">Return In</span>
+                  <% } else { %>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-800">Adjustment</span>
+                  <% } %>
+                </td>
+                <td class="py-2.5 px-3 text-right font-bold <%= m.quantity > 0 ? 'text-emerald-600' : 'text-red-600' %>">
+                  <%= m.quantity > 0 ? '+' : '' %><%= m.quantity %>
+                </td>
+                <td class="py-2.5 px-3 text-right font-medium text-slate-700"><%= m.newStock %></td>
+                <td class="py-2.5 px-3 text-slate-600 truncate max-w-xs"><%= m.reason || m.referenceId || '-' %></td>
+                <td class="py-2.5 px-3 text-slate-500"><%= m.performedBy ? m.performedBy.name : 'System' %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="text-center py-8 text-slate-400 text-xs">No stock movements recorded yet.</div>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  // Render Category Breakdown Chart
+  const categoryData = <%- JSON.stringify(categoryDistribution || {}) %>;
+  const labels = Object.keys(categoryData);
+  const data = Object.values(categoryData);
+
+  if (labels.length > 0) {
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: [
+            '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#64748b'
+          ],
+          borderWidth: 2,
+          borderColor: '#ffffff',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              boxWidth: 10,
+              font: { size: 10 }
+            }
+          }
+        },
+        cutout: '65%'
+      }
+    });
+  }
+</script>
+

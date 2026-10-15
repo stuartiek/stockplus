@@ -1,0 +1,108 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Sales & Transactions History</h1>
+      <p class="text-slate-500 text-xs mt-1">Review past orders, customer payments, and reprint thermal receipts.</p>
+    </div>
+    <div>
+      <a href="/pos" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-xs transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        <i data-lucide="shopping-bag" class="w-4 h-4 mr-1.5"></i>
+        New POS Sale
+      </a>
+    </div>
+  </div>
+
+  <!-- Sales Table -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+    <% if (sales && sales.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-100">
+            <tr>
+              <th class="py-3 px-4">Receipt #</th>
+              <th class="py-3 px-3">Date & Time</th>
+              <th class="py-3 px-3">Customer</th>
+              <th class="py-3 px-3">Items Count</th>
+              <th class="py-3 px-3">Payment</th>
+              <th class="py-3 px-3 text-right">Total Amount</th>
+              <th class="py-3 px-3">Cashier</th>
+              <th class="py-3 px-4 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% sales.forEach(s => { %>
+              <tr class="hover:bg-slate-50/70 transition">
+                <td class="py-3 px-4">
+                  <a href="/pos/receipt/<%= s._id %>" target="_blank" class="font-mono font-bold text-slate-900 hover:text-blue-600">
+                    <%= s.receiptNumber %>
+                  </a>
+                </td>
+
+                <td class="py-3 px-3 text-slate-500 whitespace-nowrap">
+                  <%= formatDateTime(s.createdAt) %>
+                </td>
+
+                <td class="py-3 px-3 font-medium text-slate-700">
+                  <%= s.customerName %>
+                  <% if (s.customerPhone) { %>
+                    <span class="block text-[10px] text-slate-400"><%= s.customerPhone %></span>
+                  <% } %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-600">
+                  <%= s.items.reduce((acc, i) => acc + i.quantity, 0) %> units
+                </td>
+
+                <td class="py-3 px-3">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
+                    <%= s.paymentMethod %>
+                  </span>
+                </td>
+
+                <td class="py-3 px-3 text-right font-black text-slate-900">
+                  <%= formatMoney(s.total) %>
+                </td>
+
+                <td class="py-3 px-3 text-slate-500">
+                  <%= s.cashier ? s.cashier.name : 'Staff' %>
+                </td>
+
+                <td class="py-3 px-4 text-right whitespace-nowrap">
+                  <a href="/pos/receipt/<%= s._id %>" target="_blank"
+                    class="inline-flex items-center px-2.5 py-1 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                    <i data-lucide="printer" class="w-3.5 h-3.5 mr-1 text-slate-400"></i>
+                    Reprint Receipt
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="px-4 py-3 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <span>Showing <%= sales.length %> of <%= totalCount %> sales transactions</span>
+        <div class="flex items-center space-x-2">
+          <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>" class="px-3 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-50">Previous</a>
+          <% } %>
+          <span>Page <%= currentPage %> of <%= totalPages %></span>
+          <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>" class="px-3 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-50">Next</a>
+          <% } %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="text-center py-12 px-4">
+        <i data-lucide="receipt" class="w-10 h-10 mx-auto text-slate-400 mb-2"></i>
+        <h3 class="text-sm font-bold text-slate-800">No sales transactions yet</h3>
+        <p class="text-xs text-slate-500 mt-1">Transactions completed on the Point of Sale screen will appear here.</p>
+        <a href="/pos" class="mt-4 inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold text-white" style="background-color: <%= brandColor %>;">
+          Go to POS Screen
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+

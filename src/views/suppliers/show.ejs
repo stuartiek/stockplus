@@ -1,0 +1,143 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <a href="/suppliers" class="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 mb-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
+        Back to Suppliers
+      </a>
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight"><%= supplier.name %></h1>
+      <p class="text-slate-500 text-xs">Payment Terms: <span class="font-semibold text-slate-700"><%= supplier.paymentTerms || 'Net 30' %></span></p>
+    </div>
+
+    <div class="flex items-center space-x-2.5">
+      <a href="/purchase-orders/new?supplierId=<%= supplier._id %>" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-xs transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        <i data-lucide="truck" class="w-4 h-4 mr-1.5"></i>
+        New Purchase Order
+      </a>
+      <a href="/suppliers/<%= supplier._id %>/edit" class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs transition">
+        <i data-lucide="edit-3" class="w-4 h-4 mr-1.5 text-slate-500"></i>
+        Edit Profile
+      </a>
+    </div>
+  </div>
+
+  <!-- Profile & Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Contact Details Card -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 space-y-4">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center">
+        <i data-lucide="contact" class="w-3.5 h-3.5 mr-1.5 text-blue-500"></i>
+        Contact Information
+      </h2>
+
+      <div class="space-y-2.5 text-xs">
+        <div>
+          <span class="block text-[11px] text-slate-400">Contact Representative</span>
+          <span class="font-medium text-slate-800"><%= supplier.contactPerson || 'Not specified' %></span>
+        </div>
+        <div>
+          <span class="block text-[11px] text-slate-400">Email Address</span>
+          <% if (supplier.email) { %>
+            <a href="mailto:<%= supplier.email %>" class="text-blue-600 hover:underline"><%= supplier.email %></a>
+          <% } else { %>
+            <span class="text-slate-400">-</span>
+          <% } %>
+        </div>
+        <div>
+          <span class="block text-[11px] text-slate-400">Phone Number</span>
+          <span class="text-slate-700"><%= supplier.phone || '-' %></span>
+        </div>
+        <div>
+          <span class="block text-[11px] text-slate-400">Warehouse / Shipping Address</span>
+          <span class="text-slate-700"><%= supplier.address || '-' %></span>
+        </div>
+        <% if (supplier.notes) { %>
+          <div class="pt-2 border-t border-slate-100">
+            <span class="block text-[11px] text-slate-400">Notes</span>
+            <p class="text-slate-600"><%= supplier.notes %></p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Purchase Orders History & Associated Catalog Items (2 cols) -->
+    <div class="md:col-span-2 space-y-6">
+      <!-- Purchase Orders -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3 flex items-center">
+          <i data-lucide="truck" class="w-3.5 h-3.5 mr-1.5 text-emerald-500"></i>
+          Purchase Orders (<%= orders.length %>)
+        </h2>
+
+        <% if (orders && orders.length > 0) { %>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-y border-slate-100">
+                <tr>
+                  <th class="py-2 px-3">PO Number</th>
+                  <th class="py-2 px-3">Status</th>
+                  <th class="py-2 px-3 text-right">Amount</th>
+                  <th class="py-2 px-3">Date</th>
+                  <th class="py-2 px-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <% orders.forEach(po => { %>
+                  <tr class="hover:bg-slate-50/70">
+                    <td class="py-2 px-3 font-mono font-bold text-slate-900">
+                      <a href="/purchase-orders/<%= po._id %>" class="hover:text-blue-600"><%= po.poNumber %></a>
+                    </td>
+                    <td class="py-2 px-3">
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                        <%= po.status === 'received' ? 'bg-emerald-100 text-emerald-800' : (po.status === 'ordered' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700') %>">
+                        <%= po.status %>
+                      </span>
+                    </td>
+                    <td class="py-2 px-3 text-right font-bold text-slate-900"><%= formatMoney(po.totalAmount) %></td>
+                    <td class="py-2 px-3 text-slate-500 whitespace-nowrap"><%= formatDate(po.createdAt) %></td>
+                    <td class="py-2 px-3 text-right">
+                      <a href="/purchase-orders/<%= po._id %>" class="text-blue-600 font-semibold hover:underline">View</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="text-xs text-slate-400 py-3">No purchase orders created with this supplier yet.</p>
+        <% } %>
+      </div>
+
+      <!-- Associated Products Catalog -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3 flex items-center">
+          <i data-lucide="package" class="w-3.5 h-3.5 mr-1.5 text-indigo-500"></i>
+          Supplied Products Catalog (<%= products.length %>)
+        </h2>
+
+        <% if (products && products.length > 0) { %>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <% products.forEach(prod => { %>
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50/60 flex items-center justify-between text-xs">
+                <div>
+                  <a href="/products/<%= prod._id %>" class="font-bold text-slate-800 hover:text-blue-600 block truncate max-w-[180px]">
+                    <%= prod.name %>
+                  </a>
+                  <span class="text-[10px] text-slate-400 font-mono">SKU: <%= prod.sku %></span>
+                </div>
+                <div class="text-right">
+                  <span class="font-bold text-slate-900 block"><%= formatMoney(prod.costPrice) %></span>
+                  <span class="text-[10px] text-slate-400"><%= prod.currentStock %> in stock</span>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <p class="text-xs text-slate-400 py-3">No products linked to this supplier yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+

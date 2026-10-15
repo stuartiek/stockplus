@@ -1,0 +1,320 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+        <i data-lucide="tablet" class="w-6 h-6 text-emerald-600"></i>
+        POS Screen & Touchscreen Customizer
+      </h1>
+      <p class="text-slate-500 text-xs mt-1">
+        Customize the Point of Sale terminal interface for tablets, touch displays, or desktop setups.
+      </p>
+    </div>
+    <div class="flex items-center space-x-2">
+      <a href="/pos" class="inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold text-white shadow-sm transition hover:opacity-90" style="background-color: <%= brandColor %>;">
+        <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i>
+        Open POS Terminal
+      </a>
+    </div>
+  </div>
+
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center">
+      <i data-lucide="check-circle" class="w-4 h-4 mr-2 flex-shrink-0"></i>
+      <span><%= success %></span>
+    </div>
+  <% } %>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs flex items-center">
+      <i data-lucide="alert-circle" class="w-4 h-4 mr-2 flex-shrink-0"></i>
+      <span><%= error %></span>
+    </div>
+  <% } %>
+
+  <form action="/settings/pos?_method=PUT" method="POST" class="space-y-6" id="posCustomizerForm">
+    <!-- Card 1: Layout & Screen Orientation -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-5">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center">
+        <i data-lucide="layout" class="w-4 h-4 mr-1.5 text-blue-500"></i>
+        Screen Layout & Orientation
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Cart Placement -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-2">Cart & Tender Placement</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="border-2 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer transition text-center <%= (posSettings.layout || 'cart-right') === 'cart-right' ? 'border-emerald-500 bg-emerald-50/20' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="layout" value="cart-right" <%= (posSettings.layout || 'cart-right') === 'cart-right' ? 'checked' : '' %> class="hidden" onchange="highlightOption(this)">
+              <div class="w-12 h-8 rounded border border-slate-300 flex mb-1.5 overflow-hidden">
+                <span class="w-2/3 bg-slate-200"></span>
+                <span class="w-1/3 bg-emerald-400"></span>
+              </div>
+              <span class="text-xs font-bold text-slate-800">Cart on Right</span>
+              <span class="text-[10px] text-slate-400">Standard counter setup</span>
+            </label>
+
+            <label class="border-2 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer transition text-center <%= posSettings.layout === 'cart-left' ? 'border-emerald-500 bg-emerald-50/20' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="layout" value="cart-left" <%= posSettings.layout === 'cart-left' ? 'checked' : '' %> class="hidden" onchange="highlightOption(this)">
+              <div class="w-12 h-8 rounded border border-slate-300 flex mb-1.5 overflow-hidden">
+                <span class="w-1/3 bg-emerald-400"></span>
+                <span class="w-2/3 bg-slate-200"></span>
+              </div>
+              <span class="text-xs font-bold text-slate-800">Cart on Left</span>
+              <span class="text-[10px] text-slate-400">Left-handed / specific register</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Touch Tile Density -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-2">Product Tile Density / Size</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="border-2 rounded-xl p-2.5 flex flex-col items-center justify-center cursor-pointer transition text-center <%= posSettings.gridColumns === 'large' ? 'border-emerald-500 bg-emerald-50/20' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="gridColumns" value="large" <%= posSettings.gridColumns === 'large' ? 'checked' : '' %> class="hidden" onchange="highlightOption(this)">
+              <span class="text-base font-bold text-slate-800 mb-0.5">Large</span>
+              <span class="text-[9px] text-slate-400">High touch speed</span>
+            </label>
+
+            <label class="border-2 rounded-xl p-2.5 flex flex-col items-center justify-center cursor-pointer transition text-center <%= (posSettings.gridColumns || 'standard') === 'standard' ? 'border-emerald-500 bg-emerald-50/20' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="gridColumns" value="standard" <%= (posSettings.gridColumns || 'standard') === 'standard' ? 'checked' : '' %> class="hidden" onchange="highlightOption(this)">
+              <span class="text-base font-bold text-slate-800 mb-0.5">Standard</span>
+              <span class="text-[9px] text-slate-400">Balanced 10"-15"</span>
+            </label>
+
+            <label class="border-2 rounded-xl p-2.5 flex flex-col items-center justify-center cursor-pointer transition text-center <%= posSettings.gridColumns === 'compact' ? 'border-emerald-500 bg-emerald-50/20' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="gridColumns" value="compact" <%= posSettings.gridColumns === 'compact' ? 'checked' : '' %> class="hidden" onchange="highlightOption(this)">
+              <span class="text-base font-bold text-slate-800 mb-0.5">Compact</span>
+              <span class="text-[9px] text-slate-400">Large catalogs</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Touch Sizing & Visual Theme -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-5">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center">
+        <i data-lucide="palette" class="w-4 h-4 mr-1.5 text-purple-500"></i>
+        Touch Button Targets & Color Mode
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Touch Button Target Sizing -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-2">Touch Target Button Size</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="border rounded-xl p-2 flex flex-col items-center justify-center cursor-pointer text-center <%= (posSettings.touchButtonSize || 'comfortable') === 'regular' ? 'border-blue-500 bg-blue-50/30' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="touchButtonSize" value="regular" <%= (posSettings.touchButtonSize || 'comfortable') === 'regular' ? 'checked' : '' %> class="hidden">
+              <span class="text-xs font-bold text-slate-800">Regular</span>
+              <span class="text-[9px] text-slate-400">Mouse / Trackpad</span>
+            </label>
+
+            <label class="border rounded-xl p-2 flex flex-col items-center justify-center cursor-pointer text-center <%= (posSettings.touchButtonSize || 'comfortable') === 'comfortable' ? 'border-blue-500 bg-blue-50/30' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="touchButtonSize" value="comfortable" <%= (posSettings.touchButtonSize || 'comfortable') === 'comfortable' ? 'checked' : '' %> class="hidden">
+              <span class="text-xs font-bold text-slate-800">Comfortable</span>
+              <span class="text-[9px] text-slate-400">Standard Touch</span>
+            </label>
+
+            <label class="border rounded-xl p-2 flex flex-col items-center justify-center cursor-pointer text-center <%= posSettings.touchButtonSize === 'jumbo' ? 'border-blue-500 bg-blue-50/30' : 'border-slate-200 hover:bg-slate-50' %>">
+              <input type="radio" name="touchButtonSize" value="jumbo" <%= posSettings.touchButtonSize === 'jumbo' ? 'checked' : '' %> class="hidden">
+              <span class="text-xs font-bold text-slate-800">Jumbo</span>
+              <span class="text-[9px] text-slate-400">Heavy Touch/Gloved</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- POS Color Theme Mode -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-2">POS Screen Color Theme</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="border rounded-xl p-2 flex flex-col items-center justify-center cursor-pointer text-center <%= (posSettings.theme || 'light') === 'light' ? 'border-slate-900 bg-slate-50' : 'border-slate-200' %>">
+              <input type="radio" name="theme" value="light" <%= (posSettings.theme || 'light') === 'light' ? 'checked' : '' %> class="hidden">
+              <span class="text-xs font-bold text-slate-800">☀️ Crisp Light</span>
+              <span class="text-[9px] text-slate-400">Bright retail stores</span>
+            </label>
+
+            <label class="border rounded-xl p-2 flex flex-col items-center justify-center cursor-pointer text-center bg-slate-900 text-white <%= posSettings.theme === 'dark' ? 'ring-2 ring-blue-500' : 'border-slate-700' %>">
+              <input type="radio" name="theme" value="dark" <%= posSettings.theme === 'dark' ? 'checked' : '' %> class="hidden">
+              <span class="text-xs font-bold text-white">🌙 Dark Mode</span>
+              <span class="text-[9px] text-slate-400">Bars & lounges</span>
+            </label>
+
+            <label class="border-2 rounded-xl p-2 flex flex-col items-center justify-center cursor-pointer text-center border-black bg-yellow-50 <%= posSettings.theme === 'high-contrast' ? 'ring-2 ring-yellow-500' : '' %>">
+              <input type="radio" name="theme" value="high-contrast" <%= posSettings.theme === 'high-contrast' ? 'checked' : '' %> class="hidden">
+              <span class="text-xs font-bold text-black">⚡ High Contrast</span>
+              <span class="text-[9px] text-slate-600">Outdoor / Sunlight</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Touch Numpad & Quick Tender Buttons -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-5">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center">
+        <i data-lucide="calculator" class="w-4 h-4 mr-1.5 text-emerald-500"></i>
+        Touch Keypad & Fast Cash Presets
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">
+            Quick Cash Tender Note Buttons (<%= currentStore.currency %>)
+          </label>
+          <input type="text" name="quickCashNotes" placeholder="5, 10, 20, 50, 100"
+            value="<%= (posSettings.quickCashNotes || [5, 10, 20, 50, 100]).join(', ') %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-blue-500">
+          <p class="text-[10px] text-slate-400 mt-1">Comma-separated currency bill values for 1-tap tender on checkout.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">
+            Quick Discount Chips (%)
+          </label>
+          <input type="text" name="quickDiscountButtons" placeholder="5, 10, 15, 20"
+            value="<%= (posSettings.quickDiscountButtons || [5, 10, 15, 20]).join(', ') %>"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-blue-500">
+          <p class="text-[10px] text-slate-400 mt-1">Preset percentage buttons shown in the discount calculator.</p>
+        </div>
+      </div>
+
+      <!-- Feature Toggles -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+        <label class="flex items-center space-x-2.5 cursor-pointer">
+          <input type="checkbox" name="enableOnScreenNumpad" <%= posSettings.enableOnScreenNumpad !== false ? 'checked' : '' %>
+            class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <span class="text-xs font-bold text-slate-800 block">On-Screen Touch Numpad</span>
+            <span class="text-[10px] text-slate-400">Allows touch-typing quantity and cash without physical keyboard</span>
+          </div>
+        </label>
+
+        <label class="flex items-center space-x-2.5 cursor-pointer">
+          <input type="checkbox" name="enableSoundEffects" <%= posSettings.enableSoundEffects !== false ? 'checked' : '' %>
+            class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <span class="text-xs font-bold text-slate-800 block">Audio Beep on Scan / Tap</span>
+            <span class="text-[10px] text-slate-400">Play responsive synth confirmation click on item entry</span>
+          </div>
+        </label>
+
+        <label class="flex items-center space-x-2.5 cursor-pointer">
+          <input type="checkbox" name="showCategoryTabs" <%= posSettings.showCategoryTabs !== false ? 'checked' : '' %>
+            class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <span class="text-xs font-bold text-slate-800 block">Category Touch Tabs</span>
+            <span class="text-[10px] text-slate-400">Display instant filter pills across the top of catalog</span>
+          </div>
+        </label>
+
+        <label class="flex items-center space-x-2.5 cursor-pointer">
+          <input type="checkbox" name="allowCustomLineItem" <%= posSettings.allowCustomLineItem !== false ? 'checked' : '' %>
+            class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <span class="text-xs font-bold text-slate-800 block">Custom / Misc Item Button</span>
+            <span class="text-[10px] text-slate-400">Enables charging for custom services or one-off items</span>
+          </div>
+        </label>
+
+        <label class="flex items-center space-x-2.5 cursor-pointer">
+          <input type="checkbox" name="showStockCountOnTile" <%= posSettings.showStockCountOnTile !== false ? 'checked' : '' %>
+            class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <span class="text-xs font-bold text-slate-800 block">Show Stock Count on Tiles</span>
+            <span class="text-[10px] text-slate-400">Display remaining units on each catalog card</span>
+          </div>
+        </label>
+
+        <label class="flex items-center space-x-2.5 cursor-pointer">
+          <input type="checkbox" name="showSkuOnTile" <%= posSettings.showSkuOnTile !== false ? 'checked' : '' %>
+            class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <span class="text-xs font-bold text-slate-800 block">Show SKU Code on Tiles</span>
+            <span class="text-[10px] text-slate-400">Display SKU code beneath product name</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Card 4: Custom Movable Action Buttons & Popups -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center">
+            <i data-lucide="sparkles" class="w-4 h-4 mr-1.5 text-amber-500"></i>
+            Custom Touch Buttons & Dynamic Pop-ups
+          </h2>
+          <p class="text-[11px] text-slate-400 mt-0.5">
+            Configured quick buttons for the POS terminal. You can reorder, edit, and create them directly on the POS screen.
+          </p>
+        </div>
+        <a href="/pos" class="inline-flex items-center text-xs font-bold text-amber-600 hover:text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200 transition active:scale-95">
+          <i data-lucide="move" class="w-3.5 h-3.5 mr-1"></i>
+          Manage in POS
+        </a>
+      </div>
+
+      <% const currentBtns = (posSettings.quickButtons || []).sort((a,b) => (a.order || 0) - (b.order || 0)); %>
+      <% if (currentBtns.length === 0) { %>
+        <div class="text-center py-6 px-4 border border-dashed border-slate-200 rounded-xl">
+          <i data-lucide="sparkles" class="w-8 h-8 text-slate-300 mx-auto mb-2"></i>
+          <p class="text-xs font-medium text-slate-500">No custom quick-action buttons configured yet.</p>
+          <p class="text-[11px] text-slate-400 mt-1">Open the POS terminal and tap "Move Buttons" -> "Add Action Button" to create your first dynamic popup or charge button.</p>
+        </div>
+      <% } else { %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <% currentBtns.forEach(btn => { %>
+            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs
+                  <%= btn.color === 'emerald' ? 'bg-emerald-100 text-emerald-700' :
+                     btn.color === 'blue' ? 'bg-blue-100 text-blue-700' :
+                     btn.color === 'purple' ? 'bg-purple-100 text-purple-700' :
+                     btn.color === 'amber' ? 'bg-amber-100 text-amber-700' :
+                     btn.color === 'rose' ? 'bg-rose-100 text-rose-700' : 'bg-slate-200 text-slate-700' %>">
+                  <i data-lucide="<%= btn.icon || 'sparkles' %>" class="w-4 h-4"></i>
+                </span>
+                <div>
+                  <div class="text-xs font-bold text-slate-800"><%= btn.label %></div>
+                  <div class="text-[10px] text-slate-400 capitalize">
+                    <%= btn.actionType === 'popup_prompt' ? 'Dynamic Price Prompt' :
+                       btn.actionType === 'popup_submenu' ? 'Submenu Selection Modal' :
+                       btn.actionType === 'info_modal' ? 'Policy & Instructions Modal' :
+                       btn.actionType === 'add_item' ? 'Direct Line Item' :
+                       btn.actionType === 'discount' ? 'Percentage Discount' : btn.actionType %>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[10px] font-semibold text-slate-500 bg-slate-200/70 px-2 py-0.5 rounded-full">
+                #<%= (btn.order || 0) + 1 %>
+              </span>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-end space-x-3 pt-2">
+      <a href="/pos" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800">Cancel</a>
+      <button type="submit" class="px-6 py-2.5 rounded-xl font-bold text-xs text-white shadow-sm transition hover:opacity-95" style="background-color: <%= brandColor %>;">
+        Save POS Preferences
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function highlightOption(input) {
+    const parent = input.closest('.grid');
+    parent.querySelectorAll('label').forEach(lbl => {
+      lbl.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+      lbl.classList.add('border-slate-200');
+    });
+    input.closest('label').classList.add('border-emerald-500', 'bg-emerald-50/20');
+    input.closest('label').classList.remove('border-slate-200');
+  }
+</script>
+
